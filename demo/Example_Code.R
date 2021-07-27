@@ -1,7 +1,9 @@
 library(RegressionTree)
 
 load(file="demo/LF.RData")
-names(LF)[5:15] <- seq(50,150,10) # column names are length bins (in cm)
+
+# column names are length bins (in cm); must also include four columns in the data frame:
+# lat, lon, year, quarter
 
 head(LF)
 
@@ -9,12 +11,13 @@ fcol <- 5 # the first column with LF_Tree info
 lcol <- 15 # the last column with LF_Tree info
 Nsplit <- 3 # the number of splits (the number of cells - 1)
 
+# run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit)
 
 # plot results
 library(tidyverse)
 
-# plot the spatial distribution of each split
+# plot the spatial distribution of each cell
 for (i in 1:Nsplit) {
   LF_Tree$Flag <- LF_Tree[[paste0("Flag",i)]]
   f <- ggplot(data=LF_Tree) +
