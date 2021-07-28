@@ -34,7 +34,8 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf) {
   }
 
   # sort the improvement and the 1st one is the best split
-  tmpcl.kld.df <- arrange(tmpcl.kld.df,desc(Improve))
+
+  tmpcl.kld.df <- tmpcl.kld.df[order(tmpcl.kld.df$Improve,decreasing = TRUE),]
 
   # print(tmpcl.kld.df[1:3,])
 

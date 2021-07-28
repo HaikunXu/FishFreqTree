@@ -9,7 +9,7 @@ head(LF)
 
 fcol <- 5 # the first column with LF_Tree info
 lcol <- 15 # the last column with LF_Tree info
-Nsplit <- 3 # the number of splits (the number of cells - 1)
+Nsplit <- 4 # the number of splits (the number of cells - 1)
 
 # run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit)

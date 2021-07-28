@@ -27,8 +27,7 @@ for (i in 1:Nsplit) {
 
     var_exp[1] <- (e0-e1-e2)/e0
 
-    print("Best Split1:")
-    print(split[1,])
+    print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
     cat(paste0((e0-e1-e2)/e0*100,"% variance explained\n\n"))
   }
 
@@ -72,8 +71,10 @@ for (i in 1:Nsplit) {
 
     var_exp[i] <- (e0-e)/e0
 
-      print(paste0("Best Split",i,":"))
-      print(split[1,])
+    if(i==2) print(paste0("Best 2nd split: ",split[1,2],"<=",split[1,3]))
+    if(i==3) print(paste0("Best 3rd split: ",split[1,2],"<=",split[1,3]))
+    if(i>3) print(paste0("Best ",i,"th"," split: ",split[1,2],"<=",split[1,3]))
+
       cat(paste0((e0-e)/e0*100,"% variance explained\n\n"))
 
     }
