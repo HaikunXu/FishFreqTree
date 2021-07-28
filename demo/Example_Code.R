@@ -1,6 +1,6 @@
 library(RegressionTree)
 
-load(file="demo/LF.RData")
+load(file="LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter
@@ -13,6 +13,10 @@ Nsplit <- 3 # the number of splits (the number of cells - 1)
 
 # run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit)
+
+head(LF_Tree)
+# The last few columns with names Flag are the cell numbers under each split
+
 
 # plot results
 library(tidyverse)
