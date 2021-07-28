@@ -1,6 +1,6 @@
 Package: RegressionTree
 Title: Automatic regression tree analysis for length freqeuncy data
-Version: 1.0
+Version: 1.1
 Author: Haikun Xu (hkxu@iattc.org) and Cleridy Lennart-Cody
 Description: TBA
 License: Apache License (>= 2)
