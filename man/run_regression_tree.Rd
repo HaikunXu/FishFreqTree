@@ -4,7 +4,7 @@
 \alias{run_regression_tree}
 \title{Run the regression tree analysis with specified number of splits}
 \usage{
-run_regression_tree(LF, fcol, lcol, Nsplit)
+run_regression_tree(LF, fcol, lcol, Nsplit, save_dir)
 }
 \arguments{
 \item{LF}{The length frequency data frame input; must include columns lat, lon, year, and quarter}
@@ -14,6 +14,8 @@ run_regression_tree(LF, fcol, lcol, Nsplit)
 \item{lcol}{The first column in the data frame with length frequency info}
 
 \item{Nsplit}{The number of splits}
+
+\item{save_dir}{The directory where figures will be saved}
 }
 \description{
 \code{run_regression_tree} This function generates an area code for longline catch allocation
