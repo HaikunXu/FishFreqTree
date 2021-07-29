@@ -1,6 +1,6 @@
 library(RegressionTree)
 
-load(file="LF.RData")
+load(file="D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regression_Tree/LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter

@@ -37,8 +37,8 @@ for (i in 1:Nsplit) {
     var_exp[1] <- (e0-e1-e2)/e0
 
     # print to the screen
-    cat("\n")
-    cat("Note: below shows the best splits in order, please check the save figures under save_dir to better understand the meaning of each split\n\n")
+    cat("\n\n")
+    cat("***Note***: below shows the best splits in order, please check the save figures under the directory save_dir to better understand the meaning of each split\n\n")
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
     # else
@@ -131,9 +131,12 @@ for (i in 1:Nsplit) {
 
     # print result to screen
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE)) {
-      if(i==2) print(paste0("Best 2nd split: ",split[1,2],"<=",split[1,3]))
-      if(i==3) print(paste0("Best 3rd split: ",split[1,2],"<=",split[1,3]))
-      if(i>3) print(paste0("Best ",i,"th"," split: ",split[1,2],"<=",split[1,3]))
+    if(i==2)
+      print(paste0("Best 2nd split is for cell ",ii," in split",i-1,".png: ",split[1,2],"<=",split[1,3]))
+    if(i==3)
+      print(paste0("Best 3rd split is for cell ",ii," in split",i-1,".png: ",split[1,3]))
+    if(i>3)
+      print(paste0("Best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split[1,2],"<=",split[1,3]))
     # }
     # else {
     #   if(i==2) print(paste0("User-specified 2nd split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
