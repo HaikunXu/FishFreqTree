@@ -10,8 +10,9 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir) {
+run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA) {
 
+  if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 var_exp <- rep(NA,Nsplit) # variance explained
 
 for (i in 1:Nsplit) {
@@ -26,7 +27,7 @@ for (i in 1:Nsplit) {
     write.csv(split,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
-      LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),1,0)
+      LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
     # else
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
@@ -39,10 +40,10 @@ for (i in 1:Nsplit) {
     # print to the screen
     cat("\n\n")
     cat("***Note***: below shows the best splits in order, please check the save figures under the directory save_dir to better understand the meaning of each split\n\n")
-    # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+    if(select[i]==1)
       print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
-    # else
-      # print(paste0("User-specified 1st split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
+    else
+      print(paste0("Manual 1st split: ",split[select[i],2],"<=",split[select[i],3]))
     cat(paste0((e0-e1-e2)/e0*100,"% variance explained\n\n"))
 
     # plot result
@@ -113,16 +114,16 @@ for (i in 1:Nsplit) {
     # the one with the most improvement
     ii <- which(imp==max(imp))
 
-    j <- which(LF[[paste0("Flag",i-1)]] == ii)
-    LF_data <- LF[j,]
-    split <- find_split(LF_data,fcol,lcol)
+    # j <- which(LF[[paste0("Flag",i-1)]] == ii)
+    # LF_data <- LF[j,]
+    # split <- find_split(LF_data,fcol,lcol)
 
     # save result as a csv.file
     split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
     write.csv(split_raw,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
-      LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),i,ii)
+      LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)
     # else
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
@@ -134,19 +135,22 @@ for (i in 1:Nsplit) {
     var_exp[i] <- (e0-e)/e0
 
     # print result to screen
-    # if((manual==FALSE)|(i %in% user_split$Number == FALSE)) {
+    if(select[i]==1) {
     if(i==2)
-      print(paste0("Best 2nd split is for cell ",ii," in split",i-1,".png: ",split[1,2],"<=",split[1,3]))
+      print(paste0("Best 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
     if(i==3)
-      print(paste0("Best 3rd split is for cell ",ii," in split",i-1,".png: ",split[1,3]))
+      print(paste0("Best 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
     if(i>3)
-      print(paste0("Best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split[1,2],"<=",split[1,3]))
-    # }
-    # else {
-    #   if(i==2) print(paste0("User-specified 2nd split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
-    #   if(i==3) print(paste0("User-specified 3rd split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
-    #   if(i>3) print(paste0("User-specified ",i,"th"," split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
-    # }
+      print(paste0("Best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+    }
+    else {
+      if(i==2)
+        print(paste0("Manual 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+      if(i==3)
+        print(paste0("Manual 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+      if(i>3)
+        print(paste0("Manual ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+    }
 
       cat(paste0((e0-e)/e0*100,"% variance explained\n\n"))
 

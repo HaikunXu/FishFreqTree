@@ -4,7 +4,15 @@
 \alias{run_regression_tree}
 \title{Run the regression tree analysis with specified number of splits}
 \usage{
-run_regression_tree(LF, fcol, lcol, Nsplit, save_dir)
+run_regression_tree(
+  LF,
+  fcol,
+  lcol,
+  Nsplit,
+  save_dir,
+  manual = FALSE,
+  select = NA
+)
 }
 \arguments{
 \item{LF}{The length frequency data frame input; must include columns lat, lon, year, and quarter}

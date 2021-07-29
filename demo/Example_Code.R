@@ -18,7 +18,10 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 head(LF_Tree)
 # The last few columns with names Flag are the cell numbers under each split
 
+# user-specified regression tree
+select <- c(1,1,2,1) # use the best 1st, 2nd, and 4th splits and the second best 3rd split
 
+LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
 
 
 
