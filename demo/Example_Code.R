@@ -10,15 +10,13 @@ head(LF)
 fcol <- 5 # the first column with LF_Tree info
 lcol <- 15 # the last column with LF_Tree info
 Nsplit <- 4 # the number of splits (the number of cells - 1)
-save_dir <- "D:/OneDrive - IATTC/Git/RegressionTree/"
+save_dir <- "D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regression_Tree/"
 
 # run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 
 head(LF_Tree)
 # The last few columns with names Flag are the cell numbers under each split
-
-
 
 
 

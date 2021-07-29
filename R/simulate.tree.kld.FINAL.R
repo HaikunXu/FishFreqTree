@@ -77,7 +77,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
       #
       lftrght.splitflg<-rep(0,length(lfinput.frm$quarter))
       lftrght.splitflg[lfinput.frm$quarter==2 | lfinput.frm$quarter==3]<-1
-      acyclic.qrtr[1]<-paste(paste(1,4,sep=","),paste(2,3,sep=","),sep=";")
+      acyclic.qrtr[1]<-paste(paste("1","4",sep=""),paste("2","3",sep=""),sep=";")
       # compute kld contribution for this split
       lfimp.cyclic.qrtr[1]<-imp.kld.FINAL.R(as.matrix(lfinput.frm[,frstcol.lf:lstcol.lf]),lftrght.splitflg)
       #

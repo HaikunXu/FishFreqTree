@@ -37,7 +37,5 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf) {
 
   tmpcl.kld.df <- tmpcl.kld.df[order(tmpcl.kld.df$Improve,decreasing = TRUE),]
 
-  # print(tmpcl.kld.df[1:3,])
-
   return(tmpcl.kld.df)
   }

@@ -10,7 +10,6 @@
 #'
 #' @export
 
-
 run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir) {
 
 var_exp <- rep(NA,Nsplit) # variance explained
@@ -23,8 +22,13 @@ for (i in 1:Nsplit) {
   if(i==1) {
     # whole ALB area
     split <- find_split(LF,fcol,lcol)
+    # save result as a csv.file
+    write.csv(split,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
 
-    LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),1,0)
+    # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+      LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),1,0)
+    # else
+      # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
     e0 <- get.klderror.null(as.matrix(LF[,fcol:lcol])) # null (no stratification)
     e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1,fcol:lcol]))
@@ -35,15 +39,16 @@ for (i in 1:Nsplit) {
     # print to the screen
     cat("\n")
     cat("Note: below shows the best splits in order, please check the save figures under save_dir to better understand the meaning of each split\n\n")
-    print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
+    # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+      print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
+    # else
+      # print(paste0("User-specified 1st split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
     cat(paste0((e0-e1-e2)/e0*100,"% variance explained\n\n"))
 
     # plot result
     Flag <- LF[[paste0("Flag",i)]]
     xlim <- c(min(LF$lon),max(LF$lon))
     ylim <- c(min(LF$lat),max(LF$lat))
-
-
 
     # plot the spatial distribution of cells
     for (j in 1:(i+1)) {
@@ -109,9 +114,13 @@ for (i in 1:Nsplit) {
     LF_data <- LF[j,]
     split <- find_split(LF_data,fcol,lcol)
 
-    LF <- make.Us.areaflags.f(LF,
-                                  as.character(split$Key[1]),
-                              as.numeric(split$Value[1]),i,ii)
+    # save result as a csv.file
+    write.csv(split,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
+
+    # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+      LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),i,ii)
+    # else
+      # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
     for (k in 1:(i+1)) {
       if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1,fcol:lcol]))
@@ -121,9 +130,16 @@ for (i in 1:Nsplit) {
     var_exp[i] <- (e0-e)/e0
 
     # print result to screen
-    if(i==2) print(paste0("Best 2nd split: ",split[1,2],"<=",split[1,3]))
-    if(i==3) print(paste0("Best 3rd split: ",split[1,2],"<=",split[1,3]))
-    if(i>3) print(paste0("Best ",i,"th"," split: ",split[1,2],"<=",split[1,3]))
+    # if((manual==FALSE)|(i %in% user_split$Number == FALSE)) {
+      if(i==2) print(paste0("Best 2nd split: ",split[1,2],"<=",split[1,3]))
+      if(i==3) print(paste0("Best 3rd split: ",split[1,2],"<=",split[1,3]))
+      if(i>3) print(paste0("Best ",i,"th"," split: ",split[1,2],"<=",split[1,3]))
+    # }
+    # else {
+    #   if(i==2) print(paste0("User-specified 2nd split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
+    #   if(i==3) print(paste0("User-specified 3rd split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
+    #   if(i>3) print(paste0("User-specified ",i,"th"," split: ",user_split$Key[which(user_split$Number==i)],"<=",user_split$Value[which(user_split$Number==i)]))
+    # }
 
       cat(paste0((e0-e)/e0*100,"% variance explained\n\n"))
 
