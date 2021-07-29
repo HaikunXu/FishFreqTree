@@ -93,6 +93,9 @@ for (i in 1:Nsplit) {
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
       split <- find_split(LF_data,fcol,lcol)
+      split$Cell <- ii
+      if(ii==1) split_raw <- split
+      else split_raw <- rbind(split_raw,split)
 
       LF_raw <- make.Us.areaflags.f(LF_raw,
                                 as.character(split$Key[1]),
@@ -115,7 +118,8 @@ for (i in 1:Nsplit) {
     split <- find_split(LF_data,fcol,lcol)
 
     # save result as a csv.file
-    write.csv(split,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
+    split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
+    write.csv(split_raw,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[1]), as.numeric(split$Value[1]),i,ii)
