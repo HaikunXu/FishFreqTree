@@ -16,6 +16,10 @@ run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir) {
 var_exp <- rep(NA,Nsplit) # variance explained
 
 for (i in 1:Nsplit) {
+
+  png(paste0(save_dir,"split",i,".png"),width = 1000,height = 500)
+  par(mfrow=c(1,2))
+
   if(i==1) {
     # whole ALB area
     split <- find_split(LF,fcol,lcol)
@@ -39,18 +43,40 @@ for (i in 1:Nsplit) {
     xlim <- c(min(LF$lon),max(LF$lon))
     ylim <- c(min(LF$lat),max(LF$lat))
 
-    png(paste0(save_dir,"split",i,".png"))
+
+
+    # plot the spatial distribution of cells
     for (j in 1:(i+1)) {
       LF_plot <- LF[which(Flag==j),]
       if(j==1) {
-        plot(x=LF_plot$lon,y=LF_plot$lat,pch=0,
-             xlim = xlim, ylim = ylim,
+        plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+             xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
              main = paste0("Split#",i,": ",split[1,2],"<=",split[1,3]))
       }
       else {
-        points(x=LF_plot$lon,y=LF_plot$lat,pch=j-1)
+        points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
       }
     }
+
+    # Compare the LF among cells
+    for (j in 1:(i+1)) {
+      LF_plot <- LF[which(Flag==j),]
+      LF_mean <- apply(LF_plot,2,mean)
+      Length <- as.numeric(names(LF_mean)[fcol:lcol])
+      LF_mean <- LF_mean[fcol:lcol]
+
+      if(j==1) {
+        plot(x=Length,y=LF_mean,pch=toString(j),
+             ylim = c(0,0.3),
+             main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
+        lines(x=Length,y=LF_mean)
+      }
+      else {
+        points(x=Length,y=LF_mean,pch=toString(j))
+        lines(x=Length,y=LF_mean)
+      }
+    }
+
     dev.off()
   }
 
@@ -103,21 +129,42 @@ for (i in 1:Nsplit) {
 
       # plot result
       Flag <- LF[[paste0("Flag",i)]]
-      xlim <- c(min(LF$lon),max(LF$lon))
-      ylim <- c(min(LF$lat),max(LF$lat))
 
-      png(paste0(save_dir,"split",i,".png"))
+      png(paste0(save_dir,"split",i,".png"),width = 1000,height = 500)
+      par(mfrow=c(1,2))
+
+      # plot the spatial distribution of cells
       for (j in 1:(i+1)) {
         LF_plot <- LF[which(Flag==j),]
         if(j==1) {
-          plot(x=LF_plot$lon,y=LF_plot$lat,pch=0,
-               xlim = xlim, ylim = ylim,
+          plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+               xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
                main = paste0("Split#",i,": ",split[1,2],"<=",split[1,3]))
         }
         else {
-          points(x=LF_plot$lon,y=LF_plot$lat,pch=j-1)
+          points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
         }
       }
+
+      # Compare the LF among cells
+      for (j in 1:(i+1)) {
+        LF_plot <- LF[which(Flag==j),]
+        LF_mean <- apply(LF_plot,2,mean)
+        Length <- as.numeric(names(LF_mean)[fcol:lcol])
+        LF_mean <- LF_mean[fcol:lcol]
+
+        if(j==1) {
+          plot(x=Length,y=LF_mean,pch=toString(j),
+               ylim = c(0,0.3),
+               main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
+          lines(x=Length,y=LF_mean)
+        }
+        else {
+          points(x=Length,y=LF_mean,pch=toString(j))
+          lines(x=Length,y=LF_mean)
+        }
+      }
+
       dev.off()
     }
 }
