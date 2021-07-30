@@ -1,3 +1,4 @@
+# devtools::install_github('HaikunXu/RegressionTree',ref='main')
 library(RegressionTree)
 
 load(file="D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regression_Tree/LF.RData")

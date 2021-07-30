@@ -6,13 +6,15 @@
 #' @param fcol The first column in the data frame with length frequency info
 #' @param lcol The first column in the data frame with length frequency info
 #' @param Nsplit The number of splits
-#' @param save_dir The directory where figures will be saved
+#' @param save_dir The directory where results will be saved
+#' @param manual Whether to use user-specified splits
+#' @param select User-specified splits
 #'
 #' @export
 
 run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA) {
 
-  if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
+if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 var_exp <- rep(NA,Nsplit) # variance explained
 
 for (i in 1:Nsplit) {

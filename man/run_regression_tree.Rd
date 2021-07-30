@@ -23,7 +23,11 @@ run_regression_tree(
 
 \item{Nsplit}{The number of splits}
 
-\item{save_dir}{The directory where figures will be saved}
+\item{save_dir}{The directory where results will be saved}
+
+\item{manual}{Whether to use user-specified splits}
+
+\item{select}{User-specified splits}
 }
 \description{
 \code{run_regression_tree} This function generates an area code for longline catch allocation
