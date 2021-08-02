@@ -22,8 +22,10 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   # LATITUDE
   unq.lats<-sort(unique(lfinput.frm$lat))
   nunqlats<-length(unq.lats)
-  lfimp.lat<-rep(NA,(nunqlats-1))
   #
+  if(nunqlats>1) {
+    lfimp.lat<-rep(NA,(nunqlats-1))
+
   for(i in 1:(nunqlats-1)){
     # make left-right split flag
     lftrght.splitflg<-rep(0,length(lfinput.frm$lat))
@@ -31,18 +33,30 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
     # compute kld contribution for this split
     lfimp.lat[i]<-imp.kld.FINAL.R(as.matrix(lfinput.frm[,frstcol.lf:lstcol.lf]),lftrght.splitflg)
   }
+  }
+  else {
+    nunqlats <- 2
+    lfimp.lat <- -999
+  }
   #
   # LONGITUDE
   unq.lons<-sort(unique(lfinput.frm$lon))
   nunqlons<-length(unq.lons)
-  lfimp.lon<-rep(NA,(nunqlons-1))
   #
+  if(nunqlons>1) {
+    lfimp.lon<-rep(NA,(nunqlons-1))
+
   for(i in 1:(nunqlons-1)){
     # make left-right split flag
     lftrght.splitflg<-rep(0,length(lfinput.frm$lon))
     lftrght.splitflg[lfinput.frm$lon>unq.lons[i]]<-1
     # compute kld contribution for this split
     lfimp.lon[i]<-imp.kld.FINAL.R(as.matrix(lfinput.frm[,frstcol.lf:lstcol.lf]),lftrght.splitflg)
+  }
+  }
+  else {
+    nunqlons <- 2
+    lfimp.lon <- -999
   }
   #
   # QUARTER
