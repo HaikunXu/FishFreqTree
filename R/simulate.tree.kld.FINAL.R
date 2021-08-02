@@ -36,7 +36,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   }
   else {
     nunqlats <- 2
-    lfimp.lat <- -999
+    lfimp.lat <- 0
   }
   #
   # LONGITUDE
@@ -56,7 +56,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   }
   else {
     nunqlons <- 2
-    lfimp.lon <- -999
+    lfimp.lon <- 0
   }
   #
   # QUARTER
