@@ -8,9 +8,9 @@
 #'
 #' @export
 
-find_split <- function(lf_prop,frstcol.lf,lstcol.lf) {
+find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min) {
   # run the code to get improvement by every split
-  tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf)
+  tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
 
   # combine the result tables into a single data frame
   tmpcl.kld.lat <- data.frame("Improve"=tmpcl.kld$lf.lat[,1],

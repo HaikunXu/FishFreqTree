@@ -11,7 +11,9 @@ run_regression_tree(
   Nsplit,
   save_dir,
   manual = FALSE,
-  select = NA
+  select = NA,
+  lat.min = 1,
+  lon.min = 1
 )
 }
 \arguments{

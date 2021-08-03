@@ -8,7 +8,7 @@
 #'
 #' @export
 
-simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
+simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
 {
   # 10.9.2012: added line to skip quarter if only one unique quarter value
   # calling function for kld part of simultaneous tree
@@ -19,14 +19,15 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   # it is assumed that length bin columns are consecutive from frstcol.lf
   #     to lstcol.lf.
   #
+
   # LATITUDE
   unq.lats<-sort(unique(lfinput.frm$lat))
   nunqlats<-length(unq.lats)
   #
-  if(nunqlats>1) {
-    lfimp.lat<-rep(NA,(nunqlats-1))
+  if(nunqlats>lat.min) {
+    lfimp.lat<-rep(0,(nunqlats-1))
 
-  for(i in 1:(nunqlats-1)){
+  for(i in lat.min:(nunqlats-lat.min)){
     # make left-right split flag
     lftrght.splitflg<-rep(0,length(lfinput.frm$lat))
     lftrght.splitflg[lfinput.frm$lat>unq.lats[i]]<-1
@@ -36,17 +37,17 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   }
   else {
     nunqlats <- 2
-    lfimp.lat <- 0
+    lfimp.lat <- -1
   }
   #
   # LONGITUDE
   unq.lons<-sort(unique(lfinput.frm$lon))
   nunqlons<-length(unq.lons)
   #
-  if(nunqlons>1) {
-    lfimp.lon<-rep(NA,(nunqlons-1))
+  if(nunqlons>lon.min) {
+    lfimp.lon<-rep(0,(nunqlons-1))
 
-  for(i in 1:(nunqlons-1)){
+  for(i in lon.min:(nunqlons-lon.min)){
     # make left-right split flag
     lftrght.splitflg<-rep(0,length(lfinput.frm$lon))
     lftrght.splitflg[lfinput.frm$lon>unq.lons[i]]<-1
@@ -56,7 +57,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf)
   }
   else {
     nunqlons <- 2
-    lfimp.lon <- 0
+    lfimp.lon <- -1
   }
   #
   # QUARTER
