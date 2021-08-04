@@ -22,15 +22,16 @@ head(LF_Tree$LF)
 # run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,lat.min=1,lon.min=2)
 
-# user-specified regression tree
-select <- c(1,2,1) # use the best 1st, 2nd, and 4th splits and the second best 3rd split
-
-LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
-
 # loop the regression tree
 Var <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir,max_select = 3)
 
 Var
+
+# user-specified regression tree
+select <- as.numeric(Var[1,1:Nsplit]) # use the best 1st, 2nd, and 4th splits and the second best 3rd split
+
+LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
+
 
 # backup code
 # library(tidyverse)
