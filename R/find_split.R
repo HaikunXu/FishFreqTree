@@ -8,7 +8,7 @@
 #'
 #' @export
 
-find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min) {
+find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min) {
   # run the code to get improvement by every split
   tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
 

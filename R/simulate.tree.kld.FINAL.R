@@ -8,7 +8,7 @@
 #'
 #' @export
 
-simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
+simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.min)
 {
   # 10.9.2012: added line to skip quarter if only one unique quarter value
   # calling function for kld part of simultaneous tree
@@ -24,7 +24,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min=lat.m
   unq.lats<-sort(unique(lfinput.frm$lat))
   nunqlats<-length(unq.lats)
   #
-  if(nunqlats>lat.min) {
+  if(nunqlats>=(lat.min*2)) {
     lfimp.lat<-rep(0,(nunqlats-1))
 
   for(i in lat.min:(nunqlats-lat.min)){
@@ -37,14 +37,14 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min=lat.m
   }
   else {
     nunqlats <- 2
-    lfimp.lat <- -1
+    lfimp.lat <- 0
   }
   #
   # LONGITUDE
   unq.lons<-sort(unique(lfinput.frm$lon))
   nunqlons<-length(unq.lons)
   #
-  if(nunqlons>lon.min) {
+  if(nunqlons>=(lon.min*2)) {
     lfimp.lon<-rep(0,(nunqlons-1))
 
   for(i in lon.min:(nunqlons-lon.min)){
@@ -57,7 +57,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min=lat.m
   }
   else {
     nunqlons <- 2
-    lfimp.lon <- -1
+    lfimp.lon <- 0
   }
   #
   # QUARTER

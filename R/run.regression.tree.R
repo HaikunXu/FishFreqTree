@@ -16,17 +16,19 @@ run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 var_exp <- rep(NA,Nsplit) # variance explained
+select_name <- paste0(gsub(", ","",toString(select)),"/")
+dir.create(paste0(save_dir,select_name))
 
 for (i in 1:Nsplit) {
 
-  png(paste0(save_dir,"split",i,".png"),width = 1000,height = 500)
+  png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
   par(mfrow=c(1,2))
 
   if(i==1) {
     # whole ALB area
-    split <- find_split(LF,fcol,lcol,lat.min=lat.min,lon.min=lon.min)
+    split <- find_split(LF,fcol,lcol,lat.min,lon.min)
     # save result as a csv.file
-    write.csv(split,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
+    write.csv(split,file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
@@ -95,7 +97,7 @@ for (i in 1:Nsplit) {
       LF_raw <- LF
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
-      split <- find_split(LF_data,fcol,lcol,lat.min=lat.min,lon.min=lon.min)
+      split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
       split$Cell <- ii
       if(ii==1) split_raw <- split
       else split_raw <- rbind(split_raw,split)
@@ -118,11 +120,11 @@ for (i in 1:Nsplit) {
 
     # j <- which(LF[[paste0("Flag",i-1)]] == ii)
     # LF_data <- LF[j,]
-    # split <- find_split(LF_data,fcol,lcol)
+    # split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
 
     # save result as a csv.file
     split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
-    write.csv(split_raw,file=paste0(save_dir,"split",i,".csv"),row.names = FALSE)
+    write.csv(split_raw,file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)
@@ -159,8 +161,8 @@ for (i in 1:Nsplit) {
       # plot result
       Flag <- LF[[paste0("Flag",i)]]
 
-      png(paste0(save_dir,"split",i,".png"),width = 1000,height = 500)
-      par(mfrow=c(1,2))
+      # png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
+      # par(mfrow=c(1,2))
 
       # plot the spatial distribution of cells
       for (j in 1:(i+1)) {
@@ -198,5 +200,5 @@ for (i in 1:Nsplit) {
     }
 }
 
-return(LF)
+return(list("LF"=LF,"Var"=var_exp))
 }

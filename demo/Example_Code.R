@@ -1,7 +1,7 @@
 # devtools::install_github('HaikunXu/RegressionTree',ref='main')
 library(RegressionTree)
 
-load(file="D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regression_Tree/LF.RData")
+load(file="demo/LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter
@@ -9,22 +9,28 @@ load(file="D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regressi
 head(LF)
 
 fcol <- 5 # the first column with LF_Tree info
-lcol <- 15 # the last column with LF_Tree info
-Nsplit <- 5 # the number of splits (the number of cells - 1)
-save_dir <- "D:/OneDrive - IATTC/IATTC/2021/Albacore/Regression_Tree_Code/Regression_Tree/"
+lcol <- 17 # the last column with LF_Tree info
+Nsplit <- 3 # the number of splits (the number of cells - 1)
+save_dir <- "demo/"
 
 # run the regression tree
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 
-head(LF_Tree)
+head(LF_Tree$LF)
 # The last few columns with names Flag are the cell numbers under each split
 
+# run the regression tree
+LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,lat.min=1,lon.min=2)
+
 # user-specified regression tree
-select <- c(1,1,2,1) # use the best 1st, 2nd, and 4th splits and the second best 3rd split
+select <- c(1,2,1) # use the best 1st, 2nd, and 4th splits and the second best 3rd split
 
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
 
+# loop the regression tree
+Var <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir,max_select = 3)
 
+Var
 
 # backup code
 # library(tidyverse)
