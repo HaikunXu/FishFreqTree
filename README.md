@@ -6,7 +6,7 @@
 
 -   Please contact Haikun ([hkxu\@iattc.org](mailto:hkxu@iattc.org)) for any questions related to the package
 
--   Reference: Fisheries Research 102(2010):323-326 ([https://github.com/HaikunXu/RegressionTree/blob/main/reference/1-s2.0-S0165783609003166-main.pdf](https://github.com/HaikunXu/RegressionTree/blob/main/demo/Example_Code.R))
+-   Reference: Fisheries Research 102(2010):323-326
 
 -   A example code is provided to show how to use the package: <https://github.com/HaikunXu/RegressionTree/blob/main/demo/Example_Code.R>
 
