@@ -15,8 +15,11 @@
 run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1) {
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
+
 var_exp <- rep(NA,Nsplit) # variance explained
+folder_name <- paste0(gsub(", ","",toString(select)))
 select_name <- paste0(gsub(", ","",toString(select)),"/")
+unlink(paste0(save_dir,folder_name), recursive = TRUE)
 dir.create(paste0(save_dir,select_name))
 
 for (i in 1:Nsplit) {

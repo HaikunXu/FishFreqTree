@@ -28,14 +28,4 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, selec
 # than the default run
 
 # loop the regression tree for various combinations of splits
-Var <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir,max_select = 3)
-
-# column Var is the % variance explained by each split combination
-Var
-# the best splits is 1, 2, 1
-
-# use the best combination of splits found above through the loop
-select <- as.numeric(Var[1,1:Nsplit]) # the first row has the highest % variance explained
-
-LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
-head(LF_Tree$LF)
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir,max_select = 2)

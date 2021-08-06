@@ -7,7 +7,7 @@
 #' @param lcol The first column in the data frame with length frequency info
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
-#' @param max_select User-specified splits
+#' @param max_select User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
 #'
 #' @export
 
@@ -35,8 +35,16 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
 
   Imp_DF <- Imp_DF[order(Imp_DF$Var,decreasing = TRUE),]
 
+  select <- as.numeric(Imp_DF[1,1:Nsplit]) # the first row has the highest % variance explained
 
+  LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
 
+  cat("\n\n")
+  cat("***************************************************************************************************************************************************************\n")
+  cat("Below shows the loop results (table saved in loop.csv)\n\n")
 
-return(Imp_DF)
+  print(Imp_DF, row.names = FALSE)
+  write.csv(Imp_DF,file=paste0(save_dir,"loop.csv"),row.names = FALSE)
+
+return(LF_Tree)
 }
