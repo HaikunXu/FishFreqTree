@@ -47,6 +47,8 @@ for (i in 1:Nsplit) {
     # print to the screen
     cat("\n\n")
     cat("***Note***: below shows the best splits in order, please check the save figures under the directory save_dir to better understand the meaning of each split\n\n")
+    cat(paste0("******  Results are saved in folder ",save_dir,select_name,"  ******\n\n"))
+
     if(select[i]==1)
       print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
     else
