@@ -11,13 +11,13 @@
 #'
 #' @export
 
-loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min=1,lon.min=1) {
+loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,quarter=TRUE) {
 
   i <- 1
   j <- 1
 
   select <- rep(1,Nsplit)
-  LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
+  LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter)
   Imp_DF <- c(select,LF_loop$Var[Nsplit])
 
   for (i in 1:(Nsplit-1)) {
@@ -25,7 +25,7 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
       select <- rep(1,Nsplit)
       select[i] <- j
       # print(paste0("select=",select))
-      LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
+      LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter)
       Imp_DF <- rbind(Imp_DF,c(select,LF_loop$Var[Nsplit]))
     }
   }
@@ -37,7 +37,7 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
 
   select <- as.numeric(Imp_DF[1,1:Nsplit]) # the first row has the highest % variance explained
 
-  LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select)
+  LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter)
 
   cat("\n\n")
   cat("***************************************************************************************************************************************************************\n")

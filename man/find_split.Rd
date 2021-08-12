@@ -4,7 +4,7 @@
 \alias{find_split}
 \title{Run the regression tree analysis with specified number of splits}
 \usage{
-find_split(lf_prop, frstcol.lf, lstcol.lf, lat.min, lon.min)
+find_split(lf_prop, frstcol.lf, lstcol.lf, lat.min, lon.min, quarter)
 }
 \arguments{
 \item{lf_prop}{The length frequency data frame input; must include columns lat, lon, year, and quarter}

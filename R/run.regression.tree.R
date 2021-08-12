@@ -12,7 +12,7 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1) {
+run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,quarter=TRUE) {
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 
@@ -29,7 +29,7 @@ for (i in 1:Nsplit) {
 
   if(i==1) {
     # whole ALB area
-    split <- find_split(LF,fcol,lcol,lat.min,lon.min)
+    split <- find_split(LF,fcol,lcol,lat.min,lon.min,quarter)
     # save result as a csv.file
     write.csv(split,file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
@@ -102,7 +102,7 @@ for (i in 1:Nsplit) {
       LF_raw <- LF
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
-      split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
+      split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,quarter)
       split$Cell <- ii
       if(ii==1) split_raw <- split
       else split_raw <- rbind(split_raw,split)

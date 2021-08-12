@@ -8,7 +8,7 @@
 #'
 #' @export
 
-find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min) {
+find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,quarter) {
   # run the code to get improvement by every split
   tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
 
@@ -22,6 +22,8 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min) {
   tmpcl.kld.qrt <- data.frame("Improve"=tmpcl.kld$lf.qrtr[,1],
                               "Key"="Qrt",
                               "Value"=tmpcl.kld$lf.qrtr[,2])
+  if(quarter==TRUE) {
+
   if(is.null(tmpcl.kld$lf.cyclic.qrtr)) {
     tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon,tmpcl.kld.qrt)
   }
@@ -32,6 +34,8 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min) {
     tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon,
                           tmpcl.kld.qrt,tmpcl.kld.cqrt)
   }
+  }
+  else {tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon)}
 
   # sort the improvement and the 1st one is the best split
 

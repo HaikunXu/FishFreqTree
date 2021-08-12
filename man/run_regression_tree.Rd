@@ -13,7 +13,8 @@ run_regression_tree(
   manual = FALSE,
   select = NA,
   lat.min = 1,
-  lon.min = 1
+  lon.min = 1,
+  quarter = TRUE
 )
 }
 \arguments{

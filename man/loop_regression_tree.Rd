@@ -12,7 +12,8 @@ loop_regression_tree(
   save_dir,
   max_select,
   lat.min = 1,
-  lon.min = 1
+  lon.min = 1,
+  quarter = TRUE
 )
 }
 \arguments{
