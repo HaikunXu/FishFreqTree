@@ -10,8 +10,24 @@
 
 -   A example code is provided to show how to use the package: <https://github.com/HaikunXu/RegressionTree/blob/main/demo/Example_Code.R>
 
-# 
+## **Note:**
 
-**Note: For the nth best split, the code first loops over all existing n cells that are defined by the previous n-1 splits, to find the best split (the one that leads to the maximum variance explained) for every cell. Then those best cell-specific splits are compared to find the split that results in the maximum variance explained. This split is the nth best split. This process is iterated until reaching the maximum number of splits specified by the user.**
+### Data Format
 
-**Users can combine the output figures with output tables to understand the best splits in order. Also, the advanced feature (see the example code for more details) in the package allows users to manually specify some or all splits for more flexible splits.**
+The input data frame should include at least four columns named exactly as "lat", "lon", "year", and "quarter". The input data frame should also include various columns that record length frequency information with column names = length bin. **This regression tree package works with length frequency data so please make sure the input values sum to 1 across length bins.** An example of the input data can be found [here](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
+
+### Model description
+
+This package finds the best multi-cell combination for a length frequency data based on the proportion of variance explained. The variables that are current considered in the code include latitude, longitude, quarter, and cyclic quarter. For those who don't consider quarter as a splitting dimension (e.g., your model has a time step of one year), please still add a column named "quarter" to the input data with values = 1. In the main functions this package provides (run_regression_tree and loop_regression_tree), you can manually turn off the quarter dimension by adding "quarter = FALSE" as a function argument.
+
+### Main functions
+
+run_regression_tree (type ?run_regression_tree for more info): run the regression tree
+
+loop_regression_tree (type ?loop_regression_tree for more info): loop the regression tree
+
+### Code description
+
+For the nth best split, the code first loops over all existing n cells that are defined by the previous n-1 splits, to find the best split (the one that leads to the maximum variance explained) for every cell. Then those best cell-specific splits are compared to find the split that results in the maximum variance explained. This split is the nth best split. This process is iterated until reaching the maximum number of splits specified by the user.
+
+Users can combine the output figures with output tables to understand the best splits in order. Also, the advanced feature (see the example code for more details) in the package allows users to manually specify some or all splits.

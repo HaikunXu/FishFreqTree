@@ -28,9 +28,11 @@ run_regression_tree(
 
 \item{save_dir}{The directory where results will be saved}
 
-\item{manual}{Whether to use user-specified splits}
+\item{manual}{Whether to use user-specified splits; default = FALSE}
 
-\item{select}{User-specified splits}
+\item{select}{User-specified splits; default = NA}
+
+\item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
 }
 \description{
 \code{run_regression_tree} This function generates an area code for longline catch allocation

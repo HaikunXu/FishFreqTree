@@ -10,7 +10,7 @@ head(LF)
 
 fcol <- 5 # the first column with LF_Tree info
 lcol <- 17 # the last column with LF_Tree info
-Nsplit <- 4 # the number of splits (the number of cells - 1)
+Nsplit <- 3 # the number of splits (the number of cells - 1)
 save_dir <- "demo/"
 
 # run the regression tree with the best three splits

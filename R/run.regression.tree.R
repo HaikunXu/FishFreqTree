@@ -7,8 +7,10 @@
 #' @param lcol The first column in the data frame with length frequency info
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
-#' @param manual Whether to use user-specified splits
-#' @param select User-specified splits
+#' @param manual Whether to use user-specified splits; default = FALSE
+#' @param select User-specified splits; default = NA
+#' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
+#'
 #'
 #' @export
 
