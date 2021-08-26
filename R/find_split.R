@@ -5,6 +5,7 @@
 #' @param lf_prop The length frequency data frame input; must include columns lat, lon, year, and quarter
 #' @param frstcol.lf The first column in the data frame with length frequency info
 #' @param lstcol.lf The first column in the data frame with length frequency info
+#' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
 #'
 #' @export
 

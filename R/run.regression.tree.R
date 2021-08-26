@@ -11,6 +11,7 @@
 #' @param select User-specified splits; default = NA
 #' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
 #'
+#' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
 #' @export
 

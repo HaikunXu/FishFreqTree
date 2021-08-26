@@ -12,6 +12,8 @@ find_split(lf_prop, frstcol.lf, lstcol.lf, lat.min, lon.min, quarter)
 \item{frstcol.lf}{The first column in the data frame with length frequency info}
 
 \item{lstcol.lf}{The first column in the data frame with length frequency info}
+
+\item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
 }
 \description{
 \code{find_split} This function finds the best split based on the improvement

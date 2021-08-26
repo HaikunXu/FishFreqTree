@@ -10,12 +10,16 @@
 #' @param max_select User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
 #' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
 #'
+#' @return return the input LF with cell number and the percentage of total LF variance explained by each split
+#'
 #' @export
 
 loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,quarter=TRUE) {
 
   i <- 1
   j <- 1
+
+  if(Nsplit==1) stop("Nsplit must be larger than 1 for this function")
 
   select <- rep(1,Nsplit)
   LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter)

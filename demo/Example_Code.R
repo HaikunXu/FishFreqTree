@@ -15,7 +15,7 @@ save_dir <- "demo/"
 
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
-LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,quarter = FALSE)
+LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 
 head(LF_Tree$LF)
 # The last few columns with names Flag are the cell numbers under each split
@@ -28,6 +28,8 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, selec
 # than the default run
 
 # loop the regression tree for various combinations of splits
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir,max_select = 2, quarter = FALSE)
+loop_dir <- paste0(save_dir,"loop/")
+dir.create(loop_dir)
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir=loop_dir,max_select = 2, quarter = FALSE)
 
 head(LF_Tree_Loop$LF)
