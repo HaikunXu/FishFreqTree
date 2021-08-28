@@ -34,7 +34,7 @@ for (i in 1:Nsplit) {
     # whole ALB area
     split <- find_split(LF,fcol,lcol,lat.min,lon.min,quarter)
     # save result as a csv.file
-    write.csv(split,file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+    write.csv(rename_CQrt(split),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
@@ -132,7 +132,7 @@ for (i in 1:Nsplit) {
 
     # save result as a csv.file
     split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
-    write.csv(split_raw,file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+    write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)

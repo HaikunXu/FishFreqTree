@@ -31,7 +31,7 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,quarter) {
   else {
     tmpcl.kld.cqrt <- data.frame("Improve"=tmpcl.kld$lf.cyclic.qrtr[,1],
                                  "Key"="CQrt",
-                                 "Value"=tmpcl.kld$lf.cyclic.qrtr[,2])
+                                 "Value"=as.numeric(tmpcl.kld$lf.cyclic.qrtr[,2]))
     tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon,
                           tmpcl.kld.qrt,tmpcl.kld.cqrt)
   }
