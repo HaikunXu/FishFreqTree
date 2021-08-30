@@ -173,11 +173,11 @@ for (i in 1:Nsplit) {
     # print result to screen
     if(select[i]==1) {
     if(i==2)
-      print(paste0("Best 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+      print(paste0("Conditional best 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
     if(i==3)
-      print(paste0("Best 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+      print(paste0("Conditional best 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
     if(i>3)
-      print(paste0("Best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+      print(paste0("Conditional best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
     }
     else {
       if(i==2)
