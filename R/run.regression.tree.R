@@ -27,8 +27,8 @@ dir.create(paste0(save_dir,select_name))
 
 for (i in 1:Nsplit) {
 
-  png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
-  par(mfrow=c(1,2))
+  png(paste0(save_dir,select_name,"split",i,"(map).png"),width = 1000,height = 1000)
+  par(mfrow=c(2,2))
 
   if(i==1) {
     # whole ALB area
@@ -60,23 +60,30 @@ for (i in 1:Nsplit) {
 
     # plot result
     Flag <- LF[[paste0("Flag",i)]]
+    Quarter <- LF$quarter
     xlim <- c(min(LF$lon),max(LF$lon))
     ylim <- c(min(LF$lat),max(LF$lat))
 
     # plot the spatial distribution of cells
+    for (q in 1:4) {
     for (j in 1:(i+1)) {
-      LF_plot <- LF[which(Flag==j),]
+      LF_plot <- LF[which(Flag==j&Quarter==q),]
       if(j==1) {
         plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
              xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-             main = paste0("Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+             main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
       }
       else {
         points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
       }
     }
+    }
+
+    dev.off()
 
     # Compare the LF among cells
+    png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+
     for (j in 1:(i+1)) {
       LF_plot <- LF[which(Flag==j),]
       LF_mean <- apply(LF_plot,2,mean)
@@ -168,24 +175,31 @@ for (i in 1:Nsplit) {
 
       # plot result
       Flag <- LF[[paste0("Flag",i)]]
+      Quarter <- LF$quarter
 
       # png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
       # par(mfrow=c(1,2))
 
       # plot the spatial distribution of cells
+      for (q in 1:4) {
       for (j in 1:(i+1)) {
-        LF_plot <- LF[which(Flag==j),]
+        LF_plot <- LF[which(Flag==j&Quarter==q),]
         if(j==1) {
           plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
                xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-               main = paste0("Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+               main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
         }
         else {
           points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
         }
       }
+      }
+
+      dev.off()
 
       # Compare the LF among cells
+      png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+
       for (j in 1:(i+1)) {
         LF_plot <- LF[which(Flag==j),]
         LF_mean <- apply(LF_plot,2,mean)
