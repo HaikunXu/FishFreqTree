@@ -15,9 +15,10 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,quarter=TRUE) {
+run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,quarter=TRUE, include_dummy=FALSE) {
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
+if(include_dummy==FALSE) LF$dummy <- FALSE
 
 var_exp <- rep(NA,Nsplit) # variance explained
 folder_name <- paste0(gsub(", ","",toString(select)))
@@ -32,7 +33,7 @@ for (i in 1:Nsplit) {
 
   if(i==1) {
     # whole ALB area
-    split <- find_split(LF,fcol,lcol,lat.min,lon.min,quarter)
+    split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,quarter)
     # save result as a csv.file
     write.csv(rename_CQrt(split),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
@@ -41,9 +42,9 @@ for (i in 1:Nsplit) {
     # else
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
-    e0 <- get.klderror.null(as.matrix(LF[,fcol:lcol])) # null (no stratification)
-    e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1,fcol:lcol]))
-    e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2,fcol:lcol]))
+    e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
+    e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]))
+    e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]))
 
     var_exp[1] <- (e0-e1-e2)/e0
 
@@ -109,7 +110,7 @@ for (i in 1:Nsplit) {
     imp <- rep(NA,i)
     # for loop for every possible split
     for (ii in 1:i) {
-      LF_raw <- LF
+      LF_raw <- LF[LF$dummy==FALSE,]
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
       split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,quarter)
@@ -147,8 +148,8 @@ for (i in 1:Nsplit) {
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
     for (k in 1:(i+1)) {
-      if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1,fcol:lcol]))
-      else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k,fcol:lcol]))
+      if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE,fcol:lcol]))
+      else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
     }
 
     var_exp[i] <- (e0-e)/e0

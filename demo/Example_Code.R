@@ -20,9 +20,16 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 head(LF_Tree$LF)
 # The last few columns with names Flag are the cell numbers under each split
 
+# add a dummy data at lat=-20, lon=60
+LF$dummy <- FALSE
+LF2 <- rbind(LF,c(31,1,-20,60,rep(0,13),TRUE))
+
+LF_Tree <- run_regression_tree(LF2,fcol,lcol,Nsplit,save_dir,include_dummy = TRUE)
+
+
 # run the regression tree again with the second best 2th split
 # results are saved in the folder 121 under save_dir
-LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select = c(1,2,1))
+LF_Tree <- run_regression_tree(LF2,fcol,lcol,Nsplit,save_dir,manual = TRUE, select = c(1,2,1))
 
 # This setting leads to even better improvement (16.4% vs. 16.2% variance explained)
 # than the default run
@@ -30,6 +37,6 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, selec
 # loop the regression tree for various combinations of splits
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,Nsplit,save_dir=loop_dir,max_select = 2, quarter = FALSE)
+LF_Tree_Loop <- loop_regression_tree(LF2,fcol,lcol,Nsplit,save_dir=loop_dir,max_select = 2,include_dummy = TRUE)
 
 head(LF_Tree_Loop$LF)

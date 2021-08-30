@@ -13,7 +13,8 @@ loop_regression_tree(
   max_select,
   lat.min = 1,
   lon.min = 1,
-  quarter = TRUE
+  quarter = TRUE,
+  include_dummy = FALSE
 )
 }
 \arguments{
