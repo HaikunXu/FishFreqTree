@@ -187,7 +187,7 @@ for (i in 1:Nsplit) {
         if(j==1) {
           plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
                xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-               main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+               main = paste0("(Quarter ",q,")"," Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
         }
         else {
           points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
