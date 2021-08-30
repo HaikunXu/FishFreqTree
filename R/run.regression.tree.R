@@ -104,6 +104,22 @@ for (i in 1:Nsplit) {
     }
 
     dev.off()
+
+    # Compare Improvement agaisnt lat and lon
+    png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
+    par(mfrow=c(1,2))
+
+    split_plot <- split[which(split$Key=="Lat"),]
+    plot(x=split_plot$Value,y=split_plot$Improve,
+             xlim = ylim, xlab = "Lat", ylab = "Improvement",
+             main = paste0(" Split#",i))
+
+    split_plot <- split[which(split$Key=="Lon"),]
+    plot(x=split_plot$Value,y=split_plot$Improve,
+         xlim = xlim, xlab = "Lon", ylab = "Improvement",
+         main = paste0(" Split#",i))
+
+    dev.off()
   }
 
   else {
@@ -219,6 +235,31 @@ for (i in 1:Nsplit) {
         }
       }
 
+      dev.off()
+
+      # Compare Improvement agaisnt lat and lon
+      png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
+      par(mfrow=c(1,2))
+
+      for (j in 1:i) {
+
+      split_plot <- split_raw[which(split_raw$Key=="Lat"&split_raw$Cell==j),]
+      if(j==1) {
+      plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+           xlim = ylim, xlab = "Lat", ylab = "Improvement",
+           main = paste0(" Split#",i))
+      }
+      else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+      }
+      for (j in 1:i) {
+      split_plot <- split_raw[which(split_raw$Key=="Lon"&split_raw$Cell==j),]
+      if(j==1) {
+      plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+           xlim = xlim, xlab = "Lon", ylab = "Improvement",
+           main = paste0(" Split#",i))
+        }
+        else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+      }
       dev.off()
     }
 }
