@@ -109,14 +109,16 @@ for (i in 1:Nsplit) {
     png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
     par(mfrow=c(1,2))
 
+    ymax <- max(split$Improve[which(split$Key=="Lat"|split$Key=="Lon")])
+
     split_plot <- split[which(split$Key=="Lat"),]
     plot(x=split_plot$Value,y=split_plot$Improve,
-             xlim = ylim, xlab = "Lat", ylab = "Improvement",
+             xlim = ylim, ylim = c(0, ymax), xlab = "Lat", ylab = "Improvement",
              main = paste0(" Split#",i))
 
     split_plot <- split[which(split$Key=="Lon"),]
     plot(x=split_plot$Value,y=split_plot$Improve,
-         xlim = xlim, xlab = "Lon", ylab = "Improvement",
+         xlim = xlim, ylim = c(0, ymax), xlab = "Lon", ylab = "Improvement",
          main = paste0(" Split#",i))
 
     dev.off()
@@ -241,12 +243,14 @@ for (i in 1:Nsplit) {
       png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
       par(mfrow=c(1,2))
 
+      ymax <- max(split_raw$Improve[which(split_raw$Key=="Lat"|split_raw$Key=="Lon")])
+
       for (j in 1:i) {
 
       split_plot <- split_raw[which(split_raw$Key=="Lat"&split_raw$Cell==j),]
       if(j==1) {
       plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-           xlim = ylim, xlab = "Lat", ylab = "Improvement",
+           xlim = ylim, ylim = c(0,ymax), xlab = "Lat", ylab = "Improvement",
            main = paste0(" Split#",i))
       }
       else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
@@ -255,7 +259,7 @@ for (i in 1:Nsplit) {
       split_plot <- split_raw[which(split_raw$Key=="Lon"&split_raw$Cell==j),]
       if(j==1) {
       plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-           xlim = xlim, xlab = "Lon", ylab = "Improvement",
+           xlim = xlim, ylim = c(0,ymax), xlab = "Lon", ylab = "Improvement",
            main = paste0(" Split#",i))
         }
         else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
