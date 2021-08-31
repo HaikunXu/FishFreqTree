@@ -15,7 +15,7 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,quarter=TRUE, include_dummy=FALSE) {
+run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE, year=FALSE, include_dummy=FALSE) {
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 if(include_dummy==FALSE) LF$dummy <- FALSE
@@ -34,7 +34,7 @@ for (i in 1:Nsplit) {
 
   if(i==1) {
     # whole ALB area
-    split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,quarter)
+    split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,year.min,quarter,year)
     # save result as a csv.file
     write.csv(rename_CQrt(split),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
@@ -65,6 +65,7 @@ for (i in 1:Nsplit) {
     Quarter <- LF$quarter
     xlim <- c(min(LF$lon),max(LF$lon))
     ylim <- c(min(LF$lat),max(LF$lat))
+    tlim <- c(min(LF$year),max(LF$year))
 
     # plot the spatial distribution of cells
     for (q in 1:4) {
@@ -123,6 +124,19 @@ for (i in 1:Nsplit) {
          main = paste0(" Split#",i))
 
     dev.off()
+
+    # Compare Improvement agaisnt year
+    if(year==TRUE) {
+      png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+
+      split_plot <- split[which(split$Key=="Year"),]
+      plot(x=split_plot$Value,y=split_plot$Improve,
+           xlim = tlim, xlab = "Year", ylab = "Improvement",
+           main = paste0(" Split#",i))
+
+      dev.off()
+    }
+
   }
 
   else {
@@ -132,7 +146,7 @@ for (i in 1:Nsplit) {
       LF_raw <- LF[LF$dummy==FALSE,]
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
-      split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,quarter)
+      split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
       split$Cell <- ii
       if(ii==1) split_raw <- split
       else split_raw <- rbind(split_raw,split)
@@ -266,7 +280,27 @@ for (i in 1:Nsplit) {
         else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
       }
       dev.off()
-    }
+
+      # Compare Improvement agaisnt year
+      if(year==TRUE) {
+        png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+
+        for (j in 1:i) {
+
+          split_plot <- split_raw[which(split_raw$Key=="Year"&split_raw$Cell==j),]
+          if(j==1) {
+            plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+                 xlim = tlim, xlab = "Year", ylab = "Improvement",
+                 main = paste0(" Split#",i))
+          }
+          else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+        }
+
+        dev.off()
+
+      }
+  }
+
 }
 
 return(list("LF"=LF,"Var"=var_exp))

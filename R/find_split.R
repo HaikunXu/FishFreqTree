@@ -9,9 +9,9 @@
 #'
 #' @export
 
-find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,quarter) {
+find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,year.min,quarter,year) {
   # run the code to get improvement by every split
-  tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min)
+  tmpcl.kld <- simult.tree.kld.FINAL(lf_prop,frstcol.lf,lstcol.lf,lat.min=lat.min,lon.min=lon.min,year.min = year.min)
 
   # combine the result tables into a single data frame
   tmpcl.kld.lat <- data.frame("Improve"=tmpcl.kld$lf.lat[,1],
@@ -50,6 +50,12 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,quarter) {
   }
   else {tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon)}
 
+  if (year==TRUE) {
+    tmpcl.kld.year <- data.frame("Improve"=tmpcl.kld$lf.year[,1],
+                                "Key"="Year",
+                                "Value"=tmpcl.kld$lf.year[,2])
+    tmpcl.kld.df <- rbind(tmpcl.kld.df,tmpcl.kld.year)
+  }
   # sort the improvement and the 1st one is the best split
 
   tmpcl.kld.df <- tmpcl.kld.df[order(tmpcl.kld.df$Improve,decreasing = TRUE),]

@@ -19,6 +19,7 @@ make.Us.areaflags.f <- function(lf.input,key,value,split_num,area_num)
     if(value==2) Flag <- ifelse(lf.input$quarter==3,2,1)
     if(value==3) Flag <- ifelse(lf.input$quarte==2,2,1)
   }
+  if(key=="Year") Flag <- ifelse(lf.input$year<=value,1,2)
 
   if(split_num==1) lf.input[["Flag1"]] <- Flag
   else {

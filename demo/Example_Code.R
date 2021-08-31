@@ -15,7 +15,7 @@ save_dir <- "demo/"
 
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
-LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
+LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,year = TRUE)
 
 head(LF_Tree$LF)
 # The last few columns with names Flag are the cell numbers under each split

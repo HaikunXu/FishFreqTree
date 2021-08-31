@@ -4,7 +4,14 @@
 \alias{simult.tree.kld.FINAL}
 \title{Run the regression tree analysis with specified number of splits}
 \usage{
-simult.tree.kld.FINAL(lfinput.frm, frstcol.lf, lstcol.lf, lat.min, lon.min)
+simult.tree.kld.FINAL(
+  lfinput.frm,
+  frstcol.lf,
+  lstcol.lf,
+  lat.min,
+  lon.min,
+  year.min
+)
 }
 \arguments{
 \item{lfinput.frm}{The length frequency data frame input; must include columns lat, lon, year, and quarter}

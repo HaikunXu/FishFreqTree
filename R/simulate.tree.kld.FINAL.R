@@ -8,7 +8,7 @@
 #'
 #' @export
 
-simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.min)
+simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.min,year.min)
 {
   # 10.9.2012: added line to skip quarter if only one unique quarter value
   # calling function for kld part of simultaneous tree
@@ -124,5 +124,29 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.m
     output.frm<-list(lf.lat=data.frame(lfimp.lat,unq.lats[1:(nunqlats-1)]),lf.lon=data.frame(lfimp.lon,unq.lons[1:(nunqlons-1)]),lf.qrtr=data.frame(lfimp.qrtr,unq.qrtrs[1:(nunqqrtrs-1)]), lf.cyclic.qrtr=data.frame(lfimp.cyclic.qrtr,acyclic.qrtr))
   }
   #
+
+  # Year
+  unq.years<-sort(unique(lfinput.frm$year))
+  nunqyears<-length(unq.years)
+  #
+  if(nunqyears>=(year.min*2)) {
+    lfimp.year<-rep(0,(nunqyears-1))
+
+    for(i in year.min:(nunqyears-year.min)){
+      # make left-right split flag
+      lftrght.splitflg<-rep(0,length(lfinput.frm$year))
+      lftrght.splitflg[lfinput.frm$year>unq.years[i]]<-1
+      # compute kld contribution for this split
+      lfimp.year[i]<-imp.kld.FINAL.R(as.matrix(lfinput.frm[,frstcol.lf:lstcol.lf]),lftrght.splitflg)
+    }
+  }
+  else {
+    nunqyears <- 2
+    lfimp.year <- 0
+  }
+
+  lf.year=data.frame(lfimp.year,unq.years[1:(nunqyears-1)])
+  output.frm <- c(output.frm,lf.year=list(lf.year))
+
   return(output.frm)
 }

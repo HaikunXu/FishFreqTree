@@ -14,7 +14,9 @@ run_regression_tree(
   select = NA,
   lat.min = 1,
   lon.min = 1,
+  year.min = 1,
   quarter = TRUE,
+  year = FALSE,
   include_dummy = FALSE
 )
 }
