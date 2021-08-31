@@ -19,6 +19,7 @@ run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 if(include_dummy==FALSE) LF$dummy <- FALSE
+if(manual==TRUE&(sum(select>1)>1)) print("Warning!!! You selection is hierarchical")
 
 var_exp <- rep(NA,Nsplit) # variance explained
 folder_name <- paste0(gsub(", ","",toString(select)))
