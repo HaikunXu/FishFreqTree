@@ -10,6 +10,8 @@
 
 -   A example code is provided to show how to use the package: <https://github.com/HaikunXu/RegressionTree/blob/main/demo/Example_Code.R>
 
+-   Please use the R version 3.5 for this package; the latest version 4.x may not work for this package
+
 ## **Note:**
 
 ### Data Format
