@@ -16,11 +16,11 @@
 
 ### Data Format
 
-The input data frame should include at least four columns named exactly as "lat", "lon", "year", and "quarter". The input data frame should also include various columns that record length frequency information with column names = length bin. **This regression tree package works with length frequency data so please make sure the input values sum to 1 across length bins.** An example of the input data can be found [here](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
+The input data frame should include at least four columns named exactly as "lat", "lon", "year", and "quarter". The input data frame should also include various columns that record **length frequency** information with column names = length bin. **This regression tree package works with length frequency data so please make sure the input values sum to 1 across length bins.** An example of the input data can be found [here](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
 
 ### Model description
 
-This package finds the best multi-cell combination for a length frequency data based on the proportion of variance explained. The variables that are current considered in the code include latitude, longitude, quarter, and cyclic quarter. For those who don't consider quarter as a splitting dimension (e.g., your model has a time step of one year), please still add a column named "quarter" to the input data with values = 1. In the main functions this package provides (run_regression_tree and loop_regression_tree), you can manually turn off the quarter dimension by adding "quarter = FALSE" as a function argument.
+This package finds the best multi-cell combination for a length frequency data based on the proportion of variance explained. The variables that are current considered in the code include latitude, longitude, quarter/cyclic quarter, and year (can be turned on by using year=TRUE). For those who don't consider quarter as a splitting dimension (e.g., your model has a time step of one year), please still add a column named "quarter" to the input data with values = 1. In the main functions this package provides (run_regression_tree and loop_regression_tree), you can manually turn off the quarter dimension by adding "quarter = FALSE" as a function argument.
 
 ### Main functions
 

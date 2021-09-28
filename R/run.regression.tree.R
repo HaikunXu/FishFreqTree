@@ -9,7 +9,8 @@
 #' @param save_dir The directory where results will be saved
 #' @param manual Whether to use user-specified splits; default = FALSE
 #' @param select User-specified splits; default = NA
-#' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
+#' @param quarter Whether to consider quarter as a splitting dimension; default = TRUE
+#' @param year Whether to consider year as a splitting dimension; default = FALSE
 #'
 #' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
