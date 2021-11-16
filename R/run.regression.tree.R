@@ -23,7 +23,8 @@ if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the 
 if(include_dummy==FALSE) LF$dummy <- FALSE
 if(manual==TRUE&(sum(select>1)>1)) print("Warning!!! You selection is hierarchical.")
 
-names(LF)[fcol:lcol] <- bins
+if((lcol-fcol+1)!= length(bins)) print("Warning!!! The number of bins does not match the number of LF columns specified")
+else names(LF)[fcol:lcol] <- bins
 
 var_exp <- rep(NA,Nsplit) # variance explained
 folder_name <- paste0(gsub(", ","",toString(select)))
