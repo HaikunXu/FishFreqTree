@@ -8,6 +8,7 @@ run_regression_tree(
   LF,
   fcol,
   lcol,
+  bins,
   Nsplit,
   save_dir,
   manual = FALSE,
@@ -27,6 +28,8 @@ run_regression_tree(
 
 \item{lcol}{The first column in the data frame with length frequency info}
 
+\item{bins}{Names of all bins included in LF}
+
 \item{Nsplit}{The number of splits}
 
 \item{save_dir}{The directory where results will be saved}
@@ -35,7 +38,9 @@ run_regression_tree(
 
 \item{select}{User-specified splits; default = NA}
 
-\item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
+\item{quarter}{Whether to consider quarter as a splitting dimension; default = TRUE}
+
+\item{year}{Whether to consider year as a splitting dimension; default = FALSE}
 }
 \value{
 return the input LF with cell number and the percentage of total LF variance explained by each split

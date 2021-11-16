@@ -8,6 +8,7 @@ loop_regression_tree(
   LF,
   fcol,
   lcol,
+  bins,
   Nsplit,
   save_dir,
   max_select,
@@ -23,6 +24,8 @@ loop_regression_tree(
 \item{fcol}{The first column in the data frame with length frequency info}
 
 \item{lcol}{The first column in the data frame with length frequency info}
+
+\item{bins}{Names of all bins included in LF}
 
 \item{Nsplit}{The number of splits}
 

@@ -5,6 +5,7 @@
 #' @param LF The length frequency data frame input; must include columns lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
 #' @param lcol The first column in the data frame with length frequency info
+#' @param bins Names of all bins included in LF
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
 #' @param max_select User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
@@ -14,7 +15,7 @@
 #'
 #' @export
 
-loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,quarter=TRUE,include_dummy=FALSE) {
+loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,quarter=TRUE,include_dummy=FALSE) {
 
   i <- 1
   j <- 1
@@ -22,7 +23,7 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
   if(Nsplit==1) stop("Nsplit must be larger than 1 for this function")
 
   select <- rep(1,Nsplit)
-  LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
+  LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
   Imp_DF <- c(select,LF_loop$Var[Nsplit])
 
   for (i in 1:(Nsplit-1)) {
@@ -30,7 +31,8 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
       select <- rep(1,Nsplit)
       select[i] <- j
       # print(paste0("select=",select))
-      LF_loop <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
+
+      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
       Imp_DF <- rbind(Imp_DF,c(select,LF_loop$Var[Nsplit]))
     }
   }
@@ -42,7 +44,7 @@ loop_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,max_select,lat.min
 
   select <- as.numeric(Imp_DF[1,1:Nsplit]) # the first row has the highest % variance explained
 
-  LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
+  LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
 
   cat("\n\n")
   cat("***************************************************************************************************************************************************************\n")

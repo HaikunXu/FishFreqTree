@@ -5,6 +5,7 @@
 #' @param LF The length frequency data frame input; must include columns lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
 #' @param lcol The first column in the data frame with length frequency info
+#' @param bins Names of all bins included in LF
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
 #' @param manual Whether to use user-specified splits; default = FALSE
@@ -16,11 +17,13 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,Nsplit,save_dir,manual=FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE, year=FALSE, include_dummy=FALSE) {
+run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE, year=FALSE, include_dummy=FALSE) {
 
 if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
 if(include_dummy==FALSE) LF$dummy <- FALSE
 if(manual==TRUE&(sum(select>1)>1)) print("Warning!!! You selection is hierarchical.")
+
+names(LF)[fcol:lcol] <- bins
 
 var_exp <- rep(NA,Nsplit) # variance explained
 folder_name <- paste0(gsub(", ","",toString(select)))
