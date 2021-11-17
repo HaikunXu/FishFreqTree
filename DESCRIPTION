@@ -1,5 +1,5 @@
 Package: RegressionTree
-Title: Automatic regression tree analysis for length freqeuncy data
+Title: IATTC's regression tree R package for length frequency data
 Version: 1.9
 Author: Cleridy Lennart-Cody and Haikun Xu (hkxu@iattc.org)
 Description: TBA
