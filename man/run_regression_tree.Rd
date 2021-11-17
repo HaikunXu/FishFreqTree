@@ -22,11 +22,11 @@ run_regression_tree(
 )
 }
 \arguments{
-\item{LF}{The length frequency data frame input; must include columns lat, lon, year, and quarter}
+\item{LF}{The length frequency data frame input; must include four columns: lat, lon, year, and quarter}
 
 \item{fcol}{The first column in the data frame with length frequency info}
 
-\item{lcol}{The first column in the data frame with length frequency info}
+\item{lcol}{The last column in the data frame with length frequency info}
 
 \item{bins}{Names of all bins included in LF}
 

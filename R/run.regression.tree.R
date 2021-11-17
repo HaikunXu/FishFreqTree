@@ -2,9 +2,9 @@
 #'
 #' \code{run_regression_tree} This function generates an area code for longline catch allocation
 #'
-#' @param LF The length frequency data frame input; must include columns lat, lon, year, and quarter
+#' @param LF The length frequency data frame input; must include four columns: lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
-#' @param lcol The first column in the data frame with length frequency info
+#' @param lcol The last column in the data frame with length frequency info
 #' @param bins Names of all bins included in LF
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
