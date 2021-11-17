@@ -38,6 +38,12 @@ run_regression_tree(
 
 \item{select}{User-specified splits; default = NA}
 
+\item{lat.min}{Minimal number of lat grids allowed for a cell, which could not be split beyond that}
+
+\item{lon.min}{Minimal number of lon grids allowed for a cell, which could not be split beyond that}
+
+\item{year.min}{Minimal number of years allowed for a cell, which could not be split beyond that}
+
 \item{quarter}{Whether to consider quarter as a splitting dimension; default = TRUE}
 
 \item{year}{Whether to consider year as a splitting dimension; default = FALSE}

@@ -10,6 +10,9 @@
 #' @param save_dir The directory where results will be saved
 #' @param manual Whether to use user-specified splits; default = FALSE
 #' @param select User-specified splits; default = NA
+#' @param lat.min Minimal number of lat grids allowed for a cell, which could not be split beyond that
+#' @param lon.min Minimal number of lon grids allowed for a cell, which could not be split beyond that
+#' @param year.min Minimal number of years allowed for a cell, which could not be split beyond that
 #' @param quarter Whether to consider quarter as a splitting dimension; default = TRUE
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
 #'
@@ -130,7 +133,7 @@ for (i in 1:Nsplit) {
 
     dev.off()
 
-    # Compare Improvement agaisnt year
+    # Compare Improvement against year
     if(year==TRUE) {
       png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
 
