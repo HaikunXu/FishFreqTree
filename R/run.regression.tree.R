@@ -98,7 +98,7 @@ for (i in 1:Nsplit) {
     for (j in 1:(i+1)) {
       LF_plot <- LF[which(Flag==j),]
       LF_mean <- apply(LF_plot,2,mean)
-      Length <- as.numeric(names(LF_mean)[fcol:lcol])
+      Length <- bins
       LF_mean <- LF_mean[fcol:lcol]
 
       if(j==1) {
@@ -115,7 +115,7 @@ for (i in 1:Nsplit) {
 
     dev.off()
 
-    # Compare Improvement agaisnt lat and lon
+    # Compare Improvement against lat and lon
     png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
     par(mfrow=c(1,2))
 
@@ -149,11 +149,12 @@ for (i in 1:Nsplit) {
 
   else {
     imp <- rep(NA,i)
-    # for loop for every possible split
+    # loop for every possible split
     for (ii in 1:i) {
       LF_raw <- LF[LF$dummy==FALSE,]
       j <- which(LF[[paste0("Flag",i-1)]] == ii)
       LF_data <- LF[j,]
+
       split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
       split$Cell <- ii
       if(ii==1) split_raw <- split
@@ -172,20 +173,23 @@ for (i in 1:Nsplit) {
 
     }
 
-    # the one with the most improvement
-    ii <- which(imp==max(imp))
-
     # j <- which(LF[[paste0("Flag",i-1)]] == ii)
     # LF_data <- LF[j,]
     # split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
 
     # save result as a csv.file
+
     split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
     write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
+    # the Cell with the most improvement
+    ii <- split_raw$Cell[select[i]]
+
     # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+
       LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)
-    # else
+
+      # else
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
     for (k in 1:(i+1)) {
@@ -245,7 +249,7 @@ for (i in 1:Nsplit) {
       for (j in 1:(i+1)) {
         LF_plot <- LF[which(Flag==j),]
         LF_mean <- apply(LF_plot,2,mean)
-        Length <- as.numeric(names(LF_mean)[fcol:lcol])
+        Length <- bins
         LF_mean <- LF_mean[fcol:lcol]
 
         if(j==1) {
@@ -289,7 +293,7 @@ for (i in 1:Nsplit) {
       }
       dev.off()
 
-      # Compare Improvement agaisnt year
+      # Compare Improvement against year
       if(year==TRUE) {
         png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
 

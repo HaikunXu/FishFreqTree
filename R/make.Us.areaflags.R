@@ -15,9 +15,9 @@ make.Us.areaflags.f <- function(lf.input,key,value,split_num,area_num)
   if(key=="Lon") Flag <- ifelse(lf.input$lon<=value,1,2)
   if(key=="Qrt") Flag <- ifelse(lf.input$quarter<=value,1,2)
   if(key=="CQrt") {
-    if(value==1) Flag <- ifelse((lf.input$quarter==1|lf.input$quarter==4),1,2)
-    if(value==2) Flag <- ifelse(lf.input$quarter==3,2,1)
-    if(value==3) Flag <- ifelse(lf.input$quarter==2,2,1)
+    if(value==1) Flag <- ifelse((lf.input$quarter==2|lf.input$quarter==3),1,2)
+    if(value==2) Flag <- ifelse(lf.input$quarter==3,1,2)
+    if(value==3) Flag <- ifelse(lf.input$quarter==2,1,2)
   }
   if(key=="Year") Flag <- ifelse(lf.input$year<=value,1,2)
 
@@ -27,6 +27,8 @@ make.Us.areaflags.f <- function(lf.input,key,value,split_num,area_num)
 
     Flag_new[which(Flag_new==area_num)] <- paste0(
       Flag_new[which(Flag_new==area_num)],Flag[which(Flag_new==area_num)])
+
+    # print(Flag_new)
 
     lf.input[[paste0("Flag",split_num)]] <- as.numeric(factor(Flag_new))
   }
