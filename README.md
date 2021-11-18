@@ -14,6 +14,8 @@
 
 -   How to install the package: library(devtools); devtools::install_github('HaikunXu/RegressionTree',ref='main')
 
+--------------------------------------------------------------------------------------------------------------------------------
+
 ## **Note:**
 
 ### Data Format
@@ -38,7 +40,7 @@ Users can combine the output figures with output tables to understand the best s
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-### **What's new?**
+## **What's new?**
 
 #### Version 2.1.1 (11/18/2021)
 
