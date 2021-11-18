@@ -1,6 +1,6 @@
 Package: RegressionTree
 Title: IATTC's regression tree R package for length frequency data
-Version: 2.0
+Version: 2.1
 Author: Cleridy Lennart-Cody and Haikun Xu (hkxu@iattc.org)
 Description: TBA
 License: Apache License (>= 2)

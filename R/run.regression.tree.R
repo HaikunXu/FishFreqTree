@@ -37,9 +37,6 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
   for (i in 1:Nsplit) {
 
-    png(paste0(save_dir,select_name,"split",i,"(map).png"),width = 1000,height = 1000)
-    par(mfrow=c(2,2))
-
     if(i==1) {
       # whole ALB area
       split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,year.min,quarter,year)
@@ -75,245 +72,294 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       ylim <- c(min(LF$lat),max(LF$lat))
       tlim <- c(min(LF$year),max(LF$year))
 
-      # plot the spatial distribution of cells
-      for (q in 1:4) {
-        for (j in 1:(i+1)) {
-          LF_plot <- LF[which(Flag==j&Quarter==q),]
-          if(j==1) {
-            plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                 xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                 main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
-          }
-          else {
-            points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
-          }
-        }
-      }
-
-      dev.off()
-
-      # Compare the LF among cells
-      png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+      # check whether are year splits; if yes, plot by year blocks
+      year_block <- data.frame(Cell = 1:(i+1), ymin = 0, ymax = 0, id = 0)
 
       for (j in 1:(i+1)) {
-        LF_plot <- LF[which(Flag==j),]
-        LF_mean <- apply(LF_plot,2,mean)
-        Length <- bins
-        LF_mean <- LF_mean[fcol:lcol]
-
-        if(j==1) {
-          plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,0.3),
-               main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
-          lines(x=Length,y=LF_mean)
-        }
-        else {
-          points(x=Length,y=LF_mean,pch=toString(j))
-          lines(x=Length,y=LF_mean)
-        }
+        LF_plot <- LF[which(LF$Flag1==j),]
+        year_block[j,2:3] <- c(min(LF_plot$year), max(LF_plot$year))
       }
 
-      dev.off()
+      year_block_id <- data.frame(block=sort(unique(year_block$ymin+year_block$ymax)),
+                                  id=rank(unique(year_block$ymin+year_block$ymax)))
 
-      # Compare Improvement against lat and lon
-      png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
-      par(mfrow=c(1,2))
+      for (j in 1:(i+1)) {
+        year_block$id[j] = year_block_id$id[which(year_block_id$block==(year_block$ymin[j]+year_block$ymax[j]))]
+      }
 
-      ymax <- max(split$Improve[which(split$Key=="Lat"|split$Key=="Lon")])
+      for (y in 1:length(unique(year_block$id))) {
+        # plot the spatial distribution of cells
+        yearmin <- mean(year_block$ymin[which(year_block$id==y)])
+        yearmax <- mean(year_block$ymax[which(year_block$id==y)])
 
-      split_plot <- split[which(split$Key=="Lat"),]
-      plot(x=split_plot$Value,y=split_plot$Improve,
-           xlim = ylim, ylim = c(0, ymax), xlab = "Lat", ylab = "Improvement",
-           main = paste0(" Split#",i))
+        png(paste0(save_dir,select_name,"split",i,"(map-",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        par(mfrow=c(2,2))
 
-      split_plot <- split[which(split$Key=="Lon"),]
-      plot(x=split_plot$Value,y=split_plot$Improve,
-           xlim = xlim, ylim = c(0, ymax), xlab = "Lon", ylab = "Improvement",
-           main = paste0(" Split#",i))
+        for (q in 1:4) {
+          for (j in which(year_block$id==y)) {
+            LF_plot <- LF[which(Flag==j&Quarter==q),]
+            if(j==min(which(year_block$id==y))) {
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                   main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+            }
+            else {
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+            }
+          }
+        }
 
-      dev.off()
+        dev.off()
+      }
 
-      # Compare Improvement against year
-      if(year==TRUE) {
-        png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+        # Compare the LF among cells
+        png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
 
-        split_plot <- split[which(split$Key=="Year"),]
+        for (j in 1:(i+1)) {
+          LF_plot <- LF[which(Flag==j),]
+          LF_mean <- apply(LF_plot,2,mean)
+          Length <- bins
+          LF_mean <- LF_mean[fcol:lcol]
+
+          if(j==1) {
+            plot(x=Length,y=LF_mean,pch=toString(j),
+                 ylim = c(0,0.3),
+                 main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
+            lines(x=Length,y=LF_mean)
+          }
+          else {
+            points(x=Length,y=LF_mean,pch=toString(j))
+            lines(x=Length,y=LF_mean)
+          }
+        }
+
+        dev.off()
+
+        # Compare Improvement against lat and lon
+        png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
+        par(mfrow=c(1,2))
+
+        ymax <- max(split$Improve[which(split$Key=="Lat"|split$Key=="Lon")])
+
+        split_plot <- split[which(split$Key=="Lat"),]
         plot(x=split_plot$Value,y=split_plot$Improve,
-             xlim = tlim, xlab = "Year", ylab = "Improvement",
+             xlim = ylim, ylim = c(0, ymax), xlab = "Lat", ylab = "Improvement",
+             main = paste0(" Split#",i))
+
+        split_plot <- split[which(split$Key=="Lon"),]
+        plot(x=split_plot$Value,y=split_plot$Improve,
+             xlim = xlim, ylim = c(0, ymax), xlab = "Lon", ylab = "Improvement",
              main = paste0(" Split#",i))
 
         dev.off()
+
+        # Compare Improvement against year
+        if(year==TRUE) {
+          png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+
+          split_plot <- split[which(split$Key=="Year"),]
+          plot(x=split_plot$Value,y=split_plot$Improve,
+               xlim = tlim, xlab = "Year", ylab = "Improvement",
+               main = paste0(" Split#",i))
+
+          dev.off()
+        }
+
       }
 
-    }
+      else {
+        imp <- rep(NA,i)
+        # loop for every possible split
+        for (ii in 1:i) {
+          LF_raw <- LF[LF$dummy==FALSE,]
+          j <- which(LF[[paste0("Flag",i-1)]] == ii)
+          LF_data <- LF[j,]
 
-    else {
-      imp <- rep(NA,i)
-      # loop for every possible split
-      for (ii in 1:i) {
-        LF_raw <- LF[LF$dummy==FALSE,]
-        j <- which(LF[[paste0("Flag",i-1)]] == ii)
-        LF_data <- LF[j,]
+          split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
+          split$Cell <- ii
+          if(ii==1) split_raw <- split
+          else split_raw <- rbind(split_raw,split)
 
-        split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
-        split$Cell <- ii
-        if(ii==1) split_raw <- split
-        else split_raw <- rbind(split_raw,split)
+          LF_raw <- make.Us.areaflags.f(LF_raw,
+                                        as.character(split$Key[1]),
+                                        as.numeric(split$Value[1]),i,ii)
 
-        LF_raw <- make.Us.areaflags.f(LF_raw,
-                                      as.character(split$Key[1]),
-                                      as.numeric(split$Value[1]),i,ii)
+          for (k in 1:(i+1)) {
+            if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]))
+            else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
+          }
+
+          imp[ii] <- (e0-e)/e0
+
+        }
+
+        # j <- which(LF[[paste0("Flag",i-1)]] == ii)
+        # LF_data <- LF[j,]
+        # split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
+
+        # save result as a csv.file
+
+        split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
+        write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+
+        # the Cell with the most improvement
+        ii <- split_raw$Cell[select[i]]
+
+        # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+
+        LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)
+
+        # else
+        # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
         for (k in 1:(i+1)) {
-          if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]))
-          else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
+          if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE,fcol:lcol]))
+          else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
         }
 
-        imp[ii] <- (e0-e)/e0
+        var_exp[i] <- (e0-e)/e0
 
-      }
-
-      # j <- which(LF[[paste0("Flag",i-1)]] == ii)
-      # LF_data <- LF[j,]
-      # split <- find_split(LF_data,fcol,lcol,lat.min,lon.min)
-
-      # save result as a csv.file
-
-      split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
-      write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
-
-      # the Cell with the most improvement
-      ii <- split_raw$Cell[select[i]]
-
-      # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
-
-      LF <- make.Us.areaflags.f(LF, as.character(split_raw$Key[select[i]]), as.numeric(split_raw$Value[select[i]]),i,ii)
-
-      # else
-      # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
-
-      for (k in 1:(i+1)) {
-        if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE,fcol:lcol]))
-        else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
-      }
-
-      var_exp[i] <- (e0-e)/e0
-
-      # print result to screen
-      if(select[i]==1) {
-        if(i==2)
-          print(paste0("Conditional best 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
-        if(i==3)
-          print(paste0("Conditional best 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
-        if(i>3)
-          print(paste0("Conditional best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
-      }
-      else {
-        if(i==2)
-          print(paste0("Manual 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-        if(i==3)
-          print(paste0("Manual 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-        if(i>3)
-          print(paste0("Manual ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-      }
-
-      cat(paste0((e0-e)/e0*100,"% variance explained\n\n"))
-
-      # plot result
-      Flag <- LF[[paste0("Flag",i)]]
-      Quarter <- LF$quarter
-
-      # png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
-      # par(mfrow=c(1,2))
-
-      # plot the spatial distribution of cells
-      for (q in 1:4) {
-        for (j in 1:(i+1)) {
-          LF_plot <- LF[which(Flag==j&Quarter==q),]
-          if(j==1) {
-            plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                 xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                 main = paste0("(Quarter ",q,")"," Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-          }
-          else {
-            points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
-          }
-        }
-      }
-
-      dev.off()
-
-      # Compare the LF among cells
-      png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
-
-      for (j in 1:(i+1)) {
-        LF_plot <- LF[which(Flag==j),]
-        LF_mean <- apply(LF_plot,2,mean)
-        Length <- bins
-        LF_mean <- LF_mean[fcol:lcol]
-
-        if(j==1) {
-          plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,0.3),
-               main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
-          lines(x=Length,y=LF_mean)
+        # print result to screen
+        if(select[i]==1) {
+          if(i==2)
+            print(paste0("Conditional best 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+          if(i==3)
+            print(paste0("Conditional best 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
+          if(i>3)
+            print(paste0("Conditional best ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[1,2],"<=",split_raw[1,3]))
         }
         else {
-          points(x=Length,y=LF_mean,pch=toString(j))
-          lines(x=Length,y=LF_mean)
+          if(i==2)
+            print(paste0("Manual 2nd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+          if(i==3)
+            print(paste0("Manual 3rd split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+          if(i>3)
+            print(paste0("Manual ",i,"th"," split is for cell ",ii," in split",i-1,".png: ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
         }
-      }
 
-      dev.off()
+        cat(paste0((e0-e)/e0*100,"% variance explained\n\n"))
 
-      # Compare Improvement agaisnt lat and lon
-      png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
-      par(mfrow=c(1,2))
+        # plot result
+        Flag <- LF[[paste0("Flag",i)]]
+        Quarter <- LF$quarter
 
-      ymax <- max(split_raw$Improve[which(split_raw$Key=="Lat"|split_raw$Key=="Lon")])
+        # png(paste0(save_dir,select_name,"split",i,".png"),width = 1000,height = 500)
+        # par(mfrow=c(1,2))
 
-      for (j in 1:i) {
+        # plot the spatial distribution of cells
 
-        split_plot <- split_raw[which(split_raw$Key=="Lat"&split_raw$Cell==j),]
-        if(j==1) {
-          plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-               xlim = ylim, ylim = c(0,ymax), xlab = "Lat", ylab = "Improvement",
-               main = paste0(" Split#",i))
+        # check whether are year splits; if yes, plot by year blocks
+        year_block <- data.frame(Cell = 1:(i+1), ymin = 0, ymax = 0, id = 0)
+
+        for (j in 1:(i+1)) {
+          LF_plot <- LF[which(LF[[paste0("Flag",i)]]==j),]
+          year_block[j,2:3] <- c(min(LF_plot$year), max(LF_plot$year))
         }
-        else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
-      }
-      for (j in 1:i) {
-        split_plot <- split_raw[which(split_raw$Key=="Lon"&split_raw$Cell==j),]
-        if(j==1) {
-          plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-               xlim = xlim, ylim = c(0,ymax), xlab = "Lon", ylab = "Improvement",
-               main = paste0(" Split#",i))
+
+        year_block_id <- data.frame(block=sort(unique(year_block$ymin+year_block$ymax)),
+                                    id=rank(unique(year_block$ymin+year_block$ymax)))
+
+        for (j in 1:(i+1)) {
+          year_block$id[j] = year_block_id$id[which(year_block_id$block==(year_block$ymin[j]+year_block$ymax[j]))]
         }
-        else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
-      }
-      dev.off()
 
-      # Compare Improvement against year
-      if(year==TRUE) {
-        png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+        for (y in 1:length(unique(year_block$id))) {
 
-        for (j in 1:i) {
+          # plot the spatial distribution of cells
+          yearmin <- mean(year_block$ymin[which(year_block$id==y)])
+          yearmax <- mean(year_block$ymax[which(year_block$id==y)])
 
-          split_plot <- split_raw[which(split_raw$Key=="Year"&split_raw$Cell==j),]
-          if(j==1) {
-            plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-                 xlim = tlim, xlab = "Year", ylab = "Improvement",
-                 main = paste0(" Split#",i))
+          png(paste0(save_dir,select_name,"split",i,"(map-",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+          par(mfrow=c(2,2))
+
+          for (q in 1:4) {
+            for (j in which(year_block$id==y)) {
+              LF_plot <- LF[which(Flag==j&Quarter==q),]
+              if(j==min(which(year_block$id==y))) {
+                plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                     xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                     main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+              }
+              else {
+                points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              }
+            }
           }
-          else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+
+          dev.off()
         }
 
-        dev.off()
+          # Compare the LF among cells
+          png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+
+          for (j in 1:(i+1)) {
+            LF_plot <- LF[which(Flag==j),]
+            LF_mean <- apply(LF_plot,2,mean)
+            Length <- bins
+            LF_mean <- LF_mean[fcol:lcol]
+
+            if(j==1) {
+              plot(x=Length,y=LF_mean,pch=toString(j),
+                   ylim = c(0,0.3),
+                   main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
+              lines(x=Length,y=LF_mean)
+            }
+            else {
+              points(x=Length,y=LF_mean,pch=toString(j))
+              lines(x=Length,y=LF_mean)
+            }
+          }
+
+          dev.off()
+
+          # Compare Improvement agaisnt lat and lon
+          png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
+          par(mfrow=c(1,2))
+
+          ymax <- max(split_raw$Improve[which(split_raw$Key=="Lat"|split_raw$Key=="Lon")])
+
+          for (j in 1:i) {
+
+            split_plot <- split_raw[which(split_raw$Key=="Lat"&split_raw$Cell==j),]
+            if(j==1) {
+              plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+                   xlim = ylim, ylim = c(0,ymax), xlab = "Lat", ylab = "Improvement",
+                   main = paste0(" Split#",i))
+            }
+            else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+          }
+          for (j in 1:i) {
+            split_plot <- split_raw[which(split_raw$Key=="Lon"&split_raw$Cell==j),]
+            if(j==1) {
+              plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+                   xlim = xlim, ylim = c(0,ymax), xlab = "Lon", ylab = "Improvement",
+                   main = paste0(" Split#",i))
+            }
+            else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+          }
+          dev.off()
+
+          # Compare Improvement against year
+          if(year==TRUE) {
+            png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+
+            for (j in 1:i) {
+
+              split_plot <- split_raw[which(split_raw$Key=="Year"&split_raw$Cell==j),]
+              if(j==1) {
+                plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
+                     xlim = tlim, xlab = "Year", ylab = "Improvement",
+                     main = paste0(" Split#",i))
+              }
+              else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+            }
+
+            dev.off()
+
+          }
+        }
 
       }
+
+      return(list("LF"=LF,"Var"=var_exp))
     }
-
-  }
-
-  return(list("LF"=LF,"Var"=var_exp))
-}
