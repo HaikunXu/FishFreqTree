@@ -26,8 +26,14 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   if(include_dummy==FALSE) LF$dummy <- FALSE
   if(manual==TRUE&(sum(select>1)>1)) print("Warning!!! You selection is hierarchical.")
 
-  if((lcol-fcol+1)!= length(bins)) print("Warning!!! The number of bins does not match the number of LF columns specified")
+  # make sure bins are consistent with LF input
+  if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LF)[fcol:lcol] <- bins
+
+  # make sure LF sums to 1 for each row
+  # row_sum <- apply(LF[,fcol:lcol],1,sum)
+  # print(row_sum)
+  # if(sum(row_sum>1)>0) stop("Error! LF does not sum to 1 for at least one row.")
 
   var_exp <- rep(NA,Nsplit) # variance explained
   folder_name <- paste0(gsub(", ","",toString(select)))
@@ -92,7 +98,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         yearmin <- mean(year_block$ymin[which(year_block$id==y)])
         yearmax <- mean(year_block$ymax[which(year_block$id==y)])
 
-        png(paste0(save_dir,select_name,"split",i,"(map-",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        png(paste0(save_dir,select_name,"split",i,"(map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
         par(mfrow=c(2,2))
 
         for (q in 1:4) {
@@ -123,7 +129,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
           if(j==1) {
             plot(x=Length,y=LF_mean,pch=toString(j),
-                 ylim = c(0,0.3),
+                 ylim = c(0,max(LF_mean)),
                  main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
             lines(x=Length,y=LF_mean)
           }
@@ -168,7 +174,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       }
 
       else {
-        imp <- rep(NA,i)
+        # imp <- rep(NA,i)
         # loop for every possible split
         for (ii in 1:i) {
           LF_raw <- LF[LF$dummy==FALSE,]
@@ -189,7 +195,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
             else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
           }
 
-          imp[ii] <- (e0-e)/e0
+          # imp[ii] <- (e0-e)/e0
 
         }
 
@@ -269,7 +275,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           yearmin <- mean(year_block$ymin[which(year_block$id==y)])
           yearmax <- mean(year_block$ymax[which(year_block$id==y)])
 
-          png(paste0(save_dir,select_name,"split",i,"(map-",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+          png(paste0(save_dir,select_name,"split",i,"(map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
           par(mfrow=c(2,2))
 
           for (q in 1:4) {
@@ -300,7 +306,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
             if(j==1) {
               plot(x=Length,y=LF_mean,pch=toString(j),
-                   ylim = c(0,0.3),
+                   ylim = c(0,max(LF_mean)),
                    main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
               lines(x=Length,y=LF_mean)
             }
