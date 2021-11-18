@@ -35,3 +35,15 @@ loop_regression_tree (type ?loop_regression_tree for more info): loop the regres
 For the nth best split, the code first loops over all existing n cells that are defined by the previous n-1 splits, to find the best split (the one that leads to the maximum variance explained) for every cell. Then those best cell-specific splits are compared to find the split that results in the maximum variance explained. This split is the nth best split. This process is iterated until reaching the maximum number of splits specified by the user.
 
 Users can combine the output figures with output tables to understand the best splits in order. Also, the advanced feature (see the example code for more details) in the package allows users to manually specify some or all splits.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+### **What's new?**
+
+#### Version 2.1.1 (11/18/2021)
+
+-   Fix a critical bug for cyclic quarters
+
+-   Allows for multiple map plots by year block if at least one split selected is by year
+
+-   Fix the y scale in the LF plot so that ymax is data-dependent
