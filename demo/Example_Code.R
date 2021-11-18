@@ -21,9 +21,13 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
 head(LF_Tree$LF)
 # The last few columns with names Flag are the cell numbers under each split
 
-# # add a dummy data at lat=-20, lon=60
-# LF$dummy <- FALSE
-# LF2 <- rbind(LF,c(31,1,-20,60,rep(0,13),TRUE))
+# add a dummy data at lat=-20, lon=60
+LF$dummy <- FALSE
+LF2 <- rbind(LF,c(1,1,-20,60,rep(0,13),TRUE))
+LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,include_dummy = TRUE)
+
+
+
 
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 

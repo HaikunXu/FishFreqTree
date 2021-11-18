@@ -53,7 +53,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
-      # else
+
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
       e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
@@ -95,7 +95,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         year_block$id[j] = year_block_id$id[which(year_block_id$block==(year_block$ymin[j]+year_block$ymax[j]))]
       }
 
-      if(split[1,2]=="Year") plot_year <- TRUE
+      if(split[select[i],2]=="Year") plot_year <- TRUE
       else year_block$id <- 1
 
       for (y in 1:length(unique(year_block$id))) {
@@ -183,8 +183,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       # loop for every possible split
       for (ii in 1:i) {
         LF_raw <- LF[LF$dummy==FALSE,]
-        j <- which(LF[[paste0("Flag",i-1)]] == ii)
-        LF_data <- LF[j,]
+        j <- which(LF_raw[[paste0("Flag",i-1)]] == ii)
+        LF_data <- LF_raw[j,]
 
         split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
         split$Cell <- ii
@@ -326,7 +326,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       dev.off()
 
-      # Compare Improvement agaisnt lat and lon
+      # Compare Improvement against lat and lon
       png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
       par(mfrow=c(1,2))
 

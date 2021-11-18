@@ -1,4 +1,4 @@
-# The IATTC regression tree package for length frequency data
+# The IATTC regression tree R package for length frequency data
 
 -   This is the GitHub repository for [IATTC](https://www.iattc.org/HomeENG.htm)'s regression tree algorithm on length frequency data.
 
@@ -14,7 +14,7 @@
 
 -   How to install the package: library(devtools); devtools::install_github('HaikunXu/RegressionTree',ref='main')
 
---------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ## **Note:**
 
@@ -28,9 +28,9 @@ This package finds the best multi-cell combination for a length frequency data b
 
 ### Main functions
 
-run_regression_tree (type ?run_regression_tree for more info): run the regression tree
+run_regression_tree (type ?run_regression_tree on the console for more info): run the regression tree
 
-loop_regression_tree (type ?loop_regression_tree for more info): loop the regression tree
+loop_regression_tree (type ?loop_regression_tree on the console for more info): loop the regression tree
 
 ### Code description
 
@@ -38,7 +38,7 @@ For the nth best split, the code first loops over all existing n cells that are 
 
 Users can combine the output figures with output tables to understand the best splits in order. Also, the advanced feature (see the example code for more details) in the package allows users to manually specify some or all splits.
 
---------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ## **What's new?**
 
