@@ -41,6 +41,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
 
   Imp_DF <- data.frame(Imp_DF)
   names(Imp_DF) <- c(paste0("select",1:Nsplit),"Var")
+  row.names(Imp_DF) <- 1:nrow(Imp_DF)
 
   Imp_DF <- Imp_DF[order(Imp_DF$Var,decreasing = TRUE),]
 
