@@ -45,6 +45,7 @@ Users can combine the output figures with output tables to understand the best s
 #### Version 2.1.2 (11/19/2021)
 
 -   Improve function output for run_regression_tree by adding a record data frame as both csv and function output to show all splits in order
+-   Add annual map plots
 
 #### Version 2.1.1 (11/18/2021)
 

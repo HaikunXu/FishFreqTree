@@ -107,7 +107,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         yearmin <- min(year_block$ymin[which(year_block$id==y)])
         yearmax <- max(year_block$ymax[which(year_block$id==y)])
 
-        png(paste0(save_dir,select_name,"split",i,"(map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        # quarterly maps
+        if(quarter==TRUE) {
+        png(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
         par(mfrow=c(2,2))
 
         for (q in 1:4) {
@@ -123,6 +125,24 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
             }
           }
         }
+
+        dev.off()
+        }
+
+        # annual maps
+        png(paste0(save_dir,select_name,"split",i,"(annual maps for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
+
+          for (j in which(year_block$id==y)) {
+            LF_plot <- LF[which(Flag==j),]
+            if(j==min(which(year_block$id==y))) {
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                   main = paste0("Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+            }
+            else {
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+            }
+          }
 
         dev.off()
       }
@@ -289,7 +309,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         yearmin <- min(year_block$ymin[which(year_block$id==y)])
         yearmax <- max(year_block$ymax[which(year_block$id==y)])
 
-        png(paste0(save_dir,select_name,"split",i,"(map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        # quarter maps
+        if(quarter==TRUE) {
+        png(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
         par(mfrow=c(2,2))
 
         for (q in 1:4) {
@@ -307,6 +329,23 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         }
 
         dev.off()
+        }
+
+        # annual maps
+        png(paste0(save_dir,select_name,"split",i,"(annual map for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
+
+        for (j in which(year_block$id==y)) {
+            LF_plot <- LF[which(Flag==j),]
+            if(j==min(which(year_block$id==y))) {
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                   main = paste0("Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+            }
+            else {
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+            }
+      }
+      dev.off()
       }
 
       # Compare the LF among cells
