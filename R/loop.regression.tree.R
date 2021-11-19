@@ -10,12 +10,14 @@
 #' @param save_dir The directory where results will be saved
 #' @param max_select User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
 #' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
+#' @param year Whether to consider year as a splitting dimension; default = FALSE
+#' @param include_dummy Whether to include dummy data; default = FALSE
 #'
 #' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
 #' @export
 
-loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,quarter=TRUE,include_dummy=FALSE) {
+loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE) {
 
   i <- 1
   j <- 1
@@ -23,7 +25,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
   if(Nsplit==1) stop("Nsplit must be larger than 1 for this function")
 
   select <- rep(1,Nsplit)
-  LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
+  LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select,lat.min=lat.min,lon.min=lon.min,year.min=year.min, quarter=quarter, year=year, include_dummy=include_dummy)
   Imp_DF <- c(select,LF_loop$Var[Nsplit])
 
   for (i in 1:(Nsplit-1)) {

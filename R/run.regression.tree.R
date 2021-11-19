@@ -15,12 +15,13 @@
 #' @param year.min Minimal number of years allowed for a cell, which could not be split beyond that
 #' @param quarter Whether to consider quarter as a splitting dimension; default = TRUE
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
+#' @param include_dummy Whether to include dummy data; default = FALSE
 #'
 #' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE, year=FALSE, include_dummy=FALSE) {
+run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE) {
 
   if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
   if(include_dummy==FALSE) LF$dummy <- FALSE

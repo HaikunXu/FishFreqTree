@@ -47,6 +47,8 @@ run_regression_tree(
 \item{quarter}{Whether to consider quarter as a splitting dimension; default = TRUE}
 
 \item{year}{Whether to consider year as a splitting dimension; default = FALSE}
+
+\item{include_dummy}{Whether to include dummy data; default = FALSE}
 }
 \value{
 return the input LF with cell number and the percentage of total LF variance explained by each split

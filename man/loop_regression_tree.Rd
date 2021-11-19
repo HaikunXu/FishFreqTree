@@ -14,7 +14,9 @@ loop_regression_tree(
   max_select,
   lat.min = 1,
   lon.min = 1,
+  year.min = 1,
   quarter = TRUE,
+  year = FALSE,
   include_dummy = FALSE
 )
 }
@@ -34,6 +36,10 @@ loop_regression_tree(
 \item{max_select}{User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split}
 
 \item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
+
+\item{year}{Whether to consider year as a splitting dimension; default = FALSE}
+
+\item{include_dummy}{Whether to include dummy data; default = FALSE}
 }
 \value{
 return the input LF with cell number and the percentage of total LF variance explained by each split
