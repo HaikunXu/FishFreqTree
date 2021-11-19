@@ -49,3 +49,7 @@ Users can combine the output figures with output tables to understand the best s
 -   Allows for multiple map plots by year block if at least one split selected is by year
 
 -   Fix the y scale in the LF plot so that ymax is data-dependent
+
+#### Version 2.1.2 (11/19/2021)
+
+-   Improve function output for run_regression_tree by adding a record data frame as both csv and function output to show all splits in order

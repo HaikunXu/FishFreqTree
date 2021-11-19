@@ -36,7 +36,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   # print(row_sum)
   # if(sum(row_sum>1)>0) stop("Error! LF does not sum to 1 for at least one row.")
 
-  var_exp <- rep(NA,Nsplit) # variance explained
+  Record <- data.frame(Improvement=rep(NA,Nsplit),Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
+  row.names(Record) <- paste0("Split",1:Nsplit)
   folder_name <- paste0(gsub(", ","",toString(select)))
   select_name <- paste0(gsub(", ","",toString(select)),"/")
   unlink(paste0(save_dir,folder_name), recursive = TRUE)
@@ -61,7 +62,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]))
       e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]))
 
-      var_exp[1] <- (e0-e1-e2)/e0
+      Record[1,4] <- (e0-e1-e2)/e0
+      Record[1,c(1,3)] <- split[select[i],c(1,3)]
+      Record[1,2] <- as.character(split[select[i],2])
 
       # print to the screen
       cat("\n\n")
@@ -229,7 +232,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
       }
 
-      var_exp[i] <- (e0-e)/e0
+      Record[i,4] <- (e0-e)/e0
+      Record[i,c(1,3)] <- split_raw[select[i],c(1,3)]
+      Record[i,2] <- as.character(split_raw[select[i],2])
 
       # print result to screen
       if(select[i]==1) {
@@ -376,5 +381,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
   }
 
-  return(list("LF"=LF,"Var"=var_exp))
+  # save the split results
+  if(sum(Record$Key=="CQrt")) Record <- rename_CQrt(Record)
+  write.csv(Record,file=paste0(save_dir,select_name,"Record.csv"))
+
+  return(list("LF"=LF, "Record"=Record))
 }
