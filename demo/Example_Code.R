@@ -30,8 +30,6 @@ LF2 <- rbind(LF,c(1,1,-20,60,rep(0,13),TRUE))
 LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,include_dummy = TRUE)
 
 
-
-
 LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir)
 
 # run the regression tree again with the second best 2th split

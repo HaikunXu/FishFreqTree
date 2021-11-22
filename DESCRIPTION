@@ -1,6 +1,6 @@
 Package: RegressionTree
-Title: IATTC's regression tree R package for length frequency data
-Version: 2.1.2
+Title: IATTC's regression tree R package for fisheries' length (or age) frequency data
+Version: 2.1.3
 Author: Haikun Xu (hkxu@iattc.org) and Cleridy Lennart-Cody
 Description: TBA
 License: Apache License (>= 2)
