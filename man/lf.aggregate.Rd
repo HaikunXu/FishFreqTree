@@ -4,7 +4,7 @@
 \alias{lf.aggregate}
 \title{Aggregate length counts data}
 \usage{
-lf.aggregate(LC, fcol, lcol, bins, new_bins)
+lf.aggregate(LC, fcol, lcol, bins, new_bins, LengthOnly = FALSE)
 }
 \arguments{
 \item{LC}{The length frequency data frame input; must include four columns: lat, lon, year, and quarter}
@@ -16,6 +16,8 @@ lf.aggregate(LC, fcol, lcol, bins, new_bins)
 \item{bins}{Names of all bins included in LF}
 
 \item{new_bins}{Names of all bins included in LF}
+
+\item{LengthOnly}{Whether aggregate data by new length bins only}
 }
 \description{
 \code{lf.aggregate} aggregates counts data by year, quarter, lat, lon, and user-sepcified length bins

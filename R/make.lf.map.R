@@ -27,7 +27,7 @@ make.lf.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_forma
   # Reverse the lat grid so that negative lat are below positive lat
   LF_long$lat <- factor(LF_long$lat, levels = rev(levels(factor(LF_long$lat))))
 
-  LF_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon, length),lf_mean=median(lf))
+  LF_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon, length),lf_mean=mean(lf))
 
   lf.map <- ggplot2::ggplot(data=LF_mean) +
     ggplot2::geom_linerange(ggplot2::aes(x=length,ymax=lf_mean,ymin=0),size=lwd) +
