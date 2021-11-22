@@ -1,4 +1,4 @@
-#' Run the regression tree analysis with specified number of splits
+#' Find the best split
 #'
 #' \code{find_split} This function finds the best split based on the improvement
 #'

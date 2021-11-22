@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_split.R
 \name{find_split}
 \alias{find_split}
-\title{Run the regression tree analysis with specified number of splits}
+\title{Find the best split}
 \usage{
 find_split(
   lf_prop,

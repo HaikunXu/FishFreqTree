@@ -46,6 +46,7 @@ Users can combine the output figures with output tables to understand the best s
 
 -   Improve function output for run_regression_tree by adding a record data frame as both csv and function output to show all splits in order
 -   Add annual map plots
+-   Add make.lf.plot for plotting LF input as a lat-lon map
 
 #### Version 2.1.1 (11/18/2021)
 

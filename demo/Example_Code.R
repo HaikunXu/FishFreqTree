@@ -14,6 +14,9 @@ bins <- seq(30,150,10)
 Nsplit <- 3 # the number of splits (the number of cells - 1)
 save_dir <- "demo/"
 
+# plot lf data as maps
+make.lf.map(LF,fcol,lcol,bins,save_dir)
+
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
 LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
