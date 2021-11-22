@@ -3,6 +3,7 @@
 export(find_split)
 export(get.klderror.null)
 export(imp.kld.FINAL.R)
+export(lf.aggregate)
 export(loop_regression_tree)
 export(make.Us.areaflags.f)
 export(make.lf.map)

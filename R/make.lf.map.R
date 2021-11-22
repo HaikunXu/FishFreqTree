@@ -23,6 +23,8 @@ make.lf.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_forma
   LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins))]
   LF_long <- data.frame(tidyr::gather(LF,fcol:lcol,key = "length",value = "lf"))
   LF_long$length <- as.numeric(LF_long$length)
+
+  # Reverse the lat grid so that negative lat are below positive lat
   LF_long$lat <- factor(LF_long$lat, levels = rev(levels(factor(LF_long$lat))))
 
   LF_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon, length),lf_mean=median(lf))
