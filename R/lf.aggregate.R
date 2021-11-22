@@ -31,10 +31,10 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE) {
     LC_total <- dplyr::summarise(dplyr::group_by(LC_long, year, lat, lon, quarter, Length), total_n=sum(number))
 
     # aggregate counts to lf
-    LF <- dplyr::mutate(dplyr::group_by(LC_total, year, lat, lon, quarter), LF=total_n/sum(total_n))
+    LF <- dplyr::mutate(dplyr::group_by(LC_total, year, lat, lon, quarter), lf=total_n/sum(total_n))
 
     # spread the lf
-    LF_aggregate <- tidyr::spread(dplyr::select(LF,year,quarter,lat,lon,Length,LF),Length,LF,fill = 0)
+    LF_aggregate <- tidyr::spread(dplyr::select(LF,year,quarter,lat,lon,Length,lf),Length,lf,fill = 0)
   }
   else { # aggregate by length
 
@@ -52,10 +52,10 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE) {
     LC_total <- dplyr::summarise(dplyr::group_by(LC_long, ID, year, quarter, lat, lon, Length), total_n=sum(number))
 
     # aggregate counts to lf
-    LF <- dplyr::mutate(dplyr::group_by(LC_total, ID), LF=total_n/sum(total_n))
+    LF <- dplyr::mutate(dplyr::group_by(LC_total, ID), lf=total_n/sum(total_n))
 
     # spread the lf
-    LF_aggregate <- tidyr::spread(dplyr::select(LF,year,quarter,lat,lon,Length,LF),Length,LF,fill = 0)
+    LF_aggregate <- tidyr::spread(dplyr::select(LF,year,quarter,lat,lon,Length,lf),Length,lf,fill = 0)
 
   }
   return(LF_aggregate)
