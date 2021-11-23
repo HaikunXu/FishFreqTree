@@ -1,5 +1,5 @@
 # devtools::install_github('HaikunXu/RegressionTree',ref='main')
-library(RegressionTree)
+library(FishFreqTree)
 
 load(file="demo/LF.RData")
 
@@ -16,6 +16,8 @@ save_dir <- "demo/"
 
 # plot lf data as maps
 # make.lf.map(LF,fcol,lcol,bins,save_dir)
+# plot mean length as maps
+make.meanl.map(LF,fcol,lcol,bins,save_dir)
 
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
@@ -26,7 +28,8 @@ head(LF_Tree$LF)
 
 # add a dummy data at lat=-20, lon=60
 LF$dummy <- FALSE
-LF2 <- rbind(LF,c(1,1,-20,60,rep(0,13),TRUE))
+
+
 LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,include_dummy = TRUE)
 
 
