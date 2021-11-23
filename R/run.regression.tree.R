@@ -69,7 +69,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # print to the screen
       cat("\n\n")
-      cat("***Note***: below shows the best splits in order, please check the save figures under the directory save_dir to better understand the meaning of each split\n\n")
+      cat("***Note***: below shows the best splits in order, please check the saved figures under the directory save_dir to better understand the meaning of each split\n\n")
       cat(paste0("******  Results are saved in folder ",save_dir,select_name,"  ******\n\n"))
 
       if(select[i]==1)
