@@ -36,7 +36,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   # print(row_sum)
   # if(sum(row_sum>1)>0) stop("Error! LF does not sum to 1 for at least one row.")
 
-  Record <- data.frame(Improvement=rep(NA,Nsplit),Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Cell=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
+  Record <- data.frame(Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Cell=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
   row.names(Record) <- paste0("Split",1:Nsplit)
   folder_name <- paste0(gsub(", ","",toString(select)))
   select_name <- paste0(gsub(", ","",toString(select)),"/")
@@ -62,9 +62,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]))
       e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]))
 
-      Record[1,5] <- (e0-e1-e2)/e0
-      Record[1,c(1,3)] <- split[select[i],c(1,3)]
-      Record[1,2] <- as.character(split[select[i],2])
+      Record[1,4] <- (e0-e1-e2)/e0
+      Record[1,2] <- split[select[i],3]
+      Record[1,1] <- as.character(split[select[i],2])
       # Record[1,4] <- as.character(split[select[i],2])
 
       # print to the screen
@@ -213,20 +213,23 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
         split$Cell <- ii
-        if(ii==1) split_raw <- split
-        else split_raw <- rbind(split_raw,split)
+        split$Var <- rep(NA,nrow(split))
 
-        LF_raw <- make.Us.areaflags.f(LF_raw,
-                                      as.character(split$Key[1]),
-                                      as.numeric(split$Value[1]),i,ii)
+        for (sp in 1:nrow(split)) {
+          LF_raw <- make.Us.areaflags.f(LF_raw,
+                                      as.character(split$Key[sp]),
+                                      as.numeric(split$Value[sp]),i,ii)
 
-        for (k in 1:(i+1)) {
-          if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]))
-          else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
+          for (k in 1:(i+1)) {
+            if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]))
+            else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
+          }
+
+          split$Var[sp] <- (e0-e)/e0
         }
 
-        # imp[ii] <- (e0-e)/e0
-
+        if(ii==1) split_raw <- split
+        else split_raw <- rbind(split_raw,split)
       }
 
       # j <- which(LF[[paste0("Flag",i-1)]] == ii)
@@ -235,7 +238,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # save result as a csv.file
 
-      split_raw <- split_raw[order(split_raw$Improve,decreasing = TRUE),]
+      split_raw <- split_raw[order(split_raw$Var,decreasing = TRUE),]
       write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
       # the Cell with the most improvement
@@ -253,10 +256,10 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
       }
 
-      Record[i,5] <- (e0-e)/e0
-      Record[i,c(1,3)] <- split_raw[select[i],c(1,3)]
-      Record[i,2] <- as.character(split_raw[select[i],2])
-      Record[i,4] <- ii
+      Record[i,4] <- (e0-e)/e0
+      Record[i,2] <- split_raw[select[i],3]
+      Record[i,1] <- as.character(split_raw[select[i],2])
+      Record[i,3] <- ii
 
       # print result to screen
       if(select[i]==1) {

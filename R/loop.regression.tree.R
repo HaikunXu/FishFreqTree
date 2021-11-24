@@ -26,7 +26,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
 
   select <- rep(1,Nsplit)
   LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select,lat.min=lat.min,lon.min=lon.min,year.min=year.min, quarter=quarter, year=year, include_dummy=include_dummy)
-  Imp_DF <- c(select,LF_loop$Var[Nsplit])
+  Imp_DF <- c(select,LF_loop$Record$Var_explained[Nsplit])
 
   for (i in 1:(Nsplit-1)) {
     for (j in 2:max_select) {
@@ -35,7 +35,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
       # print(paste0("select=",select))
 
       LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
-      Imp_DF <- rbind(Imp_DF,c(select,LF_loop$Var[Nsplit]))
+      Imp_DF <- rbind(Imp_DF,c(select,LF_loop$Record$Var_explained[Nsplit]))
     }
   }
 
