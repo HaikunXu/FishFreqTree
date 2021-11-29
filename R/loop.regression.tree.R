@@ -40,10 +40,10 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
   }
 
   Imp_DF <- data.frame(Imp_DF)
-  names(Imp_DF) <- c(paste0("select",1:Nsplit),"Var")
+  names(Imp_DF) <- c(paste0("select",1:Nsplit),"Var_explained")
   row.names(Imp_DF) <- 1:nrow(Imp_DF)
 
-  Imp_DF <- Imp_DF[order(Imp_DF$Var,decreasing = TRUE),]
+  Imp_DF_sorted <- Imp_DF[order(Imp_DF$Var,decreasing = TRUE),]
 
   select <- as.numeric(Imp_DF[1,1:Nsplit]) # the first row has the highest % variance explained
 
@@ -51,10 +51,15 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
 
   cat("\n\n")
   cat("***************************************************************************************************************************************************************\n")
-  cat("Below shows the loop results (table saved in loop.csv)\n\n")
+  cat("Below shows the loop summary results (table saved in loop.csv)\n\n")
 
+  cat("Unsorted:\n")
   print(Imp_DF, row.names = FALSE)
-  write.csv(Imp_DF,file=paste0(save_dir,"loop.csv"),row.names = FALSE)
+
+  cat("\nSorted:\n")
+  print(Imp_DF_sorted, row.names = FALSE)
+
+  write.csv(Imp_DF_sorted,file=paste0(save_dir,"loop.csv"),row.names = FALSE)
 
   return(list("LF_Tree"=LF_Tree,"Imp_DF"=Imp_DF))
 }
