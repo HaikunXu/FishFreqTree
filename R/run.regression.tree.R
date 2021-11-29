@@ -32,9 +32,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   else names(LF)[fcol:lcol] <- bins
 
   # make sure LF sums to 1 for each row
-  # row_sum <- apply(LF[,fcol:lcol],1,sum)
+  row_sum <- apply(LF[,fcol:lcol],1,sum)
   # print(row_sum)
-  # if(sum(row_sum>1)>0) stop("Error! LF does not sum to 1 for at least one row.")
+  if(sum(abs(row_sum-1)>0.1)>0) stop("Error! LF does not sum to 1 for at least one row.")
 
   Record <- data.frame(Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Cell=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
   row.names(Record) <- paste0("Split",1:Nsplit)
@@ -48,17 +48,32 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   for (i in 1:Nsplit) {
 
     if(i==1) {
-      # whole ALB area
+      # whole area
       split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,year.min,quarter,year)
+      split$Var_explained <- 0
+
+      e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
+
+      for (sp in 1:nrow(split)) {
+        LF_raw <- make.Us.areaflags.f(LF[LF$dummy==FALSE,],
+                                      as.character(split$Key[sp]),
+                                      as.numeric(split$Value[sp]),i,ii)
+
+        e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol])) + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]))
+
+        split$Var_explained[sp] <- (e0-e)/e0
+      }
+
+      split <- rename_CQrt(split)
       # save result as a csv.file
-      write.csv(rename_CQrt(split),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      write.csv(split[,2:4],file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      write.csv(split[,c(2,3,1)],file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
 
       # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
 
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
-      e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
       e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]))
       e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]))
 
@@ -159,7 +174,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*1.25),
+               ylim = c(0,max(LF_mean)*1.5),
                main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
           lines(x=Length,y=LF_mean)
         }
@@ -213,7 +228,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
         split$Cell <- ii
-        split$Var <- rep(NA,nrow(split))
+        split$Var_explained <- rep(NA,nrow(split))
 
         for (sp in 1:nrow(split)) {
           LF_raw <- make.Us.areaflags.f(LF_raw,
@@ -225,7 +240,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
             else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
           }
 
-          split$Var[sp] <- (e0-e)/e0
+          split$Var_explained[sp] <- (e0-e)/e0
         }
 
         if(ii==1) split_raw <- split
@@ -238,8 +253,10 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # save result as a csv.file
 
+      write.csv(rename_CQrt(split_raw[,c(4,2,3,1)]),file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
+
       split_raw <- split_raw[order(split_raw$Var,decreasing = TRUE),]
-      write.csv(rename_CQrt(split_raw),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      write.csv(rename_CQrt(split_raw[,c(4,2,3,5)]),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
       # the Cell with the most improvement
       ii <- split_raw$Cell[select[i]]
@@ -364,7 +381,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*1.25),
+               ylim = c(0,max(LF_mean)*1.5),
                main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
           lines(x=Length,y=LF_mean)
         }

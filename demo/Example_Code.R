@@ -45,6 +45,6 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, selec
 # loop the regression tree for various combinations of splits
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 2)
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 3)
 
 head(LF_Tree_Loop$LF)
