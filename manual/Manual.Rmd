@@ -44,6 +44,8 @@ This function provides a series of standardized outputs for users to understand 
 
 -   split(latlon).png: cell-specific improvement profiles against lat and lon
 
+-   split(year).png: cell-specific improvement profiles against year
+
 -   split(lf).png: comparison of cell-specific length frequency
 
 The package provides a default fishery definition (**`run_regression_tree(..., manual = FALSE)`**) by selecting every split that corresponds to the highest percentage of variability explained (the first row of split.csv files). However, users can explore other definitions by using **`run_regression_tree(..., manual = TRUE, select = user_specified)`**. The user-specified splits are numbered according to the rank in split.csv files). Please change one split at a time because the step-wise regression tree is hierarchical.
