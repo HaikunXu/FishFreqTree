@@ -65,8 +65,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       }
 
       split <- rename_CQrt(split)
+      split$Rank <- seq(1,nrow(split))
       # save result as a csv.file
-      write.csv(split[,2:4],file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      write.csv(split[,2:5],file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
       write.csv(split[,c(2,3,1)],file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
 
       # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
@@ -256,7 +257,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       write.csv(rename_CQrt(split_raw[,c(4,2,3,1)]),file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
 
       split_raw <- split_raw[order(split_raw$Var,decreasing = TRUE),]
-      write.csv(rename_CQrt(split_raw[,c(4,2,3,5)]),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      split_raw$Rank <- seq(1,nrow(split_raw))
+      write.csv(rename_CQrt(split_raw[,c(4,2,3,5,6)]),file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
 
       # the Cell with the most improvement
       ii <- split_raw$Cell[select[i]]

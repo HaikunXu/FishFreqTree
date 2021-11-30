@@ -3,13 +3,14 @@ title: "User Manual for the R package FishFreqTree"
 author: "Haikun Xu"
 date: "11/29/2021"
 output: pdf_document
+bibliography: references.bib
 ---
 
 # Introduction
 
-This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in Lennert-Cody et al. [2010](https://www.sciencedirect.com/science/article/pii/S0165783609003166?casa_token=0UClUwBcTgQAAAAA:a1cQpG5LAsBw6qgnrqBcAGo-TskqorsTMqVlgTKrsrODSYfPBfrtDjq0V4MSLudwWgt_9WCp-Q) and [2013](https://www.sciencedirect.com/science/article/pii/S0165783612002974?casa_token=pgpiPQS4YqIAAAAA:tFt0TtlAGDjzywaT19-jr68APHWFVa3qRUJdhjnyfAboshVsFTldYhQTunxeeXDH6oX8W4tNXA).
+This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010a and @lennert-cody2013.
 
-# How to install the package
+# How to install
 
 `library(devtools)`
 
@@ -31,7 +32,7 @@ The function also provides some advanced options including manually building the
 
 This function provides a series of standardized outputs for users to understand the result:
 
--   split.csv: all candidate splits are compared and sorted across existing cells based on the percentage of total variance explained. This table is used to specify the step-wise selection decision.
+-   split.csv: all candidate splits are compared and sorted across existing cells based on the percentage of total variance explained. The last column of this table (Rank) is used to specify the step-wise selection decision.
 
 -   improvement-split.csv: cell-specific improvement metric for all candidate splits; values are sorted for every cell (highest values are preferred for the selection). This table provides supplementary information only and is NOT used to specify the step-wise selection decision.
 
@@ -59,7 +60,7 @@ The function changes the selection of one split at a time, from the first choice
 
 For example, there are three splits (`Nsplit = 3`) and `max_select` is specified to be 3. The function provides to the screen the summary table from the loop function (also saved as loop.csv).
 
-| select1 | select2 | select3 | Var_explained |
+| Select1 | Select2 | Select3 | Var_explained |
 |---------|---------|---------|---------------|
 | 1       | 2       | 1       | 0.164171      |
 | 1       | 1       | 1       | 0.161714      |
@@ -76,3 +77,5 @@ For example, there are three splits (`Nsplit = 3`) and `max_select` is specified
 ### `lf.aggregate`: aggregate length count data by length only or also by year and quarter
 
 ### `lf.demean`: remove the mean of length frequency data
+
+## References
