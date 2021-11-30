@@ -12,7 +12,9 @@
 
 -   Please use the R version 3.5 for this package; the latest version 4.x may not work for this package
 
--   How to install the package: library(devtools); devtools::install_github('HaikunXu/RegressionTree',ref='main')
+-   How to install the package: devtools::install_github('HaikunXu/RegressionTree',ref='main')
+
+-   User manual can be found at: <https://github.com/HaikunXu/FishFreqTree/blob/main/manual/Manual.pdf>
 
 ------------------------------------------------------------------------
 
