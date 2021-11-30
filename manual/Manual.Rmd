@@ -7,7 +7,13 @@ output: pdf_document
 
 # Introduction
 
-This R package helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in Lennert-Cody et al. [2010](https://www.sciencedirect.com/science/article/pii/S0165783609003166?casa_token=0UClUwBcTgQAAAAA:a1cQpG5LAsBw6qgnrqBcAGo-TskqorsTMqVlgTKrsrODSYfPBfrtDjq0V4MSLudwWgt_9WCp-Q) and [2013](https://www.sciencedirect.com/science/article/pii/S0165783612002974?casa_token=pgpiPQS4YqIAAAAA:tFt0TtlAGDjzywaT19-jr68APHWFVa3qRUJdhjnyfAboshVsFTldYhQTunxeeXDH6oX8W4tNXA).
+This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in Lennert-Cody et al. [2010](https://www.sciencedirect.com/science/article/pii/S0165783609003166?casa_token=0UClUwBcTgQAAAAA:a1cQpG5LAsBw6qgnrqBcAGo-TskqorsTMqVlgTKrsrODSYfPBfrtDjq0V4MSLudwWgt_9WCp-Q) and [2013](https://www.sciencedirect.com/science/article/pii/S0165783612002974?casa_token=pgpiPQS4YqIAAAAA:tFt0TtlAGDjzywaT19-jr68APHWFVa3qRUJdhjnyfAboshVsFTldYhQTunxeeXDH6oX8W4tNXA).
+
+# How to install the package
+
+`library(devtools)`
+
+`install_github('HaikunXu/FishFreqTree',ref='main')`
 
 # Input data
 
