@@ -1,6 +1,6 @@
 #' Loop the regression tree analysis with specified number of splits
 #'
-#' \code{loop_regression_tree} This function generates an area code for longline catch allocation
+#' \code{loop_regression_tree} This function loops the run_regression_tree function
 #'
 #' @param LF The length frequency data frame input; must include four columns: lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
