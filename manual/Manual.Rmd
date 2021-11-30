@@ -8,7 +8,7 @@ bibliography: references.bib
 
 # Introduction
 
-This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010a and @lennert-cody2013.
+This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010 and @lennert-cody2013.
 
 # How to install
 
