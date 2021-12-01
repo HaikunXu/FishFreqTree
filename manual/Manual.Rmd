@@ -8,7 +8,7 @@ bibliography: references.bib
 
 # Introduction
 
-This R package `FishFreqTree` helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010 and @lennert-cody2013.
+This R package *FishFreqTree* helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010 and @lennert-cody2013.
 
 # How to install
 
@@ -80,4 +80,72 @@ For example, there are three splits (`Nsplit = 3`) and `max_select` is specified
 
 ### `lf.demean`: remove the mean of length frequency data
 
-## References
+# Package Demonstration
+
+Load the package and example data (<https://github.com/HaikunXu/FishFreqTree/blob/main/manual/LF.RData>):
+
+```{r message=FALSE}
+# devtools::install_github('HaikunXu/RegressionTree',ref='main')
+library(FishFreqTree)
+require(tidyverse) # it is required for some supporting functions
+load(file = "D:/OneDrive - IATTC/Git/FishFreqTree/manual/LF.RData")
+head(LF)
+```
+
+Specify function inputs
+
+```{r}
+fcol <- 5 # the first column with LF info
+lcol <- 17 # the last column with LF info
+bins <- seq(30,150,10) # length of bins as a numeric vector
+Nsplit <- 3 # the number of splits (the number of cells - 1)
+# the directory where results will be saved
+save_dir <- "D:/OneDrive - IATTC/Git/FishFreqTree/demo/"
+```
+
+Plot the length frequency data as lat-lon grids and map of mean length
+
+```{r fig.height=10, fig.width=12}
+# plot lf data as maps
+make.lf.map(LF,fcol,lcol,bins,save_dir)
+# plot mean length as maps
+make.meanl.map(LF,fcol,lcol,bins,save_dir,s=20)
+```
+
+Find the default 4-cell combination:
+
+```{r}
+LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
+```
+
+Check the default 4-cell combination results
+
+```{r}
+head(LF_Tree$LF)
+# a summary of the three splits
+LF_Tree$Record
+# map the 4 cells
+make.split.map(LF_Tree$LF,Nsplit,save_dir)
+```
+
+In addition to the default combination, you can also manually explore other 4-cell combinations. For example, in the figure above cell\#2 only includes two 5\*5 grids, so you want to explore some other 4-cell combinations. You can run the regression tree again with the second best 2th split:
+
+```{r}
+LF_Tree2 <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select = c(1,2,1))
+# a summary of the three splits
+LF_Tree2$Record
+# map the 4 cells
+make.split.map(LF_Tree2$LF,Nsplit,save_dir)
+```
+
+This setting leads to a even higher proportion of variance explained (16.4% vs. 16.2%) than the default run. Also, the number of 5\*5 grids within each cell is more reasonable. In fact, you can use the loop function to explore and compare multiple 4-cell combinations:
+
+```{r}
+loop_dir <- paste0(save_dir,"loop/")
+dir.create(loop_dir)
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 3) #  consider ont only the best split but the top 3 competing splits
+```
+
+Those combinations can be compared according to the proportion of variance explained.
+
+# References
