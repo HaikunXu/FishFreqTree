@@ -54,5 +54,5 @@ run_regression_tree(
 return the input LF with cell number and the percentage of total LF variance explained by each split
 }
 \description{
-\code{run_regression_tree} This function generates an area code for longline catch allocation
+\code{run_regression_tree} This function is the main regression tree function
 }

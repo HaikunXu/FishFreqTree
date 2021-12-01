@@ -1,6 +1,6 @@
 Package: FishFreqTree
 Title: IATTC's regression tree R package for fisheries' size frequency data
-Version: 2.2.2
+Version: 2.2.3
 Author: Haikun Xu (hkxu@iattc.org) and Cleridy Lennart-Cody
 Description: TBA
 License: Apache License (>= 2)

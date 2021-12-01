@@ -17,13 +17,14 @@ save_dir <- "demo/"
 # plot lf data as maps
 # make.lf.map(LF,fcol,lcol,bins,save_dir)
 # plot mean length as maps
-make.meanl.map(LF,fcol,lcol,bins,save_dir)
+# make.meanl.map(LF,fcol,lcol,bins,save_dir)
 
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
 LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
 
 head(LF_Tree$LF)
+make.split.map(LF_Tree$LF,Nsplit,save_dir)
 # The last few columns with names Flag are the cell numbers under each split
 
 # add a dummy data at lat=-20, lon=60
