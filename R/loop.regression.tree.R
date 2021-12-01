@@ -45,7 +45,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
 
   Imp_DF_sorted <- Imp_DF[order(Imp_DF$Var,decreasing = TRUE),]
 
-  select <- as.numeric(Imp_DF[1,1:Nsplit]) # the first row has the highest % variance explained
+  select <- as.numeric(Imp_DF_sorted[1,1:Nsplit]) # the first row has the highest % variance explained
 
   LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
 
