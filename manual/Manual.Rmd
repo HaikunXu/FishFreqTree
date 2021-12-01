@@ -141,9 +141,11 @@ make.split.map(LF_Tree2$LF,Nsplit,save_dir)
 This setting leads to a even higher proportion of variance explained (16.4% vs. 16.2%) than the default run. Also, the number of 5\*5 grids within each cell is more reasonable. In fact, you can use the loop function to explore and compare multiple 4-cell combinations:
 
 ```{r}
+# create a directory to save results from the loop function
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 3) #  consider ont only the best split but the top 3 competing splits
+# consider ont only the best split but the top 3 competing splits
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 3) 
 ```
 
 Those combinations can be compared according to the proportion of variance explained.
