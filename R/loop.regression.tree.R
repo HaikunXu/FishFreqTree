@@ -61,5 +61,5 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,la
 
   write.csv(Imp_DF_sorted,file=paste0(save_dir,"loop.csv"),row.names = FALSE)
 
-  return(list("LF_Tree"=LF_Tree,"Imp_DF"=Imp_DF))
+  return(list("LF_Tree"=LF_Tree,"Imp_DF"=Imp_DF,"Imp_DF_sorted"=Imp_DF_sorted))
 }

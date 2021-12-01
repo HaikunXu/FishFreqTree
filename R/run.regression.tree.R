@@ -32,7 +32,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   else names(LF)[fcol:lcol] <- bins
 
   # make sure LF sums to 1 for each row
-  row_sum <- apply(LF[,fcol:lcol],1,sum)
+  row_sum <- apply(LF[which(LF$dummy==FALSE),fcol:lcol],1,sum)
   # print(row_sum)
   if(sum(abs(row_sum-1)>0.1)>0) stop("Error! LF does not sum to 1 for at least one row.")
 
