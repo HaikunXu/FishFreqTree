@@ -4,14 +4,15 @@
 #'
 #' @export
 
-get.klderror.null <- function (response.mat)
+get.klderror.null <- function (response.mat, weight)
 {
   sumerror <- 0
   nlngth.ints <- ncol(response.mat)
   prop.bar <- apply(response.mat, 2, mean)
   for (j in 1:nlngth.ints) {
     props.tmp <- response.mat[response.mat[, j] > 0, j]
-    sumerror <- sumerror + sum(props.tmp * log(props.tmp/prop.bar[j]))
+    weight.tmp <- weight[response.mat[, j] > 0]
+    sumerror <- sumerror + sum(props.tmp * log(props.tmp/prop.bar[j]) * weight.tmp)
   }
   return(sumerror)
 }

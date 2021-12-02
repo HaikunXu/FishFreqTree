@@ -1,10 +1,11 @@
 # devtools::install_github('HaikunXu/RegressionTree',ref='main')
 library(FishFreqTree)
 
-load(file="demo/LF.RData")
+load(file="manual/LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter
+LF$weight <- 1
 
 head(LF)
 

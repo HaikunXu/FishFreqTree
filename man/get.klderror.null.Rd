@@ -4,7 +4,7 @@
 \alias{get.klderror.null}
 \title{Run the regression tree analysis with specified number of splits}
 \usage{
-get.klderror.null(response.mat)
+get.klderror.null(response.mat, weight)
 }
 \description{
 \code{get.klderror.null} This function generates an area code for longline catch allocation
