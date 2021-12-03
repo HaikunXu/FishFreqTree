@@ -5,7 +5,7 @@ load(file="manual/LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter
-LF$weight <- 1
+# LF$weight <- 1
 
 head(LF)
 
@@ -47,6 +47,9 @@ LF_Tree <- run_regression_tree(LF,fcol,lcol,Nsplit,save_dir,manual = TRUE, selec
 # loop the regression tree for various combinations of splits
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit=4,save_dir=loop_dir,max_select = 3)
+
+my_select_matrix <- matrix(c(1,3,2,2,1,2,3,2,1),nrow=3,ncol=3)
+
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,select_matrix = my_select_matrix)
 
 head(LF_Tree_Loop$LF)

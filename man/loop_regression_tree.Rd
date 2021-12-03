@@ -11,7 +11,7 @@ loop_regression_tree(
   bins,
   Nsplit,
   save_dir,
-  max_select,
+  select_matrix,
   lat.min = 1,
   lon.min = 1,
   year.min = 1,
@@ -33,7 +33,7 @@ loop_regression_tree(
 
 \item{save_dir}{The directory where results will be saved}
 
-\item{max_select}{User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split}
+\item{select_matrix}{User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split}
 
 \item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
 

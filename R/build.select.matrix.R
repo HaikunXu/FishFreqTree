@@ -1,6 +1,6 @@
-#' Run the regression tree analysis with specified number of splits
+#' Build the selection matrix
 #'
-#' \code{run.regression.tree} This function is the main regression tree function
+#' \code{build.select.matrix} This function is the main regression tree function
 #'
 #' @param LF The length frequency data frame input; must include four columns: lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
@@ -132,40 +132,40 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         # quarterly maps
         if(quarter==TRUE) {
-        png(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
-        par(mfrow=c(2,2))
+          png(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+          par(mfrow=c(2,2))
 
-        for (q in 1:4) {
-          for (j in which(year_block$id==y)) {
-            LF_plot <- LF[which(Flag==j&Quarter==q),]
-            if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                   main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
-            }
-            else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+          for (q in 1:4) {
+            for (j in which(year_block$id==y)) {
+              LF_plot <- LF[which(Flag==j&Quarter==q),]
+              if(j==min(which(year_block$id==y))) {
+                plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                     xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                     main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
+              }
+              else {
+                points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              }
             }
           }
-        }
 
-        dev.off()
+          dev.off()
         }
 
         # annual maps
         png(paste0(save_dir,select_name,"split",i,"(annual maps for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
 
-          for (j in which(year_block$id==y)) {
-            LF_plot <- LF[which(Flag==j),]
-            if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                   main = paste0("Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
-            }
-            else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
-            }
+        for (j in which(year_block$id==y)) {
+          LF_plot <- LF[which(Flag==j),]
+          if(j==min(which(year_block$id==y))) {
+            plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                 xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                 main = paste0("Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
           }
+          else {
+            points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+          }
+        }
 
         dev.off()
       }
@@ -239,8 +239,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         for (sp in 1:nrow(split)) {
           LF_raw <- make.Us.areaflags.f(LF_raw,
-                                      as.character(split$Key[sp]),
-                                      as.numeric(split$Value[sp]),i,ii)
+                                        as.character(split$Key[sp]),
+                                        as.numeric(split$Value[sp]),i,ii)
 
           for (k in 1:(i+1)) {
             if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw[LF_raw[[paste0("Flag",i)]]==1,"weight"])
@@ -341,41 +341,41 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         # quarter maps
         if(quarter==TRUE) {
-        png(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
-        par(mfrow=c(2,2))
+          png(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+          par(mfrow=c(2,2))
 
-        for (q in 1:4) {
-          for (j in which(year_block$id==y)) {
-            LF_plot <- LF[which(Flag==j&Quarter==q),]
-            if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                   main = paste0("(Quarter ",q,")"," Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-            }
-            else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+          for (q in 1:4) {
+            for (j in which(year_block$id==y)) {
+              LF_plot <- LF[which(Flag==j&Quarter==q),]
+              if(j==min(which(year_block$id==y))) {
+                plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                     xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                     main = paste0("(Quarter ",q,")"," Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+              }
+              else {
+                points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              }
             }
           }
-        }
 
-        dev.off()
+          dev.off()
         }
 
         # annual maps
         png(paste0(save_dir,select_name,"split",i,"(annual map for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
 
         for (j in which(year_block$id==y)) {
-            LF_plot <- LF[which(Flag==j),]
-            if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
-                   xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
-                   main = paste0("Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
-            }
-            else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
-            }
-      }
-      dev.off()
+          LF_plot <- LF[which(Flag==j),]
+          if(j==min(which(year_block$id==y))) {
+            plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+                 xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
+                 main = paste0("Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
+          }
+          else {
+            points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+          }
+        }
+        dev.off()
       }
 
       # Compare the LF among cells

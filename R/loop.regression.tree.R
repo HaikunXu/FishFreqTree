@@ -1,6 +1,6 @@
 #' Loop the regression tree analysis with specified number of splits
 #'
-#' \code{loop_regression_tree} This function loops the run_regression_tree function
+#' \code{loop.regression.tree} This function loops the run_regression_tree function
 #'
 #' @param LF The length frequency data frame input; must include four columns: lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
@@ -8,7 +8,7 @@
 #' @param bins Names of all bins included in LF
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
-#' @param max_select User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
+#' @param select_matrix User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split
 #' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
 #' @param include_dummy Whether to include dummy data; default = FALSE
@@ -17,25 +17,18 @@
 #'
 #' @export
 
-loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,max_select,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE) {
+loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,select_matrix,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE) {
 
-  i <- 1
-  j <- 1
-
-  if(Nsplit==1) stop("Nsplit must be larger than 1 for this function")
-
-  select <- rep(1,Nsplit)
-  LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select,lat.min=lat.min,lon.min=lon.min,year.min=year.min, quarter=quarter, year=year, include_dummy=include_dummy)
-  Imp_DF <- c(select,LF_loop$Record$Var_explained[Nsplit])
-
-  for (i in 1:(Nsplit-1)) {
-    for (j in 2:max_select) {
-      select <- rep(1,Nsplit)
-      select[i] <- j
-      # print(paste0("select=",select))
-
-      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, quarter=quarter, include_dummy=include_dummy)
-      Imp_DF <- rbind(Imp_DF,c(select,LF_loop$Record$Var_explained[Nsplit]))
+  for (i in 1:nrow(select_matrix)) {
+    if(i==1) {
+      selecti <- select_matrix[1,]
+      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy)
+      Imp_DF <- c(selecti,LF_loop$Record$Var_explained[Nsplit])
+    }
+    else {
+      selecti <- select_matrix[i,]
+      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy)
+      Imp_DF <- rbind(Imp_DF,c(selecti,LF_loop$Record$Var_explained[Nsplit]))
     }
   }
 
