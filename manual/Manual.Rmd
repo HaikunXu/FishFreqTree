@@ -58,7 +58,7 @@ Users are required to specify the input data frame (`LF`), the first (`fcol`) an
 
 The function also provides some advanced options including specifying the minimal number of lat (`lat.min`), lon (`lon.min`), and year (`year.min`) allowed for a cell. Users can also turn on/off the year (`year`) and quarter (`quarter`) dimensions when building the regression tree.
 
-For example, there are three splits (`Nsplit = 3`) and you want to explore two competing splits for each of the three splits. First you need to generate the selection matrix by `select_matrix <- expand.grid(split1=1:2,split2=1:2,split3=1:2)`. The number of combinations to be explored should be 2\*2\*2=9: `dims(select_matrix)`.
+For example, there are three splits (`Nsplit = 3`) and you want to explore two competing splits for each of the three splits. First you need to generate the selection matrix by `select_matrix <- expand.grid(split1=1:2,split2=1:2,split3=1:2)`. The number of combinations to be explored should be 2\*2\*2=8: `dims(select_matrix)`.
 
 The function provides to the screen the summary table from the loop function (also saved as loop.csv).
 
