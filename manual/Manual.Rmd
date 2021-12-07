@@ -54,21 +54,24 @@ The package provides a default fishery definition (**`run_regression_tree(..., m
 
 Users are highly recommended to compare various fishery definitions, even for the same number of splits, because the definition is flexible and may need to be adjusted for practical reasons. Moreover, the tree is hierarchical and unstable, so comparing a variety of combinations with the default combination is highly valuable. In fact, the default one may not explain the highest percentage of variance in the input data.
 
-Users are required to specify the input data frame (`LF`), the first (`fcol`) and last (`lcol`) columns in the input data frame that have frequency data, the name of all age/length bins (`bins`) as a numeric vector, the number of splits (`Nsplit`; equals to the number of defined fisheries - 1), a directory where results are saved (`save_dir`), and the maximal number of candidate splits explored for each split (`max_select`).
+Users are required to specify the input data frame (`LF`), the first (`fcol`) and last (`lcol`) columns in the input data frame that have frequency data, the name of all age/length bins (`bins`) as a numeric vector, the number of splits (`Nsplit`; equals to the number of defined fisheries - 1), a directory where results are saved (`save_dir`), and the selection matrix the user wants to explore (`select_matrix`).
 
 The function also provides some advanced options including specifying the minimal number of lat (`lat.min`), lon (`lon.min`), and year (`year.min`) allowed for a cell. Users can also turn on/off the year (`year`) and quarter (`quarter`) dimensions when building the regression tree.
 
-The function changes the selection of one split at a time, from the first choice to the `max_select`th choice (the first `max_select` rows of split.csv files), through a loop. Then the function summarizes all explored combinations in a table with their percentages of variance explained, which can be used for comparison.
+For example, there are three splits (`Nsplit = 3`) and you want to explore two competing splits for each of the three splits. First you need to generate the selection matrix by `select_matrix <- expand.grid(split1=1:2,split2=1:2,split3=1:2)`. The number of combinations to be explored should be 2\*2\*2=9: `dims(select_matrix)`.
 
-For example, there are three splits (`Nsplit = 3`) and `max_select` is specified to be 3. The function provides to the screen the summary table from the loop function (also saved as loop.csv).
+The function provides to the screen the summary table from the loop function (also saved as loop.csv).
 
-| Select1 | Select2 | Select3 | Var_explained |
-|---------|---------|---------|---------------|
-| 1       | 2       | 1       | 0.164171      |
-| 1       | 1       | 1       | 0.161714      |
-| 1       | 3       | 1       | 0.149531      |
-| 2       | 1       | 1       | 0.145291      |
-| 3       | 1       | 1       | 0.130918      |
+| select1 | select2 | select3 | \% var_explained |
+|---------|---------|---------|------------------|
+| 1       | 2       | 1       | 0.164171         |
+| 1       | 1       | 1       | 0.161714         |
+| 1       | 1       | 2       | 0.155625         |
+| 1       | 2       | 2       | 0.149916         |
+| 2       | 1       | 1       | 0.145291         |
+| 2       | 2       | 1       | 0.140215         |
+| 2       | 1       | 2       | 0.139403         |
+| 2       | 2       | 2       | 0.095346         |
 
 ## Supporting functions
 
@@ -144,8 +147,9 @@ This setting leads to a even higher proportion of variance explained (16.4% vs. 
 # create a directory to save results from the loop function
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
-# consider ont only the best split but the top 3 competing splits
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,max_select = 3) 
+# build the selection matrix
+my_select_matrix <- data.matrix(expand.grid(split1=1:2,split2=1:2,split3=1:2))
+LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,select_matrix=my_select_matrix) 
 ```
 
 Those combinations can be compared according to the proportion of variance explained.
