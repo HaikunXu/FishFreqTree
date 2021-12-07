@@ -110,15 +110,15 @@ Plot the length frequency data as lat-lon grids and map of mean length
 
 ```{r fig.height=10, fig.width=12}
 # plot lf data as maps
-make.lf.map(LF,fcol,lcol,bins,save_dir)
+make.lf.map(LF, fcol, lcol, bins, save_dir)
 # plot mean length as maps
-make.meanl.map(LF,fcol,lcol,bins,save_dir,s=20)
+make.meanl.map(LF, fcol, lcol, bins, save_dir, s = 20)
 ```
 
 Find the default 4-cell combination:
 
 ```{r}
-LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
+LF_Tree <- run_regression_tree(LF, fcol, lcol, bins, Nsplit, save_dir)
 ```
 
 Check the default 4-cell combination results
@@ -128,17 +128,25 @@ head(LF_Tree$LF)
 # a summary of the three splits
 LF_Tree$Record
 # map the 4 cells
-make.split.map(LF_Tree$LF,Nsplit,save_dir)
+make.split.map(LF_Tree$LF, Nsplit, save_dir)
 ```
 
 In addition to the default combination, you can also manually explore other 4-cell combinations. For example, in the figure above cell\#2 only includes two 5\*5 grids, so you want to explore some other 4-cell combinations. You can run the regression tree again with the second best 2th split:
 
 ```{r}
-LF_Tree2 <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select = c(1,2,1))
+LF_Tree2 <-
+  run_regression_tree(LF,
+                      fcol,
+                      lcol,
+                      bins,
+                      Nsplit,
+                      save_dir,
+                      manual = TRUE,
+                      select = c(1, 2, 1))
 # a summary of the three splits
 LF_Tree2$Record
 # map the 4 cells
-make.split.map(LF_Tree2$LF,Nsplit,save_dir)
+make.split.map(LF_Tree2$LF, Nsplit, save_dir)
 ```
 
 This setting leads to a even higher proportion of variance explained (16.4% vs. 16.2%) than the default run. Also, the number of 5\*5 grids within each cell is more reasonable. In fact, you can use the loop function to explore and compare multiple 4-cell combinations:
@@ -148,8 +156,20 @@ This setting leads to a even higher proportion of variance explained (16.4% vs. 
 loop_dir <- paste0(save_dir,"loop/")
 dir.create(loop_dir)
 # build the selection matrix
-my_select_matrix <- data.matrix(expand.grid(split1=1:2,split2=1:2,split3=1:2))
-LF_Tree_Loop <- loop_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir=loop_dir,select_matrix=my_select_matrix) 
+my_select_matrix <-
+  data.matrix(expand.grid(
+    split1 = 1:2,
+    split2 = 1:2,
+    split3 = 1:2
+))
+LF_Tree_Loop <-
+  loop_regression_tree(LF,
+                       fcol,
+                       lcol,
+                       bins,
+                       Nsplit,
+                       save_dir = loop_dir,
+                       select_matrix = my_select_matrix) 
 ```
 
 Those combinations can be compared according to the proportion of variance explained.
