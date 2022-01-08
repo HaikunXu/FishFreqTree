@@ -12,7 +12,7 @@ head(LF)
 fcol <- 5 # the first column with LF_Tree info
 lcol <- 17 # the last column with LF_Tree info
 bins <- seq(30,150,10)
-Nsplit <- 4 # the number of splits (the number of cells - 1)
+Nsplit <- 3 # the number of splits (the number of cells - 1)
 save_dir <- "demo/"
 
 # plot lf data as maps

@@ -131,7 +131,7 @@ LF_Tree$Record
 make.split.map(LF_Tree$LF, Nsplit, save_dir)
 ```
 
-In addition to the default combination, you can also manually explore other 4-cell combinations. For example, in the figure above cell\#2 only includes two 5\*5 grids, so you want to explore some other 4-cell combinations. You can run the regression tree again with the second best 2th split:
+In addition to the default combination, you can also manually explore other 4-cell combinations. For example, in the figure above cell#2 only includes two 5\*5 grids, so you want to explore some other 4-cell combinations. You can run the regression tree again with the second best 2th split:
 
 ```{r}
 LF_Tree2 <-
