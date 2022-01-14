@@ -14,10 +14,13 @@ lf.demean <- function(LF,fcol,lcol,bins) {
   if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LF)[fcol:lcol] <- bins
 
-  LF_select <- LF[,c("ID","year","quarter","lat","lon",paste0(bins))]
+  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
+  else print("Weight is used to compute the mean length!")
+
+  LF_select <- LF[,c("ID","year","quarter","lat","lon","weight",paste0(bins))]
   LF_long <- data.frame(tidyr::gather(LF_select,fcol:lcol,key = "Length",value = "LF"))
 
-  LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), LF_mean=mean(LF))
+  LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), LF_mean=sum(LF*weight)/sum(weight))
   LF_mean$LF_demean <- LF_mean$LF / LF_mean$LF_mean
 
   LF_demean <- tidyr::spread(dplyr::select(LF_mean,ID,year,quarter,lat,lon,Length,LF_demean),Length,LF_demean,fill = 0)
