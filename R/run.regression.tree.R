@@ -40,6 +40,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   }
 
   if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
+  else print("Weight is used to compute the percentage of varaibility explained!")
 
   Record <- data.frame(Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Cell=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
   row.names(Record) <- paste0("Split",1:Nsplit)

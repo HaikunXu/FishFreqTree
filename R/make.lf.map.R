@@ -21,6 +21,7 @@ make.lf.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_forma
   else names(LF)[fcol:lcol] <- bins
 
   if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
+  else print("Weight is used to compute the mean length freqeuncy!")
 
   LF_plot <- LF[,c("year","quarter","lat","lon","weight",paste0(bins))]
   LF_long <- data.frame(tidyr::gather(LF,fcol:lcol,key = "length",value = "lf"))
