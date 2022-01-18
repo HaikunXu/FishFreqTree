@@ -198,16 +198,16 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
       par(mfrow=c(1,2))
 
-      ymax <- max(split$Improve[which(split$Key=="Lat"|split$Key=="Lon")])
+      # ymax <- max(split$Improve[which(split$Key=="Lat"|split$Key=="Lon")])
 
       split_plot <- split[which(split$Key=="Lat"),]
-      plot(x=split_plot$Value,y=split_plot$Improve,
-           xlim = ylim, ylim = c(0, ymax), xlab = "Lat", ylab = "Improvement",
+      plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),
+           xlim = ylim, ylim = c(0, 1), xlab = "Lat", ylab = "Imp/max(Imp)",
            main = paste0(" Split#",i))
 
       split_plot <- split[which(split$Key=="Lon"),]
-      plot(x=split_plot$Value,y=split_plot$Improve,
-           xlim = xlim, ylim = c(0, ymax), xlab = "Lon", ylab = "Improvement",
+      plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),
+           xlim = xlim, ylim = c(0, 1), xlab = "Lon", ylab = "Imp/max(Imp)",
            main = paste0(" Split#",i))
 
       dev.off()
@@ -217,8 +217,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
 
         split_plot <- split[which(split$Key=="Year"),]
-        plot(x=split_plot$Value,y=split_plot$Improve,
-             xlim = tlim, xlab = "Year", ylab = "Improvement",
+        plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),
+             xlim = tlim, xlab = "Year", ylab = "Imp/max(Imp)",
              main = paste0(" Split#",i))
 
         dev.off()
@@ -406,26 +406,26 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       png(paste0(save_dir,select_name,"split",i,"(latlon).png"),width = 1000,height = 500)
       par(mfrow=c(1,2))
 
-      ymax <- max(split_raw$Improve[which(split_raw$Key=="Lat"|split_raw$Key=="Lon")])
+      # ymax <- max(split_raw$Improve[which(split_raw$Key=="Lat"|split_raw$Key=="Lon")])
 
       for (j in 1:i) {
 
         split_plot <- split_raw[which(split_raw$Key=="Lat"&split_raw$Cell==j),]
         if(j==1) {
-          plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-               xlim = ylim, ylim = c(0,ymax), xlab = "Lat", ylab = "Improvement",
+          plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j),
+               xlim = ylim, ylim = c(0,1), xlab = "Lat", ylab = "Imp/max(Imp)",
                main = paste0(" Split#",i))
         }
-        else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+        else points(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j))
       }
       for (j in 1:i) {
         split_plot <- split_raw[which(split_raw$Key=="Lon"&split_raw$Cell==j),]
         if(j==1) {
-          plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-               xlim = xlim, ylim = c(0,ymax), xlab = "Lon", ylab = "Improvement",
+          plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j),
+               xlim = xlim, ylim = c(0,1), xlab = "Lon", ylab = "Imp/max(Imp)",
                main = paste0(" Split#",i))
         }
-        else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+        else points(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j))
       }
       dev.off()
 
@@ -437,11 +437,11 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
           split_plot <- split_raw[which(split_raw$Key=="Year"&split_raw$Cell==j),]
           if(j==1) {
-            plot(x=split_plot$Value,y=split_plot$Improve,pch=toString(j),
-                 xlim = tlim, xlab = "Year", ylab = "Improvement",
+            plot(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j),
+                 xlim = tlim, xlab = "Year", ylab = "Imp/max(Imp)",
                  main = paste0(" Split#",i))
           }
-          else points(x=split_plot$Value,y=split_plot$Improve,pch=toString(j))
+          else points(x=split_plot$Value,y=split_plot$Improve/max(split_plot$Improve),pch=toString(j))
         }
 
         dev.off()
