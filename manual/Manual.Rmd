@@ -1,7 +1,7 @@
 ---
 title: "User Manual for the R package FishFreqTree"
 author: "Haikun Xu"
-date: "11/29/2021"
+date: "`r Sys.Date()`"
 output: pdf_document
 bibliography: references.bib
 ---
