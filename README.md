@@ -8,8 +8,6 @@
 
 -   Reference: Fisheries Research 102(2010):323-326
 
--   A example code is provided to show how to use the package: <https://github.com/HaikunXu/RegressionTree/blob/main/demo/Example_Code.R>
-
 -   Please use the R version 3.5 for this package; the latest version 4.x may not work for this package
 
 -   How to install the package: devtools::install_github('HaikunXu/RegressionTree',ref='main')
