@@ -21,9 +21,11 @@ lf.demean <- function(LF,fcol,lcol,bins) {
   LF_long <- data.frame(tidyr::gather(LF_select,fcol:lcol,key = "Length",value = "LF"))
 
   LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), LF_mean=sum(LF*weight)/sum(weight))
-  LF_mean$LF_demean <- LF_mean$LF / LF_mean$LF_mean
+  LF_mean$LF_demean <- ifelse(LF_mean$LF_mean==0,0,LF_mean$LF / LF_mean$LF_mean)
 
-  LF_demean <- tidyr::spread(dplyr::select(LF_mean,ID,year,quarter,lat,lon,Length,LF_demean),Length,LF_demean,fill = 0)
+  LF_mean_scale <- dplyr::mutate(dplyr::group_by(LF_mean,ID,year,quarter,lat,lon), LF_demean=LF_demean/sum(LF_demean))
+
+  LF_demean <- tidyr::spread(dplyr::select(LF_mean_scale,ID,year,quarter,lat,lon,Length,LF_demean),Length,LF_demean,fill = 0)
 
   return(LF_demean)
 }
