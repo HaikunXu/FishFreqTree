@@ -23,7 +23,7 @@ make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot
   if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
   else print("Weight is used to compute the mean length!")
 
-  LF_plot <- LF[,c("year","quarter","lat","lon","weight",paste0(bins))]
+  LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins),"weight")]
   LF_long <- data.frame(tidyr::gather(LF,fcol:lcol,key = "length",value = "lf"))
   LF_long$length <- as.numeric(LF_long$length)
 
