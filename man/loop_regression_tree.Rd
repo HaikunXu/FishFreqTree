@@ -33,9 +33,9 @@ loop_regression_tree(
 
 \item{save_dir}{The directory where results will be saved}
 
-\item{select_matrix}{User-specified splitmatrix to be explored for each split}
+\item{select_matrix}{User-specified split matrix to be explored}
 
-\item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
+\item{quarter}{Whether to consider quarter as a splitting dimension; default = TRUE}
 
 \item{year}{Whether to consider year as a splitting dimension; default = FALSE}
 

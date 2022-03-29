@@ -8,8 +8,8 @@
 #' @param bins Names of all bins included in LF
 #' @param Nsplit The number of splits
 #' @param save_dir The directory where results will be saved
-#' @param select_matrix User-specified splitmatrix to be explored for each split
-#' @param quarter Whether to consider quarter as a splitting dimention; default = TRUE
+#' @param select_matrix User-specified split matrix to be explored
+#' @param quarter Whether to consider quarter as a splitting dimension; default = TRUE
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
 #' @param include_dummy Whether to include dummy data; default = FALSE
 #'
