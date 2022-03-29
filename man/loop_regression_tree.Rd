@@ -33,7 +33,7 @@ loop_regression_tree(
 
 \item{save_dir}{The directory where results will be saved}
 
-\item{select_matrix}{User-specified number of splits to be explored for each split; for example, 2 means exploring the best 2 splits for every split}
+\item{select_matrix}{User-specified splitmatrix to be explored for each split}
 
 \item{quarter}{Whether to consider quarter as a splitting dimention; default = TRUE}
 
