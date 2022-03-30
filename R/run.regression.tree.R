@@ -452,7 +452,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   }
 
   # save the split results
-  if(sum(Record$Key=="CQrt")) Record <- rename_CQrt(Record)
+  Record <- rename_CQrt(Record)
   write.csv(Record,file=paste0(save_dir,select_name,"Record.csv"))
 
   return(list("LF"=LF, "Record"=Record))
