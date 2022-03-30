@@ -83,7 +83,7 @@ The function provides to the screen the summary table from the loop function (al
 
 ### `lf.demean`: remove the mean of length frequency data
 
-# Package Demonstration
+# Package demonstration
 
 Load the package and example data (<https://github.com/HaikunXu/FishFreqTree/blob/main/manual/LF.RData>):
 

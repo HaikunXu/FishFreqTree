@@ -451,8 +451,20 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
   }
 
-  # save the split results
+  # fix cyclic quarter's output names
   Record <- rename_CQrt(Record)
+
+  # adjust the lat and lon split values
+  lat_all <- unique(LF$lat[LF$dummy==FALSE])
+  lat_adjust <- (lat_all[2] - lat_all[1]) / 2
+
+  Record$Value[which(Record$Key=="Lat")] <- as.numeric(Record$Value[which(Record$Key=="Lat")]) + lat_adjust
+
+  lon_all <- unique(LF$lon[LF$dummy==FALSE])
+  lon_adjust <- (lon_all[2] - lon_all[1]) / 2
+  Record$Value[which(Record$Key=="Lon")] <- as.numeric(Record$Value[which(Record$Key=="Lon")]) + lon_adjust
+
+  # save the split results
   write.csv(Record,file=paste0(save_dir,select_name,"Record.csv"))
 
   return(list("LF"=LF, "Record"=Record))
