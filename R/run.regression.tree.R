@@ -23,6 +23,8 @@
 
 run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE) {
 
+  print("!!! Please make sure that the lat and lon in the input data are at grid centers !!!")
+
   if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
   if(include_dummy==FALSE) LF$dummy <- FALSE
   if(manual==TRUE&(sum(select>1)>1)) print("Warning!!! You selection is hierarchical.")
@@ -91,9 +93,9 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       # Record[1,4] <- as.character(split[select[i],2])
 
       # print to the screen
-      cat("\n\n")
-      cat("***Note***: below shows the best splits in order, please check the saved figures under the directory save_dir to better understand the meaning of each split\n\n")
-      cat(paste0("******  Results are saved in folder ",save_dir,select_name,"  ******\n\n"))
+      cat("\n")
+      cat(paste0("***Note***: Below shows the best splits in order, please check saved figures to better understand the meaning of each split\n"))
+      cat(paste0("******  All results are saved in folder ",save_dir,select_name,"  ******\n\n"))
 
       if(select[i]==1)
         print(paste0("Best 1st split: ",split[1,2],"<=",split[1,3]))
@@ -455,13 +457,20 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
   Record <- rename_CQrt(Record)
 
   # adjust the lat and lon split values
-  lat_all <- unique(LF$lat[LF$dummy==FALSE])
-  lat_adjust <- (lat_all[2] - lat_all[1]) / 2
-
+  lat_all <- sort(as.numeric(unique(LF$lat[LF$dummy==FALSE])))
+  if(length(unique(lat_all[2:length(lat_all)]-lat_all[1:(length(lat_all)-1)]))==1) lat_adjust <- (lat_all[2] - lat_all[1]) / 2
+  else {
+    lat_adjust <- 0
+    print("Irregular latitudinal grid! No latitudinal adjustment is applied to Record.csv!")
+  }
   Record$Value[which(Record$Key=="Lat")] <- as.numeric(Record$Value[which(Record$Key=="Lat")]) + lat_adjust
 
-  lon_all <- unique(LF$lon[LF$dummy==FALSE])
-  lon_adjust <- (lon_all[2] - lon_all[1]) / 2
+  lon_all <- sort(as.numeric(unique(LF$lon[LF$dummy==FALSE])))
+  if(length(unique(lon_all[2:length(lon_all)]-lon_all[1:(length(lon_all)-1)]))==1) lon_adjust <- (lon_all[2] - lon_all[1]) / 2
+  else {
+    lon_adjust <- 0
+    print("Irregular longitudinal grid! No longitudinal adjustment is applied to Record.csv!")
+  }
   Record$Value[which(Record$Key=="Lon")] <- as.numeric(Record$Value[which(Record$Key=="Lon")]) + lon_adjust
 
   # save the split results
