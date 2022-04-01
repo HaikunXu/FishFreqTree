@@ -18,7 +18,7 @@ This R package *FishFreqTree* helps users to easily explore and quantitatively c
 
 # Input data
 
-The input age/length frequency data should be a data frame including four columns named exactly as "lat", "lon", "year", and "quarter" and various length frequency columns corresponding to selected age/length bins. This regression tree package works with age/length frequency data so please make sure age/length frequency values sum to 1 across age/length bins. An example of the input data can be found [[here]{.underline}](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
+The input age/length frequency data should be a data frame including four columns named exactly as "lat", "lon", "year", and "quarter" and various length frequency columns corresponding to selected age/length bins. The columns "lat" and "lon" represent the latitudinal and longitudinal positions of grid centers, respectively. This regression tree package works with age/length frequency data so please make sure age/length frequency values sum to 1 across age/length bins. An example of the input data can be found [[here]{.underline}](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
 
 # Functions
 
