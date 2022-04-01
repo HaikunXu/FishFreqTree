@@ -20,7 +20,7 @@
 
 ### Data Format
 
-The input data frame should include at least four columns named exactly as "lat", "lon", "year", and "quarter". The input data frame should also include various columns that record **length frequency** information with column names = length bin. **This regression tree package works with length frequency data so please make sure the input values sum to 1 across length bins.** An example of the input data can be found [here](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
+The input data frame should include at least four columns named exactly as "lat", "lon", "year", and "quarter". The columns "lat" and "lon" represent the latitudinal and longitudinal positions of grid centers, respectively. The input data frame should also include various columns that record **length frequency** information with column names = length bin. **This regression tree package works with length frequency data so please make sure the input values sum to 1 across length bins.** An example of the input data can be found [here](https://github.com/HaikunXu/RegressionTree/blob/main/demo/LF.RData).
 
 ### Model description
 
