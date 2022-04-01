@@ -12,7 +12,7 @@
 
 -   How to install the package: devtools::install_github('HaikunXu/RegressionTree',ref='main')
 
--   User manual can be found at: <https://github.com/HaikunXu/FishFreqTree/blob/main/manual/Manual.pdf>
+-   User manual of the package: <https://github.com/HaikunXu/FishFreqTree/blob/main/manual/Manual.pdf>
 
 ------------------------------------------------------------------------
 
