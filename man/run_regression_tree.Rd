@@ -18,7 +18,8 @@ run_regression_tree(
   year.min = 1,
   quarter = TRUE,
   year = FALSE,
-  include_dummy = FALSE
+  include_dummy = FALSE,
+  pdf = FALSE
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ run_regression_tree(
 \item{year}{Whether to consider year as a splitting dimension; default = FALSE}
 
 \item{include_dummy}{Whether to include dummy data; default = FALSE}
+
+\item{pdf}{Whether to save figures in pdf - default is in png}
 }
 \value{
 return the input LF with cell number and the percentage of total LF variance explained by each split

@@ -22,7 +22,7 @@ save_dir <- "demo/"
 
 # run the regression tree with the best three splits
 # results are saved in the folder 111 under save_dir
-LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir)
+LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,pdf=TRUE)
 
 head(LF_Tree$LF)
 make.split.map(LF_Tree$LF,Nsplit,save_dir)
