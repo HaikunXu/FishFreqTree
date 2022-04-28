@@ -24,9 +24,9 @@
 
 run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE) {
 
-  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-  print("WARNING: Please make sure that the lat and lon in the input data are at grid centers")
-  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  print("WARNING: Please make sure that both lat and lon in the input data are at grid centers")
+  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
   if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
   if(include_dummy==FALSE) LF$dummy <- FALSE
