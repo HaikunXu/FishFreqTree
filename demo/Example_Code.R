@@ -1,7 +1,7 @@
 # devtools::install_github('HaikunXu/RegressionTree',ref='main')
 library(FishFreqTree)
 
-load(file="manual/LF.RData")
+# load(file="manual/LF.RData")
 
 # column names are length bins (in cm); must also include four columns in the data frame:
 # lat, lon, year, quarter
@@ -13,7 +13,7 @@ fcol <- 5 # the first column with LF_Tree info
 lcol <- 17 # the last column with LF_Tree info
 bins <- seq(30,150,10)
 Nsplit <- 3 # the number of splits (the number of cells - 1)
-save_dir <- "demo/"
+save_dir <- "D:/OneDrive - IATTC/Git/FishFreqTree/demo/"
 
 # plot lf data as maps
 # make.lf.map(LF,fcol,lcol,bins,save_dir)
