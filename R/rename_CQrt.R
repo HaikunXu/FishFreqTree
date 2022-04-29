@@ -10,9 +10,9 @@ rename_CQrt <- function(split) {
   split$Value[which((split$Key=="CQrt")&(split$Value==2))] <- "124;3"
   split$Value[which((split$Key=="CQrt")&(split$Value==3))] <- "134;2"
 
-  split$Value[which((split$Key=="Qrt")&(split$Value==1))] <- "1;234"
-  split$Value[which((split$Key=="Qrt")&(split$Value==2))] <- "12;34"
-  split$Value[which((split$Key=="Qrt")&(split$Value==3))] <- "123;4"
+  # split$Value[which((split$Key=="Qrt")&(split$Value==1))] <- "1;234"
+  # split$Value[which((split$Key=="Qrt")&(split$Value==2))] <- "12;34"
+  # split$Value[which((split$Key=="Qrt")&(split$Value==3))] <- "123;4"
 
   return(split)
 }
