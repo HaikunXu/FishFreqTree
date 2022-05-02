@@ -24,9 +24,9 @@
 
 run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE) {
 
-  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-  print("WARNING: Please make sure that both lat and lon in the input data are at grid centers")
-  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  print("WARNING: lat and lon in the input data should be for grid centers")
+  print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
   if(manual==FALSE) select <- rep(1,Nsplit) # every split choose the one with the max improvement
   if(include_dummy==FALSE) LF$dummy <- FALSE
@@ -66,6 +66,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol]),LF$weight[LF$dummy==FALSE]) # null (no stratification)
 
       for (sp in 1:nrow(split)) {
+        # print(split)
         LF_raw <- make.Us.areaflags.f(LF[LF$dummy==FALSE,],
                                       as.character(split$Key[sp]),
                                       as.numeric(split$Value[sp]),i,ii)

@@ -15,7 +15,7 @@ make.Us.areaflags.f <- function(lf.input,key,value,split_num,area_num)
   if(key=="Lon") Flag <- ifelse(lf.input$lon<=value,1,2)
   if(key=="Qrt") Flag <- ifelse(lf.input$quarter<=value,1,2)
   if(key=="CQrt") {
-    if(value==1) Flag <- ifelse((lf.input$quarter==2|lf.input$quarter==3),1,2)
+    if(value==1) Flag <- ifelse((lf.input$quarter==2)|(lf.input$quarter==3),1,2)
     if(value==2) Flag <- ifelse(lf.input$quarter==3,1,2)
     if(value==3) Flag <- ifelse(lf.input$quarter==2,1,2)
   }

@@ -32,7 +32,7 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,year.min,qua
   if((is.null(tmpcl.kld$lf.cyclic.qrtr)==FALSE)&(is.null(tmpcl.kld$lf.qrtr)==TRUE)) {
     tmpcl.kld.cqrt <- data.frame("Improvement"=tmpcl.kld$lf.cyclic.qrtr[,1],
                                  "Key"="CQrt",
-                                 "Value"=as.numeric(tmpcl.kld$lf.cyclic.qrtr[,2]))
+                                 "Value"=as.numeric(as.factor(tmpcl.kld$lf.cyclic.qrtr[,2])))
     tmpcl.kld.df <- rbind(tmpcl.kld.lat,tmpcl.kld.lon,tmpcl.cyclic.kld.qrt)
   }
   if((is.null(tmpcl.kld$lf.cyclic.qrtr)==TRUE)&(is.null(tmpcl.kld$lf.qrtr)==TRUE)) {
@@ -41,7 +41,7 @@ find_split <- function(lf_prop,frstcol.lf,lstcol.lf,lat.min,lon.min,year.min,qua
   if((is.null(tmpcl.kld$lf.cyclic.qrtr)==FALSE)&(is.null(tmpcl.kld$lf.qrtr)==FALSE)) {
     tmpcl.kld.cqrt <- data.frame("Improvement"=tmpcl.kld$lf.cyclic.qrtr[,1],
                                  "Key"="CQrt",
-                                 "Value"=as.numeric(tmpcl.kld$lf.cyclic.qrtr[,2]))
+                                 "Value"=as.numeric(as.factor(tmpcl.kld$lf.cyclic.qrtr[,2])))
     tmpcl.kld.qrt <- data.frame("Improvement"=tmpcl.kld$lf.qrtr[,1],
                                 "Key"="Qrt",
                                 "Value"=tmpcl.kld$lf.qrtr[,2])
