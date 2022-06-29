@@ -19,6 +19,7 @@ lf.demean <- function(LF,fcol,lcol,bins) {
 
   LF_select <- LF[,c("ID","year","quarter","lat","lon",paste0(bins),"weight")]
   LF_long <- data.frame(tidyr::gather(LF_select,fcol:lcol,key = "Length",value = "LF"))
+  LF_long <- dplyr::mutate(LF_long,Length=as.numeric(Length))
 
   LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), LF_mean=sum(LF*weight)/sum(weight))
   LF_mean$LF_demean <- ifelse(LF_mean$LF_mean==0,0,LF_mean$LF / LF_mean$LF_mean)
