@@ -133,6 +133,8 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.m
     lfimp.year<-rep(0,(nunqyears-1))
 
     for(i in year.min:(nunqyears-year.min)){
+
+      # print(unq.years[i])
       # make left-right split flag
       lftrght.splitflg<-rep(0,length(lfinput.frm$year))
       lftrght.splitflg[lfinput.frm$year>unq.years[i]]<-1
@@ -145,7 +147,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.m
     lfimp.year <- 0
   }
 
-  lf.year=data.frame(lfimp.year,unq.years[1:(nunqyears-1)])
+  lf.year=data.frame(lfimp.year[year.min:(nunqyears-year.min)],unq.years[year.min:(nunqyears-year.min)])
   output.frm <- c(output.frm,lf.year=list(lf.year))
 
   return(output.frm)
