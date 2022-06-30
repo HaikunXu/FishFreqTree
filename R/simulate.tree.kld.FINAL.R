@@ -147,7 +147,7 @@ simult.tree.kld.FINAL <- function(lfinput.frm,frstcol.lf,lstcol.lf,lat.min,lon.m
     lfimp.year <- 0
   }
 
-  lf.year=data.frame(lfimp.year[year.min:(nunqyears-year.min)],unq.years[year.min:(nunqyears-year.min)])
+  lf.year=data.frame(lfimp.year[1:(nunqyears-1)],unq.years[1:(nunqyears-1)])
   output.frm <- c(output.frm,lf.year=list(lf.year))
 
   return(output.frm)
