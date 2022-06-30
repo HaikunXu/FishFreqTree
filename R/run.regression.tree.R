@@ -68,15 +68,14 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       for (sp in 1:nrow(split)) {
         # print(split)
         if(split$Improvement[sp]>0) {
+          LF_raw <- make.Us.areaflags.f(LF[LF$dummy==FALSE,],
+                                        as.character(split$Key[sp]),
+                                        as.numeric(split$Value[sp]),i,ii)
 
-        LF_raw <- make.Us.areaflags.f(LF[LF$dummy==FALSE,],
-                                      as.character(split$Key[sp]),
-                                      as.numeric(split$Value[sp]),i,ii)
+          e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1]) +
+            get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==2])
 
-        e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1]) +
-          get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==2])
-
-        split$Var_explained[sp] <- (e0-e)/e0
+          split$Var_explained[sp] <- (e0-e)/e0
         }
       }
 
@@ -142,7 +141,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         # quarterly maps
         if(quarter==TRUE) {
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").png"),width = 1500,height = 1500)
         else pdf(paste0(save_dir,select_name,"split",i,"(quarterly maps for years ",yearmin,"-",yearmax,").pdf"),width = 10,height = 10)
 
         par(mfrow=c(2,2))
@@ -165,7 +164,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         }
 
         # annual maps
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(annual maps for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(annual maps for years ",yearmin,"-",yearmax,").png"),width = 800,height = 800)
         else pdf(paste0(save_dir,select_name,"split",i,"(annual maps for years ",yearmin,"-",yearmax,").pdf"),width = 5,height = 5)
 
           for (j in which(year_block$id==y)) {
@@ -184,7 +183,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       }
 
       # Compare the LF among cells
-      if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+      if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 800,height = 800)
       else pdf(paste0(save_dir,select_name,"split",i,"(lf).pdf"),width = 5,height = 5)
 
       for (j in 1:(i+1)) {
@@ -195,7 +194,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*1.5),
+               ylim = c(0,max(LF_mean)*2),
                main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
           lines(x=Length,y=LF_mean)
         }
@@ -229,7 +228,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # Compare Improvement against year
       if(year==TRUE) {
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 800,height = 800)
         else pdf(paste0(save_dir,select_name,"split",i,"(year).pdf"),width = 5,height = 5)
 
         split_plot <- split[which(split$Key=="Year"),]
@@ -256,16 +255,16 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         for (sp in 1:nrow(split)) {
           if(split$Improvement[sp]>0) {
-          LF_raw <- make.Us.areaflags.f(LF_raw,
-                                      as.character(split$Key[sp]),
-                                      as.numeric(split$Value[sp]),i,ii)
+            LF_raw <- make.Us.areaflags.f(LF_raw,
+                                          as.character(split$Key[sp]),
+                                          as.numeric(split$Value[sp]),i,ii)
 
-          for (k in 1:(i+1)) {
-            if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1])
-            else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==k])
-          }
+            for (k in 1:(i+1)) {
+              if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1])
+              else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==k])
+            }
 
-          split$Var_explained[sp] <- (e0-e)/e0
+            split$Var_explained[sp] <- (e0-e)/e0
           }
         }
 
@@ -360,7 +359,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         # quarter maps
         if(quarter==TRUE) {
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").png"),width = 1000,height = 1000)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").png"),width = 1500,height = 1500)
         else pdf(paste0(save_dir,select_name,"split",i,"(quarterly map for years ",yearmin,"-",yearmax,").pdf"),width = 10,height = 10)
 
         par(mfrow=c(2,2))
@@ -383,7 +382,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         }
 
         # annual maps
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(annual map for years ",yearmin,"-",yearmax,").png"),width = 500,height = 500)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(annual map for years ",yearmin,"-",yearmax,").png"),width = 800,height = 800)
         else pdf(paste0(save_dir,select_name,"split",i,"(annual map for years ",yearmin,"-",yearmax,").pdf"),width = 5,height = 5)
 
         for (j in which(year_block$id==y)) {
@@ -401,7 +400,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       }
 
       # Compare the LF among cells
-      if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 500,height = 500)
+      if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(lf).png"),width = 800,height = 800)
       else pdf(paste0(save_dir,select_name,"split",i,"(lf).pdf"),width = 5,height = 5)
 
       for (j in 1:(i+1)) {
@@ -412,7 +411,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*1.5),
+               ylim = c(0,max(LF_mean)*2),
                main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
           lines(x=Length,y=LF_mean)
         }
@@ -455,7 +454,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # Compare Improvement against year
       if(year==TRUE) {
-        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 500,height = 500)
+        if(pdf==FALSE) png(paste0(save_dir,select_name,"split",i,"(year).png"),width = 800,height = 800)
         else pdf(paste0(save_dir,select_name,"split",i,"(year).pdf"),width = 5,height = 5)
 
         for (j in 1:i) {
