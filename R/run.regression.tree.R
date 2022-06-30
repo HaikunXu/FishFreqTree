@@ -67,6 +67,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       for (sp in 1:nrow(split)) {
         # print(split)
+        if(split$Improvement[sp]>0) {
+
         LF_raw <- make.Us.areaflags.f(LF[LF$dummy==FALSE,],
                                       as.character(split$Key[sp]),
                                       as.numeric(split$Value[sp]),i,ii)
@@ -75,6 +77,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==2])
 
         split$Var_explained[sp] <- (e0-e)/e0
+        }
       }
 
       split <- rename_CQrt(split)
@@ -249,9 +252,10 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         split <- find_split(LF_data,fcol,lcol,lat.min,lon.min,year.min,quarter,year)
         split$Cell <- ii
-        split$Var_explained <- rep(NA,nrow(split))
+        split$Var_explained <- rep(0,nrow(split))
 
         for (sp in 1:nrow(split)) {
+          if(split$Improvement[sp]>0) {
           LF_raw <- make.Us.areaflags.f(LF_raw,
                                       as.character(split$Key[sp]),
                                       as.numeric(split$Value[sp]),i,ii)
@@ -262,6 +266,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           }
 
           split$Var_explained[sp] <- (e0-e)/e0
+          }
         }
 
         if(ii==1) split_raw <- split
