@@ -23,12 +23,12 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,select_matrix
     if(i==1) {
       selecti <- select_matrix[1,]
       LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf)
-      Imp_DF <- c(selecti,round(LF_loop$Record$Var_explained[Nsplit],3))
+      Imp_DF <- c(selecti,round(LF_loop$Record$Var_explained[Nsplit],4))
     }
     else {
       selecti <- select_matrix[i,]
       LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf)
-      Imp_DF <- rbind(Imp_DF,c(selecti,round(LF_loop$Record$Var_explained[Nsplit],3)))
+      Imp_DF <- rbind(Imp_DF,c(selecti,round(LF_loop$Record$Var_explained[Nsplit],4)))
     }
   }
 
