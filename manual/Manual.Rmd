@@ -1,5 +1,5 @@
 ---
-title: "User Manual for the R package *FishFreqTree*"
+title: "User Manual for R package *FishFreqTree*"
 author: "Haikun Xu"
 date: "`r Sys.Date()`"
 output: pdf_document
