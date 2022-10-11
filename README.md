@@ -28,9 +28,9 @@ This package finds the best multi-cell combination for a length frequency data b
 
 ### Main functions
 
-run_regression_tree (type ?run_regression_tree on the console for more info): run the regression tree
+-   run_regression_tree (type ?run_regression_tree on the console for more info): run the regression tree
 
-loop_regression_tree (type ?loop_regression_tree on the console for more info): loop the regression tree
+-   loop_regression_tree (type ?loop_regression_tree on the console for more info): loop the regression tree
 
 ### Code description
 
