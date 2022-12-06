@@ -2,11 +2,10 @@
 
 -   This is the GitHub repository for [IATTC](https://www.iattc.org/HomeENG.htm)'s regression tree algorithm on length frequency data.
 
--   The R codes for regression tree analysis were originally developed by Cleridy Lennart-Cody and then modified by Haikun Xu to make it automatic as a R package.
+-   The R codes for regression tree analysis were originally developed by Cleridy Lennart-Cody (
+    <https://doi.org/10.1016/j.fishres.2009.11.014>) and then modified by Haikun Xu to make it automatic as a R package.
 
 -   Please contact Haikun ([hkxu\@iattc.org](mailto:hkxu@iattc.org)) for any questions related to the package
-
--   Reference: Fisheries Research 102(2010):323-326
 
 -   Please use the R version 3.5 for this package; the latest version 4.x may not work for this package
 
