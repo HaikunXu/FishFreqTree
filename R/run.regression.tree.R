@@ -79,13 +79,14 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         }
       }
 
-      split <- rename_CQrt(split)
-      split$Rank <- seq(1,nrow(split))
+      split_save <- rename_CQrt(split)
+      split_save$Rank <- seq(1,nrow(split))
       # save result as a csv.file
-      write.csv(split[,2:5],file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
-      write.csv(split[,c(2,3,1)],file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
+      write.csv(split_save[,2:5],file=paste0(save_dir,select_name,"split",i,".csv"),row.names = FALSE)
+      write.csv(split_save[,c(2,3,1)],file=paste0(save_dir,select_name,"improvement-split",i,".csv"),row.names = FALSE)
 
       # if((manual==FALSE)|(i %in% user_split$Number == FALSE))
+
       LF <- make.Us.areaflags.f(LF, as.character(split$Key[select[i]]), as.numeric(split$Value[select[i]]),1,0)
 
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
