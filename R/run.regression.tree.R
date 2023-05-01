@@ -196,11 +196,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
                ylim = c(0,max(LF_mean)*2),
-               main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"))
+               main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"),
+               cex=2)
           lines(x=Length,y=LF_mean)
         }
         else {
-          points(x=Length,y=LF_mean,pch=toString(j))
+          points(x=Length,y=LF_mean,pch=toString(j),cex=2)
           lines(x=Length,y=LF_mean)
         }
       }
@@ -413,11 +414,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
                ylim = c(0,max(LF_mean)*2),
-               main = paste0(round((e0-e)/e0*100,2),"% variance explained"))
+               main = paste0(round((e0-e)/e0*100,2),"% variance explained"),
+               cex = 2)
           lines(x=Length,y=LF_mean)
         }
         else {
-          points(x=Length,y=LF_mean,pch=toString(j))
+          points(x=Length,y=LF_mean,pch=toString(j),cex=2)
           lines(x=Length,y=LF_mean)
         }
       }
