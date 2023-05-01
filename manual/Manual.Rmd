@@ -8,7 +8,7 @@ bibliography: references.bib
 
 # Introduction
 
-This R package *FishFreqTree* helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010 and @lennert-cody2013.
+This R package *FishFreqTree* helps users to easily explore and quantitatively compare fishery definitions based on a distributional regression tree algorithm that is applied to age/length frequency data. The details regarding distributional regression tree algorithm can be found in @lennert-cody2010 and @lennert-cody2013. [Maunder et al. 2022](https://www.iattc.org/GetAttachment/855f6c5c-f2b1-4802-a713-8eaa9fe5d22d/SAC-13-INF-I_Developing-fishery-definitions-for-SKJ-stock-assessment-in-the-EPO.pdf) provides an example that demonstrates how to use this package to make fishery definitions for stock assessments.
 
 # How to install
 
@@ -85,13 +85,13 @@ The function provides to the screen the summary table from the loop function (al
 
 # Package demonstration
 
-Load the package and example data (<https://github.com/HaikunXu/FishFreqTree/blob/main/manual/LF.RData>):
+Load the required packages:
 
 ```{r message=FALSE}
 # devtools::install_github('HaikunXu/RegressionTree',ref='main')
 library(FishFreqTree)
 require(tidyverse) # it is required for some supporting functions
-load(file = "D:/OneDrive - IATTC/Git/FishFreqTree/manual/LF.RData")
+# check the example LF data
 head(LF)
 ```
 
@@ -127,8 +127,10 @@ Check the default 4-cell combination results
 head(LF_Tree$LF)
 # a summary of the three splits
 LF_Tree$Record
-# map the 4 cells
+# Color-code the 4 fisheries in the map
 make.split.map(LF_Tree$LF, Nsplit, save_dir)
+# or text-code the 4 fisheries in the map (works better when quarterly splits exist)
+make.split.map(LF_Tree$LF, Nsplit, save_dir, text = TRUE)
 ```
 
 In addition to the default combination, you can also manually explore other 4-cell combinations. For example, in the figure above cell#2 only includes two 5\*5 grids, so you want to explore some other 4-cell combinations. You can run the regression tree again with the second best 2th split:
@@ -149,7 +151,7 @@ LF_Tree2$Record
 make.split.map(LF_Tree2$LF, Nsplit, save_dir)
 ```
 
-This setting leads to a even higher proportion of variance explained (16.4% vs. 16.2%) than the default run. Also, the number of 5\*5 grids within each cell is more reasonable. In fact, you can use the loop function to explore and compare multiple 4-cell combinations:
+This setting leads to a even higher proportion of variance explained (16.4% vs. 16.2%) than the default run. Also, the number of 5\*5 grids within each cell is more reasonable. In fact, you can use the loop function to explore multiple 4-cell combinations. Those combinations are compared adn sorted according to the proportion of variance explained.
 
 ```{r}
 # create a directory to save results from the loop function
@@ -173,9 +175,7 @@ LF_Tree_Loop <-
                        bins,
                        Nsplit,
                        save_dir = loop_dir,
-                       select_matrix = my_select_matrix) 
+                       select_matrix = my_select_matrix)
 ```
-
-Those combinations can be compared according to the proportion of variance explained.
 
 # References

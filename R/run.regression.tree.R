@@ -22,7 +22,7 @@
 #'
 #' @export
 
-run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE) {
+run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE,select=NA,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE,lf_scale=1.5) {
 
   print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
   print("WARNING: lat and lon in the input data should be for grid centers")
@@ -195,7 +195,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*2),
+               ylim = c(0,max(LF_mean)*lf_scale),
                main = paste0(round((e0-e1-e2)/e0*100,2),"% variance explained"),
                cex=2)
           lines(x=Length,y=LF_mean)
@@ -413,7 +413,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
         if(j==1) {
           plot(x=Length,y=LF_mean,pch=toString(j),
-               ylim = c(0,max(LF_mean)*2),
+               ylim = c(0,max(LF_mean)*lf_scale),
                main = paste0(round((e0-e)/e0*100,2),"% variance explained"),
                cex = 2)
           lines(x=Length,y=LF_mean)

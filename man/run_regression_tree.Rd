@@ -19,7 +19,8 @@ run_regression_tree(
   quarter = TRUE,
   year = FALSE,
   include_dummy = FALSE,
-  pdf = FALSE
+  pdf = FALSE,
+  lf_scale = 2
 )
 }
 \arguments{
