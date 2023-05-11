@@ -151,12 +151,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           for (j in which(year_block$id==y)) {
             LF_plot <- LF[which(Flag==j&Quarter==q),]
             if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2,
                    xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
                    main = paste0("(Quarter ",q,")"," Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
             }
             else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2)
             }
           }
         }
@@ -171,12 +171,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           for (j in which(year_block$id==y)) {
             LF_plot <- LF[which(Flag==j),]
             if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2,
                    xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
                    main = paste0("Split#",i,": ",split[select[i],2],"<=",split[select[i],3]))
             }
             else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2)
             }
           }
 
@@ -370,12 +370,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
           for (j in which(year_block$id==y)) {
             LF_plot <- LF[which(Flag==j&Quarter==q),]
             if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2,
                    xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
                    main = paste0("(Quarter ",q,")"," Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
             }
             else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2)
             }
           }
         }
@@ -390,12 +390,12 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
         for (j in which(year_block$id==y)) {
             LF_plot <- LF[which(Flag==j),]
             if(j==min(which(year_block$id==y))) {
-              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),
+              plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2,
                    xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat",
                    main = paste0("Split#",i,": ",split_raw[select[i],2],"<=",split_raw[select[i],3]))
             }
             else {
-              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j))
+              points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2)
             }
       }
       dev.off()
