@@ -53,6 +53,8 @@ run_regression_tree(
 \item{include_dummy}{Whether to include dummy data; default = FALSE}
 
 \item{pdf}{Whether to save figures in pdf - default is in png}
+
+\item{lf_scale}{scale mean lf plot}
 }
 \value{
 return the input LF with cell number and the percentage of total LF variance explained by each split

@@ -17,6 +17,7 @@
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
 #' @param include_dummy Whether to include dummy data; default = FALSE
 #' @param pdf Whether to save figures in pdf - default is in png
+#' @param lf_scale scale mean lf plot
 #'
 #' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
