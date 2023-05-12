@@ -20,7 +20,7 @@ run_regression_tree(
   year = FALSE,
   include_dummy = FALSE,
   pdf = FALSE,
-  lf_scale = 2
+  lf_scale = 1.5
 )
 }
 \arguments{

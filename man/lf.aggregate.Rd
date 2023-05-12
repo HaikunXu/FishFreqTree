@@ -4,7 +4,7 @@
 \alias{lf.aggregate}
 \title{Aggregate length counts data}
 \usage{
-lf.aggregate(LC, fcol, lcol, bins, new_bins, LengthOnly = FALSE)
+lf.aggregate(LC, fcol, lcol, bins, new_bins, LengthOnly = FALSE, minN = 0)
 }
 \arguments{
 \item{LC}{The length frequency data frame input; must include four columns: lat, lon, year, and quarter}
@@ -18,6 +18,8 @@ lf.aggregate(LC, fcol, lcol, bins, new_bins, LengthOnly = FALSE)
 \item{new_bins}{Names of all bins included in LF}
 
 \item{LengthOnly}{Whether aggregate data by new length bins only}
+
+\item{minN}{minimal sample size required for a year-quarter-lat-lon stratum}
 }
 \description{
 \code{lf.aggregate} aggregates counts data by year, quarter, lat, lon, and user-sepcified length bins

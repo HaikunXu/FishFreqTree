@@ -12,7 +12,8 @@ make.split.map(
   plot_format = "png",
   width = length(unique(LF$lon))/2,
   height = length(unique(LF$lat))/2,
-  s = 10
+  s = 10,
+  text = FALSE
 )
 }
 \arguments{

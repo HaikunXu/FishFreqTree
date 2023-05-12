@@ -1,4 +1,4 @@
-# The IATTC regression tree R package for length frequency data
+# The IATTC's regression tree R package for length frequency data
 
 -   This is the GitHub repository for [IATTC](https://www.iattc.org/HomeENG.htm)'s regression tree algorithm on length frequency data.
 
