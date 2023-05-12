@@ -51,6 +51,24 @@ evaluate_regression_tree <- function(LF,fcol,lcol,Flagcol,bins,save_dir,folder_n
 
   # plot result
   Flag <- LF[[Flagcol]]
+  xlim <- c(min(LF$lon),max(LF$lon))
+  ylim <- c(min(LF$lat),max(LF$lat))
+  # annual map
+  if(pdf==FALSE) png(paste0(save_dir,folder_name,"/annual maps.png"),width = 800,height = 800)
+  else pdf(paste0(save_dir,folder_name,"/annual maps.pdf"),width = 5,height = 5)
+
+  for (j in sort(unique(LF[[Flagcol]]))) {
+    LF_plot <- LF[which(Flag==j),]
+    if(j==min(sort(unique(LF[[Flagcol]])))) {
+      plot(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2,
+           xlim = xlim, ylim = ylim, xlab = "Lon", ylab = "Lat")
+    }
+    else {
+      points(x=LF_plot$lon,y=LF_plot$lat,pch=toString(j),cex=2)
+    }
+  }
+
+  dev.off()
 
   # Compare the LF among cells
   if(pdf==FALSE) png(paste0(save_dir,folder_name,"/split(lf).png"),width = 800,height = 800)
