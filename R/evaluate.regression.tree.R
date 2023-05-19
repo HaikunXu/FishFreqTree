@@ -30,8 +30,7 @@ evaluate_regression_tree <- function(LF,fcol,lcol,Flagcol,bins,save_dir,folder_n
     stop("Error! LF does not sum to 1 for at least one row.")
   }
 
-  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
-  else print("Weight is used to compute the percentage of varaibility explained!")
+  LF$weight <- 1
 
   unlink(paste0(save_dir,folder_name), recursive = TRUE)
   dir.create(paste0(save_dir,folder_name))
