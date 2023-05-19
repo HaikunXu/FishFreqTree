@@ -28,6 +28,8 @@ This package finds the best multi-cell combination for a length frequency data b
 
 -   loop_regression_tree (type ?loop_regression_tree on the console for more info): loop the regression tree
 
+-   evaluate_regression_tree (type ?evaluate_regression_tree on the console for more info): evaluate a pre-specified regression tree
+
 ### Code description
 
 For the nth best split, the code first loops over all existing n cells that are defined by the previous n-1 splits, to find the best split (the one that leads to the maximum variance explained) for every cell. Then those best cell-specific splits are compared to find the split that results in the maximum variance explained. This split is the nth best split. This process is iterated until reaching the maximum number of splits specified by the user.
