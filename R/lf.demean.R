@@ -11,22 +11,42 @@
 
 lf.demean <- function(LF,fcol,lcol,bins) {
   # check data first
-  if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
-  else names(LF)[fcol:lcol] <- bins
+  if ((lcol - fcol + 1) != length(bins))
+    stop("Error! The number of bins does not match the number of LF columns specified")
+  else
+    names(LF)[fcol:lcol] <- bins
 
-  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
-  else print("Weight is used to compute the mean length!")
+  if (is.null(LF[["weight"]]) == TRUE)
+    LF$weight <- 1
+  else
+    print("Weight is used to compute the mean length!")
 
-  LF_select <- LF[,c("ID","year","quarter","lat","lon",paste0(bins),"weight")]
-  LF_long <- data.frame(tidyr::gather(LF_select,fcol:lcol,key = "Length",value = "LF"))
-  LF_long <- dplyr::mutate(LF_long,Length=as.numeric(Length))
+  if (is.null(LF[["ID"]]) == TRUE)
+    LF$ID <- rep(1, nrow(LF))
 
-  LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), LF_mean=sum(LF*weight)/sum(weight))
-  LF_mean$LF_demean <- ifelse(LF_mean$LF_mean==0,0,LF_mean$LF / LF_mean$LF_mean)
+  LF_select <-
+    LF[, c("year", "quarter", "lat", "lon", paste0(bins), "ID", "weight")]
+  LF_long <-
+    data.frame(tidyr::gather(LF_select, fcol:lcol, key = "Length", value = "LF"))
+  LF_long <- dplyr::mutate(LF_long, Length = as.numeric(Length))
 
-  LF_mean_scale <- dplyr::mutate(dplyr::group_by(LF_mean,ID,year,quarter,lat,lon), LF_demean=LF_demean/sum(LF_demean))
+  LF_mean <-
+    dplyr::mutate(dplyr::group_by(LF_long, year, Length),
+                  LF_mean = sum(LF * weight) / sum(weight))
+  LF_mean$LF_demean <-
+    ifelse(LF_mean$LF_mean == 0, 0, LF_mean$LF / LF_mean$LF_mean)
 
-  LF_demean <- tidyr::spread(dplyr::select(LF_mean_scale,ID,year,quarter,lat,lon,Length,LF_demean),Length,LF_demean,fill = 0)
+  LF_mean_scale <-
+    dplyr::mutate(dplyr::group_by(LF_mean, ID, year, quarter, lat, lon),
+                  LF_demean = LF_demean / sum(LF_demean))
+
+  LF_demean <-
+    tidyr::spread(
+      dplyr::select(LF_mean_scale, ID, year, quarter, lat, lon, Length, LF_demean),
+      Length,
+      LF_demean,
+      fill = 0
+    )
 
   return(LF_demean)
 }
