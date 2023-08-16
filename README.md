@@ -35,7 +35,3 @@ This package finds the best multi-cell combination for a length frequency data b
 For the nth best split, the code first loops over all existing n cells that are defined by the previous n-1 splits, to find the best split (the one that leads to the maximum variance explained) for every cell. Then those best cell-specific splits are compared to find the split that results in the maximum variance explained. This split is the nth best split. This process is iterated until reaching the maximum number of splits specified by the user.
 
 Users should combine the output figures with output tables to understand the best splits in order. Also, the advanced feature (see the example code for more details) in the package allows users to manually specify some or all splits.
-
-### Future update
-
--   Add a feature that allows users to evaluate user-specified clustering
