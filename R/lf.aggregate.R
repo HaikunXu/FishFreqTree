@@ -64,7 +64,7 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE,minN=0) {
     LC_total <- dplyr::filter(LC_total,total_N>=minN)
 
     # aggregate counts to lf
-    LF <- dplyr::mutate(dplyr::group_by(LC_total, ID), lf=total_n/total_N)
+    LF <- dplyr::mutate(dplyr::group_by(LC_total, ID), lf=total_n/sum(total_n))
 
     # spread the lf
     LF_aggregate <- tidyr::spread(dplyr::select(LF,ID,year,quarter,lat,lon,Length,lf),Length,lf,fill = 0)
