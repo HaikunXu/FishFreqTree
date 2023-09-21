@@ -22,10 +22,10 @@ lf.demean <- function(LF,fcol,lcol,bins) {
     print("Weight is used to compute the mean length!")
 
   if (is.null(LF[["ID"]]) == TRUE)
-    LF$ID <- rep(1, nrow(LF))
+    LF$ID <- seq(1, nrow(LF))
 
   LF_select <-
-    LF[, c("year", "quarter", "lat", "lon", paste0(bins), "ID", "weight")]
+    LF[, c("ID", "year", "quarter", "lat", "lon", paste0(bins), "weight")]
   LF_long <-
     data.frame(tidyr::gather(LF_select, fcol:lcol, key = "Length", value = "LF"))
   LF_long <- dplyr::mutate(LF_long, Length = as.numeric(Length))
@@ -37,7 +37,7 @@ lf.demean <- function(LF,fcol,lcol,bins) {
     ifelse(LF_mean$LF_mean == 0, 0, LF_mean$LF / LF_mean$LF_mean)
 
   LF_mean_scale <-
-    dplyr::mutate(dplyr::group_by(LF_mean, ID, year, quarter, lat, lon),
+    dplyr::mutate(dplyr::group_by(LF_mean, ID),
                   LF_demean = LF_demean / sum(LF_demean))
 
   LF_demean <-
