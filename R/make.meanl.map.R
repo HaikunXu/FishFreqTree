@@ -29,6 +29,8 @@ make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot
 
   L_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon),mean_length=sum(lf*length*weight)/sum(lf*weight))
 
+  write.csv(L_mean, file = paste0(save_dir,"MeanL.csv"), row.names = FALSE)
+
   wmap <- ggplot2::map_data("world")
 
   meanl.map <- ggplot2::ggplot(data=L_mean) +
