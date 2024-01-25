@@ -25,20 +25,18 @@ lf.demean <- function(LF,fcol,lcol,bins) {
     LF$ID <- seq(1, nrow(LF))
 
   LF_select <-
-    LF[, c("ID", "year", "quarter", "lat", "lon", paste0(bins), "weight")]
+    LF[, c("year", "quarter", "lat", "lon", paste0(bins), "ID", "weight")]
   LF_long <-
     data.frame(tidyr::gather(LF_select, fcol:lcol, key = "Length", value = "LF"))
   LF_long <- dplyr::mutate(LF_long, Length = as.numeric(Length))
 
-  LF_mean <-
-    dplyr::mutate(dplyr::group_by(LF_long, year, Length),
-                  LF_mean = sum(LF * weight) / sum(weight))
-  LF_mean$LF_demean <-
-    ifelse(LF_mean$LF_mean == 0, 0, LF_mean$LF / LF_mean$LF_mean)
+  LF_mean <- dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length), # compute mean LF for each year-quarter
+                           LF_mean = sum(LF * weight) / sum(weight))
 
-  LF_mean_scale <-
-    dplyr::mutate(dplyr::group_by(LF_mean, ID),
-                  LF_demean = LF_demean / sum(LF_demean))
+  LF_mean$LF_demean <- ifelse(LF_mean$LF_mean == 0, 0, LF_mean$LF / LF_mean$LF_mean) # divide LF by the year-quarter mean LF
+
+  LF_mean_scale <- dplyr::mutate(dplyr::group_by(LF_mean, ID),
+                                 LF_demean = LF_demean / sum(LF_demean)) # make sure the standardized LF sum to 1
 
   LF_demean <-
     tidyr::spread(
