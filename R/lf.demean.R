@@ -27,7 +27,7 @@ lf.demean <- function(LF,fcol,lcol,bins) {
   LF_select <-
     LF[, c("ID", "year", "quarter", "lat", "lon", paste0(bins), "weight")]
   LF_long <-
-    data.frame(tidyr::gather(LF_select, fcol:lcol, key = "Length", value = "LF"))
+    data.frame(tidyr::gather(LF_select, (fcol + 1):(lcol + 1), key = "Length", value = "LF"))
   LF_long <- dplyr::mutate(LF_long, Length = as.numeric(Length))
 
   LF_mean <-
