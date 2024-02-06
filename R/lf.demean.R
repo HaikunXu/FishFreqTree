@@ -16,23 +16,21 @@ lf.demean <- function(LF,fcol,lcol,bins) {
   else
     names(LF)[fcol:lcol] <- bins
 
-  if (is.null(LF[["weight"]]) == TRUE)
-    LF$weight <- 1
-  else
-    print("Weight is used to compute the mean length!")
-
-  if (is.null(LF[["ID"]]) == TRUE)
-    LF$ID <- seq(1, nrow(LF))
+  if (is.null(LF[["ID"]]) == TRUE) {
+      LF$ID <- seq(1, nrow(LF))
+      fcol = fcol + 1 # add a ID column
+      lcol = lcol + 1 # add a ID column
+  }
 
   LF_select <-
-    LF[, c("ID", "year", "quarter", "lat", "lon", paste0(bins), "weight")]
+    LF[, c("ID", "year", "quarter", "lat", "lon", paste0(bins))]
   LF_long <-
-    data.frame(tidyr::gather(LF_select, (fcol + 1):(lcol + 1), key = "Length", value = "LF"))
+    data.frame(tidyr::gather(LF_select, fcol:lcol, key = "Length", value = "LF"))
   LF_long <- dplyr::mutate(LF_long, Length = as.numeric(Length))
 
   LF_mean <-
     dplyr::mutate(dplyr::group_by(LF_long, year, quarter, Length),
-                  LF_mean = sum(LF * weight) / sum(weight))
+                  LF_mean = sum(LF))
   LF_mean$LF_demean <-
     ifelse(LF_mean$LF_mean == 0, 0, LF_mean$LF / LF_mean$LF_mean)
 
