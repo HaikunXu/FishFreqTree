@@ -13,21 +13,23 @@
 #' @param year Whether to consider year as a splitting dimension; default = FALSE
 #' @param include_dummy Whether to include dummy data; default = FALSE
 #' @param pdf Whether to save figures in pdf - default is in png
+#' @param lf_scale scale mean lf plot
+#'
 #' @return return the input LF with cell number and the percentage of total LF variance explained by each split
 #'
 #' @export
 
-loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,select_matrix,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE) {
+loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,select_matrix,lat.min=1,lon.min=1,year.min=1,quarter=TRUE,year=FALSE,include_dummy=FALSE,pdf=FALSE,lf_scale=1.5) {
 
   for (i in 1:nrow(select_matrix)) {
     if(i==1) {
       selecti <- select_matrix[1,]
-      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf)
+      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf,lf_scale)
       Imp_DF <- c(selecti,round(LF_loop$Record$Var_explained[Nsplit],4))
     }
     else {
       selecti <- select_matrix[i,]
-      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf)
+      LF_loop <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE,select=selecti,lat.min,lon.min,year.min,quarter,year,include_dummy,pdf,lf_scale)
       Imp_DF <- rbind(Imp_DF,c(selecti,round(LF_loop$Record$Var_explained[Nsplit],4)))
     }
   }
@@ -40,7 +42,7 @@ loop_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,select_matrix
 
   select <- as.numeric(Imp_DF_sorted[1,1:Nsplit]) # the first row has the highest % variance explained
 
-  LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, lat.min,lon.min,year.min,quarter,year,include_dummy,pdf)
+  LF_Tree <- run_regression_tree(LF,fcol,lcol,bins,Nsplit,save_dir,manual = TRUE, select, lat.min,lon.min,year.min,quarter,year,include_dummy,pdf,lf_scale)
 
   cat("\n\n")
   cat("***************************************************************************************************************************************************************\n")
