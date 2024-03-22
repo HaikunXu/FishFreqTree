@@ -37,8 +37,8 @@ make.lf.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_forma
     ggplot2::facet_grid(lat~lon) +
     ggplot2::theme_bw() +
     ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines")) +
-    ggplot2::xlab("Length") +
-    ggplot2::ylab("Length frqeuncy")
+    ggplot2::xlab("Length (cm)") +
+    ggplot2::ylab("Length frquency")
 
   ggplot2::ggsave(lf.map,filename = paste0(save_dir,plot_name,".",plot_format),width = width, height=height)
 
