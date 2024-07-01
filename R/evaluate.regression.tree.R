@@ -74,10 +74,8 @@ evaluate_regression_tree <- function(LF,fcol,lcol,Flagcol,bins,save_dir,folder_n
   else pdf(paste0(save_dir,folder_name,"/split(lf).pdf"),width = 5,height = 5)
 
   for (j in sort(unique(LF[[Flagcol]]))) {
-    LF_plot <- LF[which(Flag==j),]
+    LF_plot <- LF[which(Flag==j),fcol:lcol]
     LF_mean <- apply(LF_plot,2,mean)
-    Length <- bins
-    LF_mean <- LF_mean[fcol:lcol]
 
     if(j==min(sort(unique(LF[[Flagcol]])))) {
       plot(x=Length,y=LF_mean,pch=toString(j),
