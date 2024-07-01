@@ -13,13 +13,14 @@
 #'
 #' @export
 
-make.split.map <- function(LF,Nsplit,save_dir,plot_name="Split_map",plot_format="png",width=length(unique(LF$lon))/2,height=length(unique(LF$lat))/2,s=10,text=FALSE) {
+make.split.map <- function(LF,Nsplit,save_dir,plot_name="Split_map",plot_format="png",width=length(unique(LF$lon))/2,height=length(unique(LF$lat))/2,text=FALSE,s=10) {
   wmap <- ggplot2::map_data("world")
 
   LF$Cell <- factor(LF[[paste0("Flag", Nsplit)]])
 
   if (text == FALSE) {
     split.map <- ggplot2::ggplot(data = LF) +
+      ggplot2::geom_tile(ggplot2::aes(x = lon, y = lat, fill = Cell), color = "black") +
       ggplot2::geom_polygon(
         data = wmap,
         ggplot2::aes(long, lat, group = group),
@@ -28,9 +29,6 @@ make.split.map <- function(LF,Nsplit,save_dir,plot_name="Split_map",plot_format=
         alpha = 1,
         lwd = 0.5
       ) +
-      ggplot2::geom_point(ggplot2::aes(x = lon, y = lat, color = Cell),
-                          shape = 15,
-                          size = s) +
       ggplot2::theme_bw() +
       ggplot2::xlab("Lon") +
       ggplot2::ylab("Lat") +

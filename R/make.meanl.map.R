@@ -15,7 +15,7 @@
 #'
 #' @export
 
-make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot_format="png",width=length(unique(LF$lon))/2,height=length(unique(LF$lat))/2,s=10) {
+make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot_format="png",width=length(unique(LF$lon))/2,height=length(unique(LF$lat))/2) {
   # check data first
   if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LF)[fcol:lcol] <- bins
@@ -34,8 +34,8 @@ make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot
   wmap <- ggplot2::map_data("world")
 
   meanl.map <- ggplot2::ggplot(data=L_mean) +
-    ggplot2::geom_point(ggplot2::aes(x=lon,y=lat,color=mean_length),shape=15,size=s) +
-    ggplot2::scale_color_distiller(palette = "Spectral") +
+    ggplot2::geom_tile(ggplot2::aes(x=lon,y=lat,fill=mean_length),color="black") +
+    ggplot2::scale_fill_distiller(palette = "Spectral") +
     ggplot2::theme_bw() +
     ggplot2::xlab("Lon") +
     ggplot2::ylab("Lat") +

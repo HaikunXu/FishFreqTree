@@ -1,10 +1,10 @@
 Package: FishFreqTree
 Title: IATTC's regression tree R package for analyzing size frequency data
-Version: 3.3.4
+Version: 3.3.5
 Author: Haikun Xu (hkxu@iattc.org) and Cleridy Lennart-Cody
 Description: TBA
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2

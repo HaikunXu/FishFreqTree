@@ -13,8 +13,7 @@ make.meanl.map(
   plot_name = "MeanL_map",
   plot_format = "png",
   width = length(unique(LF$lon))/2,
-  height = length(unique(LF$lat))/2,
-  s = 10
+  height = length(unique(LF$lat))/2
 )
 }
 \arguments{
