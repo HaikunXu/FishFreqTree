@@ -122,7 +122,7 @@ Plot the length frequency data as lat-lon grids and map of mean length
 # plot lf data as maps
 make.lf.map(LF, fcol, lcol, bins, save_dir)
 # plot mean length as maps
-make.meanl.map(LF, fcol, lcol, bins, save_dir, s = 20)
+make.meanl.map(LF, fcol, lcol, bins, save_dir)
 ```
 
 Find the default 4-cell combination:
