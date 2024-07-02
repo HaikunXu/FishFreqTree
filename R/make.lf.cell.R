@@ -30,10 +30,11 @@ make.lf.cell <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_form
 
   lf.map <- ggplot2::ggplot(data=LF_mean) +
     ggplot2::geom_line(ggplot2::aes(x=length,y=lf_mean,color=Flag),size=lwd) +
-    ggplot2::geom_text(ggplot2::aes(x=length,y=lf_mean,label=Flag,size=2)) +
+    ggplot2::geom_text(ggplot2::aes(x=length,y=lf_mean,label=Flag),size=5) +
     ggplot2::theme_bw() +
     ggplot2::xlab("Length (cm)") +
-    ggplot2::ylab("Length frquency")
+    ggplot2::ylab("Length frquency") +
+    ggplot2::theme(legend.position = "none")
 
   ggplot2::ggsave(lf.map,filename = paste0(save_dir,plot_name,".",plot_format),width = width, height = height)
 
