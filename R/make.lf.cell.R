@@ -1,6 +1,6 @@
 #' Visualize the input LF data
 #'
-#' \code{make.lf.map} This function plot the input LF data as maps
+#' \code{make.lf.cell} This function plot mean LF by cell
 #'
 #' @param LF The length frequency data frame input; must include four columns: lat, lon, year, and quarter
 #' @param fcol The first column in the data frame with length frequency info
@@ -15,32 +15,27 @@
 #'
 #' @export
 
-make.lf.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_format="png",width=length(unique(LF$lon)),height=length(unique(LF$lat)),lwd=1) {
+make.lf.cell <- function(LF,fcol,lcol,bins,save_dir,plot_name="LF_map",plot_format="png",lwd=1, width = 8, height = 5) {
   # check data first
   if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LF)[fcol:lcol] <- bins
 
-  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
-  else print("Weight is used to compute the mean length freqeuncy!")
-
-  LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins),"weight")]
+  LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins),"Flag")]
   LF_long <- data.frame(tidyr::gather(LF_plot,fcol:lcol,key = "length",value = "lf"))
   LF_long$length <- as.numeric(LF_long$length)
+  LF_long$Flag <- as.factor(LF_long$Flag)
 
-  # Reverse the lat grid so that negative lat are below positive lat
-  LF_long$lat <- factor(LF_long$lat, levels = rev(levels(factor(LF_long$lat))))
-
-  LF_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon, length),lf_mean=sum(lf*weight)/sum(weight))
+  LF_mean <- dplyr::summarise(dplyr::group_by(LF_long, Flag, length),lf_mean=sum(lf))
+  LF_mean <- dplyr::mutate(dplyr::group_by(LF_mean, Flag),lf_mean=lf_mean/sum(lf_mean))
 
   lf.map <- ggplot2::ggplot(data=LF_mean) +
-    ggplot2::geom_linerange(ggplot2::aes(x=length,ymax=lf_mean,ymin=0),size=lwd) +
-    ggplot2::facet_grid(lat~lon) +
+    ggplot2::geom_line(ggplot2::aes(x=length,y=lf_mean,color=Flag),size=lwd) +
+    ggplot2::geom_text(ggplot2::aes(x=length,y=lf_mean,label=Flag,size=2)) +
     ggplot2::theme_bw() +
-    ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines")) +
     ggplot2::xlab("Length (cm)") +
     ggplot2::ylab("Length frquency")
 
-  ggplot2::ggsave(lf.map,filename = paste0(save_dir,plot_name,".",plot_format),width = width, height=height)
+  ggplot2::ggsave(lf.map,filename = paste0(save_dir,plot_name,".",plot_format),width = width, height = height)
 
   return(lf.map)
   }
