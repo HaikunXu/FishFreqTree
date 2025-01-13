@@ -40,7 +40,8 @@ make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot
     ggplot2::xlab("Lon") +
     ggplot2::ylab("Lat") +
     ggplot2::geom_polygon(data=wmap,ggplot2::aes(long, lat, group = group),fill = "black",colour = "white",alpha = 1,lwd=0.5) +
-    ggplot2::coord_quickmap(ylim = c(min(L_mean$lat),max(L_mean$lat)),xlim = c(min(L_mean$lon),max(L_mean$lon)))
+    ggplot2::coord_quickmap(ylim = c(min(L_mean$lat) - 5, max(L_mean$lat) + 5),
+                            xlim = c(min(L_mean$lon) - 5, max(L_mean$lon) + 5))
 
   ggplot2::ggsave(meanl.map,filename = paste0(save_dir,plot_name,".",plot_format),width = width, height=height)
 
