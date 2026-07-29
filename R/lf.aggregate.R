@@ -17,12 +17,9 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE,minN=0) {
   if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LC)[fcol:lcol] <- bins
 
-  if(is.null(LC[["weight"]])==TRUE) LC$weight <- 1
-  else print("Weight is used to aggregate observations!")
-
   if(LengthOnly==FALSE) { # aggregate by lat, lon, year, quarter, and length
 
-    LC_select <- LC[,c("year","quarter","lat","lon",paste0(bins),"weight")]
+    LC_select <- LC[,c("year","quarter","lat","lon",paste0(bins))]
     LC_long <- data.frame(tidyr::gather(LC_select,fcol:lcol,key = "length",value = "number"))
 
     # user-specified bins
@@ -32,7 +29,7 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE,minN=0) {
     LC_long <- dplyr::filter(LC_long,is.na(Length)==FALSE)
 
     # total counts per year, quarter, lat, lon, and length (L)
-    LC_total <- dplyr::summarise(dplyr::group_by(LC_long, year, lat, lon, quarter, Length), total_n=sum(number*weight))
+    LC_total <- dplyr::summarise(dplyr::group_by(LC_long, year, lat, lon, quarter, Length), total_n=sum(number))
 
     # remove the year-quarter-lat-lon strata with less than minN samples
     LC_total <- dplyr::mutate(dplyr::group_by(LC_total, year, lat, lon, quarter), total_N=sum(total_n))
@@ -46,7 +43,7 @@ lf.aggregate <- function(LC,fcol,lcol,bins,new_bins,LengthOnly=FALSE,minN=0) {
   }
   else { # aggregate by length
 
-    LC_select <- LC[,c("year","quarter","lat","lon",paste0(bins),"weight")]
+    LC_select <- LC[,c("year","quarter","lat","lon",paste0(bins))]
     LC_select$ID <- seq(1,nrow(LC_select)) # each row has a unique ID
     LC_long <- data.frame(tidyr::gather(LC_select,fcol:lcol,key = "length",value = "number"))
 

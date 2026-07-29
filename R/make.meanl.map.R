@@ -20,14 +20,11 @@ make.meanl.map <- function(LF,fcol,lcol,bins,save_dir,plot_name="MeanL_map",plot
   if((lcol-fcol+1)!= length(bins)) stop("Error! The number of bins does not match the number of LF columns specified")
   else names(LF)[fcol:lcol] <- bins
 
-  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
-  else print("Weight is used to compute the mean length!")
-
-  LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins),"weight")]
+  LF_plot <- LF[,c("year","quarter","lat","lon",paste0(bins))]
   LF_long <- data.frame(tidyr::gather(LF,fcol:lcol,key = "length",value = "lf"))
   LF_long$length <- as.numeric(LF_long$length)
 
-  L_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon),mean_length=sum(lf*length*weight)/sum(lf*weight))
+  L_mean <- dplyr::summarise(dplyr::group_by(LF_long, lat, lon),mean_length=sum(lf*length)/sum(lf))
 
   write.csv(L_mean, file = paste0(save_dir,"MeanL.csv"), row.names = FALSE)
 

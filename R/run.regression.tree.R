@@ -45,9 +45,6 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
     stop("Error! LF does not sum to 1 for at least one row.")
   }
 
-  if(is.null(LF[["weight"]])==TRUE) LF$weight <- 1
-  else print("Weight is used to compute the percentage of varaibility explained!")
-
   Record <- data.frame(Key=rep(NA,Nsplit),Value=rep(NA,Nsplit),Cell=rep(NA,Nsplit),Var_explained=rep(NA,Nsplit))
   row.names(Record) <- paste0("Split",1:Nsplit)
   folder_name <- paste0(gsub(", ","",toString(select)))
@@ -64,7 +61,7 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       split <- find_split(LF[LF$dummy==FALSE,],fcol,lcol,lat.min,lon.min,year.min,quarter,year)
       split$Var_explained <- 0
 
-      e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol]),LF$weight[LF$dummy==FALSE]) # null (no stratification)
+      e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
 
       for (sp in 1:nrow(split)) {
         # print(split)
@@ -73,8 +70,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
                                         as.character(split$Key[sp]),
                                         as.numeric(split$Value[sp]),i,ii)
 
-          e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1]) +
-            get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==2])
+          e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol])) +
+            get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==2,fcol:lcol]))
 
           split$Var_explained[sp] <- (e0-e)/e0
         }
@@ -92,8 +89,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
 
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],1,0)
 
-      e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]),LF$weight[LF$Flag1==1&LF$dummy==FALSE])
-      e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]),LF$weight[LF$Flag1==2&LF$dummy==FALSE])
+      e1 <- get.klderror.null(as.matrix(LF[LF$Flag1==1&LF$dummy==FALSE,fcol:lcol]))
+      e2 <- get.klderror.null(as.matrix(LF[LF$Flag1==2&LF$dummy==FALSE,fcol:lcol]))
 
       Record[1,4] <- (e0-e1-e2)/e0
       Record[1,2] <- split[select[i],3]
@@ -263,8 +260,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
                                           as.numeric(split$Value[sp]),i,ii)
 
             for (k in 1:(i+1)) {
-              if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==1])
-              else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]),LF_raw$weight[LF_raw[[paste0("Flag",i)]]==k])
+              if(k==1) e <- get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==1,fcol:lcol]))
+              else e <- e + get.klderror.null(as.matrix(LF_raw[LF_raw[[paste0("Flag",i)]]==k,fcol:lcol]))
             }
 
             split$Var_explained[sp] <- (e0-e)/e0
@@ -298,8 +295,8 @@ run_regression_tree <- function(LF,fcol,lcol,bins,Nsplit,save_dir,manual = FALSE
       # LF <- make.Us.areaflags.f(LF, user_split$Key[which(user_split$Number==i)], user_split$Value[which(user_split$Number==i)],i,ii)
 
       for (k in 1:(i+1)) {
-        if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE,fcol:lcol]),LF$weight[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE])
-        else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]),LF$weight[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE])
+        if(k==1) e <- get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==1&LF$dummy==FALSE,fcol:lcol]))
+        else e <- e + get.klderror.null(as.matrix(LF[LF[[paste0("Flag",i)]]==k&LF$dummy==FALSE,fcol:lcol]))
       }
 
       Record[i,4] <- (e0-e)/e0

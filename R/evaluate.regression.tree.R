@@ -30,16 +30,14 @@ evaluate_regression_tree <- function(LF,fcol,lcol,Flagcol,bins,save_dir,folder_n
     stop("Error! LF does not sum to 1 for at least one row.")
   }
 
-  LF$weight <- 1
-
   unlink(paste0(save_dir,folder_name), recursive = TRUE)
   dir.create(paste0(save_dir,folder_name))
 
-  e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol]),LF$weight[LF$dummy==FALSE]) # null (no stratification)
+  e0 <- get.klderror.null(as.matrix(LF[LF$dummy==FALSE,fcol:lcol])) # null (no stratification)
 
   e <- 0
   for (i in unique(LF[[Flagcol]])) {
-    e <- e + get.klderror.null(as.matrix(LF[LF[[Flagcol]]==i&LF$dummy==FALSE,fcol:lcol]),LF$weight[LF[[Flagcol]]==i&LF$dummy==FALSE])
+    e <- e + get.klderror.null(as.matrix(LF[LF[[Flagcol]]==i&LF$dummy==FALSE,fcol:lcol]))
   }
 
   # print to the screen
